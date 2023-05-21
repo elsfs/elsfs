@@ -1,0 +1,29 @@
+elsfs:
+  security:
+    key-generator: true
+    public-key-path: publicKey.pem
+    privateKey-path: privateKey.pem
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+spring:
+  application:
+    name: admin
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: MVUgBeiQfcJeA4Xo
+    url: jdbc:mysql://localhost:3306/elsfs?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+#mybatis:
+#  config-location: classpath:mybatis-config.xml
+debug: true
+logging:
+  level:
+    org.elsfs: debug
+server:
+  servlet:
+    context-path: /apis
+
+

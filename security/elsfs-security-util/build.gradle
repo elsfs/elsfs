@@ -1,0 +1,14 @@
+
+dependencies {
+    //   生成jwt jwk jws
+       api "com.nimbusds:nimbus-jose-jwt"
+    // 生成证书
+    // 用于CMS、PKCS、EAC、TSP、CMP、CRMF、OCSP和证书生成的Bouncy Castle Java API。
+    //        这个jar包含JDK1.5及更高版本的API。这些API可以与JCE/JCA提供程序
+    //        （如Bouncy Castle Cryptography API提供的提供程序）一起使用
+     api "org.bouncycastle:bcpkix-jdk15to18:1.72"
+}
+
+test {
+    useJUnitPlatform()
+}

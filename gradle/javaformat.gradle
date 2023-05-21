@@ -1,0 +1,6 @@
+
+/**
+ * gradle format 格式化代码
+ * gradle checkFormat 检查代码
+ */
+apply plugin: 'io.spring.javaformat'

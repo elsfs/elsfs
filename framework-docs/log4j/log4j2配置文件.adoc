@@ -1,0 +1,230 @@
+= XML标签
+
+== Configuration节点
+=== advertiser
+（可选）Advertiser插件名称，该名称将用于播发单个FileAppender或SocketAppender配置。唯一提供的Advertiser插件是“multicastdns”。
+
+=== dest
+“err”表示stderr （System.err 输出），“out”表示stdout（System.out 输出）、文件路径或URL。{@link org.apache.logging.log4j.core.config.status.StatusConfiguration#parseStreamName}
+
+=== monitorInterval
+用于指定log4j自动重新配置的监测间隔时间，单位是s,最小是5s.
+
+=== name
+配置的名称
+
+=== packages
+不赞成使用packages属性，并将在Log4j 3.0中删除。
+插件应该使用Log4j注释处理器进行处理。以逗号分隔的包名称列表，用于搜索插件。每个类加载器只加载一次插件，
+因此更改此值可能不会对重新配置产生任何影响。
+
+=== schema
+标识类加载器的位置，以定位用于验证配置的XML架构。仅当strict设置为true时有效。如果未设置，则不会进行架构验证。
+
+=== shutdownHook
+指定JVM关闭时Log4j是否应自动关闭。shutdownHook钩默认启用，但可以通过将此属性设置为“disable”来禁用
+
+=== shutdownTimeout
+指定JVM关闭时，追加程序和后台任务将关闭的毫秒数。
+默认值为零，这意味着每个附加程序都使用其默认超时，并且不等待后台任务。
+并不是所有的追加程序都会遵守这一点，这只是一个提示，
+而不是绝对保证关闭过程不会花费更长时间。将此设置过低会增加丢失尚未写入最终目的地的未完成日志事件的风险。
+请参阅LoggerContext.stop（long，java.util.concurrent.TimeUnit）。
+（如果shutdownBook 设置为“disable”，则不使用。）
+
+=== status
+应记录到控制台的内部Log4j事件的级别。此属性的有效值为“off”、“trace”、“debug”、”info“、”warn“、”error“、”fatal“和”all“。
+
+=== strict=true
+允许使用严格的XML格式。JSON配置中不支持。
+
+=== verbose=true
+加载插件时启用诊断信息。
+
+
+参考：https://logging.apache.org/log4j/2.x/manual/configuration.html#XML
+
+
+=== Properties 二级标签包含  只支持Property一个标签
+
+[source]
+----
+<Properties>
+<!--定义-->
+        <Property name="属性民初">属性值</Property>
+<Properties/>
+<!--使用-->
+<!--        <Appender type="File" name="File" fileName="${属性民初}"... -->
+----
+
+== filter相关 https://logging.apache.org/log4j/2.x/manual/filters.html
+第一种使用方式
+
+[source]
+----
+<Filter type="LevelMatchFilter" level="info"/>
+----
+第=种使用方式
+[source]
+----
+    <LevelMatchFilter level="info"/>
+----
+
+====
+BurstFilter 提供了一种机制，通过在达到最大限制后静默丢弃事件来控制LogEvents的处理速率。
+对低于或等于${指定日志级别}的日志，进行限流控制
+
+. level String 要筛选的邮件级别。如果超过了maxBurst，则任何处于或低于此级别的内容都将被过滤掉。默认值为WARN
+. rate float 每秒允许的平均处理数。
+. maxBurst integer  在筛选超过平均速率的事件之前，可以发生的最大处理数。默认值是速率的10倍。
+. onMatch String  筛选器匹配时要采取的操作。可以是ACCEPT（接受 需要记录当前日志 不需要再走后面的过滤器了）、DENY（拒绝 不需要再走后面的过滤器了，不需要记录当前日志）或NEUTRAL（需不需要记录当前日志，由后续过滤器决定。若所有过滤器返回的结果都是NEUTRAL，那么需要记录日志）。默认值为空档。
+. onMismatch  String 筛选器不匹配时要采取的操作。可以是ACCEPT（接受）、DENY（拒绝）或NEUTRAL（空档）。默认值为DENY。
+
+CompositeFilter 组合过滤器,即：按照xml配置中的配置，一个过滤器一个过滤器的走，如果在这过程中，任意一个过滤器ACCEPT或DENY了，那么就不会往后走了，直接返回对应的结果。
+...
+====
+
+== Appenders节点
+常见的有三种子节点:Console、RollingFile、File.
+Console节点用来定义输出到控制台的Appender.
+name :指定Appender的名字.
+target:SYSTEM_OUT 或 SYSTEM_ERR,一般只设置默认:SYSTEM_OUT.
+PatternLayout:输出格式，不设置默认为:%m%n.
+    File节点用来定义输出到指定位置的文件的Appender.
+    　　　　name:指定Appender的名字.
+    　　　　fileName:指定输出日志的目的文件带全路径的文件名.
+    　　　　PatternLayout:输出格式，不设置默认为:%m%n.
+　　RollingFile节点用来定义超过指定大小自动删除旧的创建新的的Appender.
+　　　　name:指定Appender的名字.
+　　　　fileName:指定输出日志的目的文件带全路径的文件名.
+　　　　PatternLayout:输出格式，不设置默认为:%m%n.
+　　　　filePattern:指定新建日志文件的名称格式.
+　　　　Policies:指定滚动日志的策略，就是什么时候进行新建日志文件输出日日志
+　　　　TimeBasedTriggeringPolicy:Policies子节点，基于时间的滚动策略，interval属性用来指定多久滚动一次，默认是1 hour。modulate=true用来调整时间：比如现在是早上3am，interval是4，那么第一次滚动是在4am，接着是8am，12am...而不是7am.
+　　　　SizeBasedTriggeringPolicy:Policies子节点，基于指定文件大小的滚动策略，size属性用来定义每个日志文件的大小.
+　　　　DefaultRolloverStrategy:用来指定同一个文件夹下最多有几个日志文件时开始删除最旧的，创建新的(通过max属性)。
+    ThresholdFilter属性：onMatch表示匹配设定的日志级别后是DENY还是ACCEPT，onMismatch表示不匹配设定的日志级别是DENY还是ACCEPT还是NEUTRAL
+
+== PatternLayout配置
+
+|===
+| 数据类型	| 转换字符	 | 输出日志样式| 说明
+
+|日期
+| %-d{yyyy-MM-dd HH:mm:ss}
+
+%d{yyyy-MM-dd HH:mm:ss.SSS}
+|2021-05-08 14:51:59 1048
+
+2021-05-08 14:52:32.071
+|输出日志记录事件的日期。日期转换说明符可以是 后跟一组大括号，其中包 SimpleDateFormat.匹配字符串
+
+
+
+
+|输出从JVM启动到创建日志事件所经过的毫秒数
+|%-5r
+|1048
+|
+
+
+|线程名
+|%t
+|main
+|输出生成日志事件的线程的名称。
+
+
+
+|记录器名称
+
+|%c
+
+%c{3}
+|com.tech.graph.test.basic.SingleExample
+test.basic.SingleExample
+|
+
+|日志级别
+| %-5level
+
+%-5p
+|INFO
+|
+
+|日志信息
+|%msg
+
+%m
+|read conf info
+|
+
+|换行
+|%n
+|日志结束换行
+
+|
+
+|输出所在方法名|%M|main|
+|输出所在行号	|%L	|33|
+|输出与生成日志事件的线程相关联的线程上下文堆栈(也称为嵌套诊断上下文或NDC)|%x	|[ndc log test]|
+|输出与生成日志事件的线程相关联的线程上下文映射(也称为映射诊断上下文或MDC)|%X	|{ip=172.25.21.22, port=8080}|
+|===
+
+=== c{precision} 使用说明
+. logger转换说明符后面可以跟着precision精度说明符，后者由一个十进制整数组成，也可以是一个以十进制整数开头的模式。
+. 当精度说明符是一个整数值时，它减少了记录器名称的大小。如果数字为正，则布局将打印最右边的记录器名称组件的相应数量。如果为负，则布局将删除最左侧记录器名称组件的相应数量。
+. 如果精度包含任何非整数字符，则布局将根据模式缩写名称。如果精度整数小于1，布局仍然完整打印最右边的标记。
+
+|===
+|Conversion Pattern	|Logger Name|Result
+
+|%c{1}	|org.apache.commons.Foo	|Foo
+|%c{2} |org.apache.commons.Foo	|commons.Foo
+|%c{10}	|org.apache.commons.Foo	|org.apache.commons.Foo
+|%c{-1}	|org.apache.commons.Foo	|apache.commons.Foo
+|%c{-2}	|org.apache.commons.Foo	|commons.Foo
+|%c{-10}|org.apache.commons.Foo	|org.apache.commons.Foo
+|%c{1.}	|org.apache.commons.Foo	|o.a.c.Foo
+|%c{1.1.~.~}	|org.apache.commons.test.Foo		|o.a.~.~.Foo
+|%c{.}	|org.apache.commons.test.Foo|....Foo
+
+|===
+
+===  格式对齐
+. 默认情况下，相关信息按原样输出，然而，在格式修饰符的帮助下，可以改变最小字段宽度、最大字段宽度和对齐。
+
+. 可选的格式修饰符放在百分号和转换字符之间，这是一个十进制常量，表示要输出的最小字符数。
+
+. 可以是正数，也可以是负数(带减号(-)字符)，整数表示右对齐，负数表示左对齐。
+
+. 如果数据项输出字符数不够，则在左边或右边填充空格，直到达到最小宽度为止。
+
+## #注意#
+在Log4j 2.10以前的版本，pattern中配置%highlight属性是可以正常打印彩色日志的。
+但是是更新到2.10版本以后，控制台中就无法显示彩色日志了，各种级别的日志混杂在一起，难以阅读。Log4j2默认关闭了Jansi（一个支持输出ANSI颜色的类库）
+
+----
+-Dlog4j.skipJansi=false
+----
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

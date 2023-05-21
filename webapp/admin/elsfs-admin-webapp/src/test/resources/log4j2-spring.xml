@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="info" monitorInterval="5">
+    <Properties>
+        <Property name="baseDir">tmp/logs</Property>
+        <Property name="log.console.stacktraces">false</Property>
+        <Property name="log.file.stacktraces">false</Property>
+        <Property name="log.include.location">false</Property>
+        <Property name="file.name">admin</Property>
+        <Property name="logPattern">
+            %X{serverName} %d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level}{ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %style{[%t]}{bright,magenta} %style{%c.%M(%L)}{cyan}: %msg%n
+        </Property>
+    </Properties>
+    <Appenders>
+        <Null name="null" />
+        <!--输出到控制台-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--            "%d %highlight{%-5level}{ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %style{[%t]}{bright,magenta} %style{%c{1.}.%M(%L)}{cyan}: %msg%n"-->
+            <PatternLayout
+                    pattern="${logPattern}"
+                    alwaysWriteExceptions="${log.console.stacktraces}"
+            >
+            </PatternLayout>
+        </Console>
+        <!-- 每次大小超过 size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="file" fileName="${sys:baseDir}/${file.name}.log" append="true"
+                     filePattern="${sys:baseDir}/${file.name}-%d{yyyy-MM-dd-HH}-%i.log"
+                     immediateFlush="false">
+            <PatternLayout pattern="${logPattern}"
+                           alwaysWriteExceptions="${sys:log.file.stacktraces}" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="5" compressionLevel="9">
+                <Delete basePath="${sys:baseDir}" maxDepth="2">
+                    <IfFileName glob="*/*.log.gz" />
+                    <IfLastModified age="7d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <RollingFile name="stacktracefile" fileName="${sys:baseDir}/${file.name}_stacktrace.log" append="true"
+                     filePattern="${sys:baseDir}/${file.name}_stacktrace-%d{yyyy-MM-dd-HH}-%i.log"
+                     immediateFlush="false">
+            <PatternLayout pattern="%highlight{%d %p [%c] - &lt;%m&gt;%n}" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="5" compressionLevel="9">
+                <Delete basePath="${sys:baseDir}" maxDepth="2">
+                    <IfFileName glob="*/*.log.gz" />
+                    <IfLastModified age="7d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+        <RollingFile name="stacktracefile" fileName="${sys:baseDir}/${file.name}_stacktrace.log" append="true"
+                     filePattern="${sys:baseDir}/${file.name}_stacktrace-%d{yyyy-MM-dd-HH}-%i.log"
+                     immediateFlush="false">
+            <PatternLayout pattern="%highlight{%d %p [%c] - &lt;%m&gt;%n}" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="5" compressionLevel="9">
+                <Delete basePath="${sys:baseDir}" maxDepth="2">
+                    <IfFileName glob="*/*.log.gz" />
+                    <IfLastModified age="7d" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <ElsfsAppender name="elsfsFile">
+            <AppenderRef ref="file" />
+        </ElsfsAppender>
+        <ElsfsAppender name="elsfsStackTraceFile">
+            <AppenderRef ref="stacktracefile" />
+            <ExceptionOnlyFilter/>
+        </ElsfsAppender>
+
+    </Appenders>
+    <loggers>
+        <Root level="info" includeLocation="${sys:log.include.location}">
+            <AppenderRef ref="elsfsFile"/>
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="elsfsStackTraceFile"/>
+
+        </Root>
+    </loggers>
+</configuration>

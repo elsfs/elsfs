@@ -1,0 +1,14 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+description = "oauth 资源服务器 "
+
+apply plugin: 'org.springframework.boot'
+dependencies {
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
+}
+
+test {
+    useJUnitPlatform()
+}

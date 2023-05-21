@@ -1,0 +1,464 @@
+我们很多机器是集群部署，如果单独去每台机器上面去找日志会很麻烦。另外很多生产上机器会对部分人员进行限制，但却需要他们去定位生产上的问题。这里通过继承AbstractAppender实现log4j的自定义标签来发送到同一服务器集中处理。
+
+== 1、首先定义一个类继承AbstractAppender
+
+[source,java]
+----
+/**
+ * name 为log.xml里面配置标签
+ * @author zeng
+ */
+@Plugin(name = "LOG_SEND", category = "Core", elementType = "appender", printObject = true)
+public class LogAppender extends AbstractAppender {
+
+    protected LogAppender(String name, Filter filter, Layout<? extends Serializable> layout) {
+        super(name, filter, layout);
+    }
+
+    /**
+     *  加载类之前会调用的方法
+     */
+    @Override
+    public void start() {
+        //QueueUtil.execSys();
+        super.start();
+    }
+
+    /**
+     * 类结束之前调用方法
+     */
+    @Override
+    public void stop() {
+        super.stop();
+    }
+
+
+    /**
+     * 日志输入的具体操作方式
+     * @param logEvent
+     */
+    @Override
+    public void append(LogEvent logEvent) {
+
+
+        try {
+            ThrowableProxy thrownProxy = logEvent.getThrownProxy();
+            LogData logData;
+            if (Objects.isNull(thrownProxy)) {
+                logData= new LogData(logEvent.getMessage().getFormattedMessage(), logEvent.getThreadName(),
+                        logEvent.getLevel().name(), logEvent.getTimeMillis(), logEvent.getLoggerName(),MachineIp.getIp());
+
+            }else {
+                StringBuilder sb = new StringBuilder(logEvent.getMessage().getFormattedMessage());
+                sb.append("\n");
+                dealErrorContent(thrownProxy, sb);
+                for (ThrowableProxy throwableProxy = thrownProxy.getCauseProxy(); !Objects.isNull(throwableProxy); throwableProxy = thrownProxy.getCauseProxy()) {
+                    sb.append("Caused by: ");
+                    dealErrorContent(thrownProxy, sb);
+                }
+                logData= new LogData(sb.toString(), logEvent.getThreadName(),
+                        logEvent.getLevel().name(), logEvent.getTimeMillis(), logEvent.getLoggerName(),MachineIp.getIp());
+
+            }
+            //System.out.println("========================================logData====" + logData);
+            QueueUtil.getInstance().offer(logData);
+        } catch (Exception e) {
+            System.out.println("log4j httpAppender error !" + e);
+        }
+
+    }
+
+    /**
+     * 通过配置工厂来创建创建  LogAppender
+     * @param filter
+     * @param layout
+     * @param name
+     * @return
+     */
+    @PluginFactory
+    public static LogAppender createLogAppender(@PluginElement("Filter") Filter filter, @PluginElement("layout") Layout<? extends Serializable> layout, @PluginAttribute("name") String name) {
+        if (name == null) {
+            LOGGER.error("No name provided for LogAppender");
+            return null;
+        }
+        if (layout == null) {
+            layout = PatternLayout.createDefaultLayout();
+        }
+        return new LogAppender(name, filter, layout);
+    }
+
+    private StringBuilder dealErrorContent(ThrowableProxy throwableProxy,StringBuilder sb ){
+        sb.append(throwableProxy.getName());
+        sb.append(": ");
+        sb.append(throwableProxy.getMessage());
+        sb.append("\n");
+        StackTraceElement[] elements = throwableProxy.getStackTrace();
+
+        for (int i = 0, elementLength = elements.length; i < elementLength; i++) {
+            sb.append("\t");
+            StackTraceElement element = elements[i];
+            sb.append(String.valueOf(element));
+            sb.append("\n");
+        }
+        return sb;
+    }
+}
+
+
+----
+
+== 2、定义了标签需要在log4j.xml添加对应标签，需要增加
+
+[source,xml]
+----
+<LOG_SEND  name="log_send">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%-5p] {%F:%L} - %m%n" />
+        </LOG_SEND>
+<AppenderRef ref="log_send"/>
+
+----
+下面是完整的log4j.xml的内容
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
+<configuration  status="warn"  monitorInterval="500">
+
+    <!--这里相当于配置变量，后面在 <Appenders>  标签引入 用${}-->
+    <Properties>
+        <Property name="LOG_HOME">logs</Property>
+        <!-- 控制台默认输出格式,"%d":表示打印的时间 "%5level":日志级别,
+        %thread 表示打印日志的线程 "%c":表示类 "%L":表示行号 "%msg" 表示打印的信息  %n 换行  %throwable 表示错误信息
+        %style 和{bright,green} 结合表示展示颜色   %highlight
+        所以影响日志输出的性能 -->
+        <!--<Property name="PATTERN">[%style{%d{yyyy-MM-dd HH:mm:ss:SSS}}] |-%-5level [%thread] %c [%L] -| %msg%n</Property>-->
+        <Property name="CONSOLE">[%style{%d{yyyy-MM-dd HH:mm:ss:SSS}}{bright,green}] | [%highlight{%5level}] [%thread] [%style{%c}{bright,yellow}] [%style{%L}{bright,blue}] -| %highlight{%msg}%n%style{%throwable}{red}</Property>
+        <Property name="FILE">%date{yyy-MM-dd HH:mm:ss.SSS} %level [%file:%line] : %msg%n</Property>
+    </Properties>
+
+
+    <Appenders>
+
+        <LOG_SEND  name="log_send">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%-5p] {%F:%L} - %m%n" />
+        </LOG_SEND>
+
+        <!--生成文件的文件名，当天生成日志 log.log ，保存其他天日志为log-%d{yyyy-MM-dd}.log-->
+        <RollingFile name="file" fileName="${LOG_HOME}/log.log" filePattern="${LOG_HOME}/log-%d{yyyy-MM-dd}.log">
+            <!--${FILE} 引入<Property> 标签的文件格式-->
+            <PatternLayout pattern="${FILE}"/>
+            <Policies>
+                <!--基于时间的触发策略。该策略主要是完成周期性的log文件封存工作。有两个参数：
+               interval，integer型，指定两次封存动作之间的时间间隔,modulate，boolean型，说明是否对封存时间进行调制。-->
+                <!--设置每天打包日志一次-->
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"></TimeBasedTriggeringPolicy>
+            </Policies>
+
+            <DefaultRolloverStrategy>
+                <!--要访问的目录的最大级别数。值为0表示仅访问起始文件,2表示能访问一下两级目录-->
+                <Delete basePath="${LOG_HOME}" maxDepth="2">
+                    <IfFileName glob="*/*.log">
+                        <!--删除超过十天文件-->
+                        <IfLastModified age="10d"/>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+
+        <!--添加一个控制台追加器，添加之后在AppenderRef 中引用，就会生效-->
+        <Console name="CONSOLE" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${CONSOLE}"/>
+        </Console>
+
+    </Appenders>
+
+    <Loggers>
+
+
+        <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
+        <!--这里指代生效的日志级别和 输出的内容，这里代表生效的是 debug ，
+        文件和控制台都会输出，如果是在环境留下file就可以了，file和CONSOLE 来自于 <Appenders> 配置的标签 -->
+        <Root level="info">
+            <AppenderRef ref="file"/>
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="log_send"/>
+        </Root>
+
+    </Loggers>
+</configuration >
+----
+
+=== 3、定义一个我们需要关于日志基本的类
+
+[source,java]
+----
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class LogData {
+    private String message;
+    private String threadName;
+
+    private String logLevel;
+
+    private long time;
+
+    private String className;
+
+    private String hostIp;
+}
+
+----
+
+== 自定义一个守护线程不断发送日志到日志服务器统一管理
+
+[source,java]
+----
+public class QueueUtil {
+    private static Logger logger = LoggerFactory.getLogger(QueueUtil.class);
+
+    private static final Integer MAX_RETRY = 3;
+
+    private QueueUtil(){
+        initTask();
+    }
+    private static final Executor executor = Executors.newSingleThreadExecutor(new ThreadFactory() {
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setName("logAppendQueue");
+            thread.setDaemon(true);
+            return thread;
+
+        }
+    });
+
+    private static final ScheduledExecutorService scheduled_thread_pool = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setName("scheduled thread pool");
+            thread.setDaemon(true);
+            return thread;
+        }
+    });
+
+   /* private static final DateTimeFormatter formtter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public static  void execSys(){
+        scheduled_thread_pool.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("sdfdfdfdf"+formtter.format(LocalDateTime.now()));
+            }
+        }, 0L, 1L, TimeUnit.SECONDS);
+    }*/
+
+    private static final BlockingQueue<LogData> LOG_QUEUE = new LinkedBlockingQueue<>(2000);
+
+    private static ExecutorService executor1=new ThreadPoolExecutor(1, 1,
+                                   0L,TimeUnit.MILLISECONDS,
+                                    new LinkedBlockingQueue<Runnable>(1),new ThreadFactory() {
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setName("logAppendQueue");
+            thread.setDaemon(true);
+            return thread;
+
+        }
+    });
+
+
+    private void initTask(){
+        executor1.execute(new Runnable() {
+            @Override
+            public void run() {
+               List<LogData> logDatas = new ArrayList<>();
+                while (true) {
+                    while (true) {
+
+                        try {
+                            List<LogData> tmpLst = new ArrayList<>(100);
+                            LOG_QUEUE.drainTo(tmpLst, 100);
+                            if (!CollectionUtils.isEmpty(tmpLst)) {
+                                logDatas.addAll(tmpLst);
+                                if (logDatas.size() >= 500) {
+                                    sendMessageRetry(logDatas,0);
+                                    sleepSeconds(1);
+                                }
+                            }else {
+                                if (logDatas.size() > 0) {
+                                    sendMessageRetry(logDatas,0);
+                                    sleepSeconds(1);
+
+                                }
+
+                            }
+                        } catch (Exception e) {
+                            logger.error("log appender send message fail:", e);
+                            sleepSeconds(2);
+                        }
+
+                    }
+                }
+            }
+        });
+    }
+
+    public boolean offer(LogData logData) {
+        return LOG_QUEUE.offer(logData);
+    }
+
+    public static QueueUtil getInstance(){
+        return QueueUtil.QueueUtilHelper.queueUtil;
+    }
+    private void sleepSeconds(int time) {
+        try {
+            TimeUnit.SECONDS.sleep(time);
+        } catch (InterruptedException e) {
+            logger.error("sleep Interrupt", e);
+        }
+
+    }
+
+
+
+    private void sendMessageRetry(List<LogData> logDataLst,int currentTime) {
+        try {
+            System.out.println("发送消息"+logDataLst);
+        } catch (Exception e) {
+            logger.error("sendMessageRetry fail ,current time is ：{} time", currentTime, e);
+            if(currentTime>=MAX_RETRY){
+                return;
+            }
+            sendMessageRetry(logDataLst, ++currentTime);
+            sleepSeconds(2);
+
+        }finally {
+            if (!CollectionUtils.isEmpty(logDataLst)) {
+                logDataLst.clear();
+            }
+        }
+
+    }
+
+
+    public static class QueueUtilHelper {
+        private static QueueUtil queueUtil=new QueueUtil();
+
+        public QueueUtilHelper() {
+        }
+    }
+
+
+}
+
+
+----
+
+== 5、补充上需要获取当前机器的Ip的工具类
+
+[source,java]
+----
+public class MachineIp {
+
+    private static volatile String ipAddr;
+
+    public static String getHostIp() {
+
+        String sIP = "";
+        InetAddress ip = null;
+        try {
+            boolean bFindIP = false;
+            Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (netInterfaces.hasMoreElements()) {
+                if (bFindIP){
+                    break;
+                }
+
+                NetworkInterface ni = netInterfaces.nextElement();
+                Enumeration<InetAddress> ips = ni.getInetAddresses();
+                while (ips.hasMoreElements()) {
+                    ip = ips.nextElement();
+                    if (!ip.isLoopbackAddress()
+                            && ip.getHostAddress().matches("(\\d{1,3}\\.){3}\\d{1,3}")) {
+                        bFindIP = true;
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (null != ip){
+            sIP = ip.getHostAddress();
+        }
+        return sIP;
+    }
+
+    public static String getIp() {
+        if (null != ipAddr) {
+            return ipAddr;
+        } else {
+            Enumeration netInterfaces;
+            try {
+                netInterfaces = NetworkInterface.getNetworkInterfaces();
+            } catch (SocketException var6) {
+                throw new HostException(var6);
+            }
+
+            String localIpAddress = null;
+
+            while(netInterfaces.hasMoreElements()) {
+                NetworkInterface netInterface = (NetworkInterface)netInterfaces.nextElement();
+                Enumeration ipAddresses = netInterface.getInetAddresses();
+
+                while(ipAddresses.hasMoreElements()) {
+                    InetAddress ipAddress = (InetAddress)ipAddresses.nextElement();
+                    if (isPublicIpAddress(ipAddress)) {
+                        String publicIpAddress = ipAddress.getHostAddress();
+                        ipAddr = publicIpAddress;
+                        return publicIpAddress;
+                    }
+
+                    if (isLocalIpAddress(ipAddress)) {
+                        localIpAddress = ipAddress.getHostAddress();
+                    }
+                }
+            }
+
+            ipAddr = localIpAddress;
+            return localIpAddress;
+        }
+    }
+
+    private static boolean isPublicIpAddress(InetAddress ipAddress) {
+        return !ipAddress.isSiteLocalAddress() && !ipAddress.isLoopbackAddress() && !isV6IpAddress(ipAddress);
+    }
+
+    private static boolean isLocalIpAddress(InetAddress ipAddress) {
+        return ipAddress.isSiteLocalAddress() && !ipAddress.isLoopbackAddress() && !isV6IpAddress(ipAddress);
+    }
+
+    private static boolean isV6IpAddress(InetAddress ipAddress) {
+        return ipAddress.getHostAddress().contains(":");
+    }
+
+    public static String getHostName() {
+        try {
+            return InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException var1) {
+            throw new HostException(var1);
+        }
+    }
+}
+
+----
+
+

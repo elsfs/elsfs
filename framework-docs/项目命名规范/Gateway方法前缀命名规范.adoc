@@ -1,0 +1,25 @@
+= 方法前缀规范
+
+|===
+| 操作 | 单个 | 多个
+
+| 查询
+| get
+| list
+
+| 更新
+| update
+|updateList
+
+|新增
+| create
+| createBatch
+
+|删除(软删除)
+| remove
+| removeBatch
+
+| 删除 真实删除
+| delete
+| deleteBatch
+|===

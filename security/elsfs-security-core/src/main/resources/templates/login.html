@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Spring Security Example</title>
+    <link th:href="@{/css/signin.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" method="post" th:action="@{/login}">
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+            用户名或密码无效。
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success" role="alert">
+            您已注销。
+        </div>
+        <h2 class="form-signin-heading" style="text-align: center">登  录</h2>
+        <p>
+            <label for="username" class="sr-only">用户名</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="请输入用户名" required autofocus>
+        </p>
+        <p>
+            <label for="password" class="sr-only">密码</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="请输入密码" required>
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+        <a class="btn btn-light btn-block bg-white" href="/oauth2/authorization/google-idp" role="link" style="text-transform: none;">
+            <img width="20" style="margin-right: 5px;" alt="Sign in with Google" th:src="@{/img/google.webp}" />
+            使用Google登录
+        </a>
+        <a class="btn btn-light btn-block bg-white" href="/oauth2/authorization/github-idp" role="link" style="text-transform: none;">
+            <img width="24" style="margin-right: 5px;" alt="Sign in with GitHub" th:src="@{/img/github.png}" />
+            使用github 登录
+        </a>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,2 @@
+org.elsfs.security.core.config.SecurityMessageSourceConfiguration
+org.elsfs.security.core.config.JwkSourceConfig

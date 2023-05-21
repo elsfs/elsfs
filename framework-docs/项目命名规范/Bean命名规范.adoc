@@ -1,0 +1,102 @@
+== 容器bean命名规范
+
+== bean对象命名规范
+
+|===
+|规范后缀 | 层次 | 说明
+
+|Gateway
+|Domain层
+|网关接口
+
+|GatewayImpl
+|Infra层
+|网关接口实现类
+
+|Repository
+|Infra层
+|仓储接口
+
+
+|===
+
+|===
+|规范后缀 | 层次 | 说明
+
+|VO (View Object)
+|Adapter层
+|controller(浏览器)  consumer(消息) scheduler(定时器使用)
+
+|DTO(Data Transfer Object)
+|App层
+|service(服务) executor(执行器)
+
+|Entity
+|Domain层
+|model(领域模型) gateway(网关) ability(领域服务)
+
+|DO(Data Object)
+|Infra层
+|gatewayimpl(网关实现) repository(仓储) config(配置)
+
+|===
+
+== Gateway方法前缀命名规范(建议)
+|===
+| 方法前缀 | 说明 |例子
+
+|get
+|获取单个领域实体
+| // 根据用户号码获取账户信息  Account getAccount(long phoneNo);
+
+|create
+|持久化数据
+| void create(Session session);
+
+
+|list
+|获取多个领域实体
+| List<SubMetric> listByTechContribution(String userId);
+
+
+|update
+|更新资源
+| void update(UserProfile userProfile);
+
+|remove
+|移除资源
+| void removeRoleByUser(String userId)
+
+|===
+
+== Repository方法<前缀>命名规范(建议)
+|===
+| 方法前缀 | 说明 |例子
+
+|save saveAll insert update
+| 保存或者更新
+|
+
+|find findAll select selectBatch
+| 查询
+|
+
+|exists
+|判断是否存在
+|boolean existsById(ID id);
+
+
+|delete deleteAll
+| 删除资源
+|
+
+
+
+
+
+|
+|
+|
+
+
+|===

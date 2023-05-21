@@ -1,0 +1,2 @@
+
+POST http://127.0.0.1:9000/oauth2/token?grant_type=authorization_code&client_id=messaging-client&client_secret=secret&redirect_uri=http://127.0.0.1/login/oauth2/code/messaging-client-oidc&code=123

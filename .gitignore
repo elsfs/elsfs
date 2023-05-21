@@ -1,0 +1,51 @@
+# 编程语言相关
+*.java.hsp
+*.sonarj
+*.sw*
+.DS_Store
+build.sh
+integration-repo
+ivy-cache
+argfile*
+activemq-data/
+classes/
+
+# 日志文件
+*.log
+*.class
+
+# Gradle 相关
+.gradle
+.gradletasknamecache
+/build
+buildSrc/build
+*/build
+**/**/build
+
+
+# Maven 相关
+# pom.xml
+/target/
+
+# Eclipse相关，包括WTP生成的清单
+bin
+.classpath
+.project
+.settings
+.springBeans
+elsfs-*/src/main/java/META-INF/MANIFEST.MF
+
+# IDEA相关和输出指令
+
+*.iml
+*.ipr
+*.iws
+.idea
+out
+test-output
+atlassian-ide-plugin.xml
+
+# VS Code
+.vscode/
+
+

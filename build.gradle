@@ -1,0 +1,151 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.39")
+        classpath("io.franzbecker:gradle-lombok:5.0.0")
+        // 测试插件
+        classpath("me.champeau.jmh:jmh-gradle-plugin:0.7.1")
+        classpath("io.freefair.gradle:lombok-plugin:8.0.1")
+    }
+}
+plugins {
+    // 供 asciidoctor 任务和约定
+    id 'org.asciidoctor.jvm.convert' version '3.3.2' apply false
+    //  asciidoc 文档到 PDF  https://github.com/spring-io/spring-asciidoctor-backends
+    id 'org.asciidoctor.jvm.pdf' version '3.3.2' apply false
+    // 管理版本更新
+    id 'com.github.ben-manes.versions' version '0.46.0'
+    // 打包插件 https://github.com/johnrengelman/shadow 文档 https://imperceptiblethoughts.com/shadow/
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+    // 向 Gradle 添加显示进度信息的下载任务 https://github.com/michel-kraemer/gradle-download-task
+    id 'de.undercouch.download' version '5.4.0'
+    id 'me.champeau.mrjar' version '0.1.1'
+    id("org.springframework.boot") version "3.1.0" apply false
+}
+ext {
+    sonatypeUsername = System.getProperty("sonatypeUsername")
+    sonatypePassword = System.getProperty("sonatypePassword")
+    publishingRelease = rootProject.sonatypeUsername != null && rootProject.sonatypePassword != null
+    platformProjects= subprojects.findAll { it.name.startsWith("framework-") }
+    moduleProjects = subprojects.findAll { it.name.startsWith("elsfs-") }
+    javaProjects = subprojects - project(":framework-bom") - project(":framework-platform")
+    javadocLinks = [
+            "https://github.com/spring-projects/spring-authorization-server",
+            // gradle plugins
+            "https://plugins.gradle.org/",
+            "https://docs.oracle.com/en/java/javase/17/docs/api/",
+            "https://jakarta.ee/specifications/platform/9/apidocs/",
+            "https://docs.oracle.com/cd/E13222_01/wls/docs90/javadocs/",  // CommonJ and weblogic.* packages
+            "https://www.ibm.com/docs/api/v1/content/SSEQTP_8.5.5/com.ibm.websphere.javadoc.doc/web/apidocs/", // com.ibm.*
+            "https://docs.jboss.org/jbossas/javadoc/4.0.5/connector/", // org.jboss.resource.*
+            "https://docs.jboss.org/hibernate/orm/5.6/javadocs/",
+            "https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/",
+            "https://www.quartz-scheduler.org/api/2.3.0/",
+            "https://www.javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.14.1/",
+            "https://www.javadoc.io/doc/com.fasterxml.jackson.core/jackson-databind/2.14.1/",
+            "https://www.javadoc.io/doc/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.14.1/",
+            "https://hc.apache.org/httpcomponents-client-5.2.x/current/httpclient5/apidocs/",
+            "https://projectreactor.io/docs/test/release/api/",
+            "https://junit.org/junit4/javadoc/4.13.2/",
+            // TODO Uncomment link to JUnit 5 docs once we execute Gradle with Java 18+.
+            // See https://github.com/spring-projects/spring-framework/issues/27497
+            //
+            // "https://junit.org/junit5/docs/5.9.3/api/",
+            "https://www.reactive-streams.org/reactive-streams-1.0.3-javadoc/",
+            "https://javadoc.io/static/io.rsocket/rsocket-core/1.1.1/",
+            "https://r2dbc.io/spec/1.0.0.RELEASE/api/",
+            // Previously there could be a split-package issue between JSR250 and JSR305 javax.annotation packages,
+            // but since 6.0 JSR 250 annotations such as @Resource and @PostConstruct have been replaced by their
+            // JakartaEE equivalents in the jakarta.annotation package.
+            "https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/"
+    ] as String[]
+}
+/*--------------------所有项目配置----------------------------------*/
+configure(allprojects) { project ->
+    apply plugin: 'io.spring.javaformat'
+    repositories {
+        mavenLocal()
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/spring' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://repo.spring.io/release' }
+        maven { url 'https://repo.spring.io/milestone' }
+        maven {
+            url 'https://build.shibboleth.net/nexus/content/repositories/releases/'
+        }
+    }
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, "seconds"
+            cacheDynamicVersionsFor 0, "seconds"
+        }
+    }
+}
+/*----------------java项目配置------------------------*/
+configure([rootProject] + javaProjects) { project ->
+    group = "org.elsfs"
+    apply plugin: "java"
+    configurations {
+        dependencyManagement {
+            canBeConsumed = false
+            canBeResolved = false
+            visible = false
+        }
+        matching { it.name.endsWith("Classpath") }.all { it.extendsFrom(dependencyManagement) }
+    }
+    dependencies {
+        dependencyManagement(enforcedPlatform(dependencies.project(path: ":framework-platform")))
+        testImplementation("org.junit.jupiter:junit-jupiter-api")
+        testImplementation("org.junit.jupiter:junit-jupiter-params")
+        testImplementation("org.junit.platform:junit-platform-suite-api")
+        testImplementation("org.mockito:mockito-core")
+        testImplementation("org.mockito:mockito-junit-jupiter")
+        testImplementation("io.mockk:mockk")
+        testImplementation("org.assertj:assertj-core")
+        // Pull in the latest JUnit 5 Launcher API to ensure proper support in IDEs.
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        testRuntimeOnly("org.junit.platform:junit-platform-suite-engine")
+        testRuntimeOnly("org.apache.logging.log4j:log4j-core")
+        testRuntimeOnly("org.apache.logging.log4j:log4j-jul")
+        testRuntimeOnly("org.apache.logging.log4j:log4j-slf4j2-impl")
+        // JSR-305 only used for non-required meta-annotations
+        compileOnly("com.google.code.findbugs:jsr305")
+        testCompileOnly("com.google.code.findbugs:jsr305")
+    }
+    ext.javadocLinks = [
+            "https://docs.oracle.com/en/java/javase/17/docs/api/",
+            "https://jakarta.ee/specifications/platform/9/apidocs/",
+            "https://docs.oracle.com/cd/E13222_01/wls/docs90/javadocs/",  // CommonJ and weblogic.* packages
+            "https://www.ibm.com/docs/api/v1/content/SSEQTP_8.5.5/com.ibm.websphere.javadoc.doc/web/apidocs/", // com.ibm.*
+            "https://docs.jboss.org/jbossas/javadoc/4.0.5/connector/", // org.jboss.resource.*
+            "https://docs.jboss.org/hibernate/orm/5.6/javadocs/",
+            "https://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/",
+            "https://www.quartz-scheduler.org/api/2.3.0/",
+            "https://www.javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/2.14.1/",
+            "https://www.javadoc.io/doc/com.fasterxml.jackson.core/jackson-databind/2.14.1/",
+            "https://www.javadoc.io/doc/com.fasterxml.jackson.dataformat/jackson-dataformat-xml/2.14.1/",
+            "https://hc.apache.org/httpcomponents-client-5.2.x/current/httpclient5/apidocs/",
+            "https://projectreactor.io/docs/test/release/api/",
+            "https://junit.org/junit4/javadoc/4.13.2/",
+            // TODO Uncomment link to JUnit 5 docs once we execute Gradle with Java 18+.
+            // See https://github.com/spring-projects/spring-framework/issues/27497
+            //
+            // "https://junit.org/junit5/docs/5.9.3/api/",
+            "https://www.reactive-streams.org/reactive-streams-1.0.3-javadoc/",
+            "https://javadoc.io/static/io.rsocket/rsocket-core/1.1.1/",
+            "https://r2dbc.io/spec/1.0.0.RELEASE/api/",
+            // Previously there could be a split-package issue between JSR250 and JSR305 javax.annotation packages,
+            // but since 6.0 JSR 250 annotations such as @Resource and @PostConstruct have been replaced by their
+            // JakartaEE equivalents in the jakarta.annotation package.
+            "https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/"
+    ] as String[]
+}
+
+/*--------模块配置-----*/
+configure(moduleProjects) { project ->
+    apply from: "${rootDir}/gradle/module.gradle"
+}
+

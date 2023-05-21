@@ -1,0 +1,52 @@
+### register
+# 请求 POST http://127.0.0.1:9000/connect/register 的令牌只能有一个授权 client.create
+# OidcClientRegistrationAuthenticationProvider 规定
+#	private static void checkScope(OAuth2Authorization.Token<OAuth2AccessToken> authorizedAccessToken, Set<String> requiredScope) {
+
+
+# {
+#  "client_id": "ymbZ0m4NSNmV9lr46lVZtbNb1Q6tguY7AucNy8LFMS4",
+#  "client_id_issued_at": 1679932134,
+#  "client_name": "a9adcae7-597a-4047-b778-0c8e07977726",
+#  "client_secret": "k84bhD-OyNSzNwsbNs0jN9h5z9q7WBEJw5uoGHTsl4XBy1ikkha-dBxbtaTG84cW",
+#  "redirect_uris": [
+#    "https://fanyi.baidu.com/oauth2",
+#    "https://fanyi.baidu.com/oauth3"
+#  ],
+#  "grant_types": [
+#    "authorization_code"
+#  ],
+#  "response_types": [
+#    "code"
+#  ],
+#  "scope": "openid profile client.create email",
+#  "token_endpoint_auth_method": "client_secret_basic",
+#  "id_token_signed_response_alg": "RS256",
+#  "registration_client_uri": "http://localhost:9000/connect/register?client_id=ymbZ0m4NSNmV9lr46lVZtbNb1Q6tguY7AucNy8LFMS4",
+#  "registration_access_token": "eyJraWQiOiI5MTc1OWFjZi1mZGZkLTQzZDQtYTQyMC1mOTk1OTMxNmQyYTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ5bWJaMG00TlNObVY5bHI0NmxWWnRiTmIxUTZ0Z3VZN0F1Y055OExGTVM0IiwiYXVkIjoieW1iWjBtNE5TTm1WOWxyNDZsVlp0Yk5iMVE2dGd1WTdBdWNOeThMRk1TNCIsIm5iZiI6MTY3OTkzMjEzNywic2NvcGUiOlsiY2xpZW50LnJlYWQiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MDAwIiwiZXhwIjoxNjc5OTMyNDM3LCJpYXQiOjE2Nzk5MzIxMzd9.Ue8ptOcnOEqJpyzcxEkUGat9gecV27GTNH4WXUmjBPBUYtLsm7VXkVGEKS-3mrlfO2PjbhWM7pxoYNl7CMYtfui1wMBGSi2aeRUOKb8IS5qjKdV786pZSJ4MrpBhqJS610HZ4OoVDFhqAkxho0X-Tw_j5TzKk4UYfd4ivnbgijSywRem213U2jZwot7-dZXIlmoDRib2neJvI_sAxsA8YPn6z6ZTOQzvH40hCFoDQjAWqS0iylLuhrmpZIxVWnq8CoCdRqeWA0aLtK74vVA5zPhuOMRwI9XZyAmEvCfV2SSSXOQTLXqXOuFiXHLrd7thkc31SLVGGPPJvNykhPKcTQ",
+#  "client_secret_expires_at": 0
+#}
+
+POST http://127.0.0.1:9000/connect/register
+Content-Type: application/json
+Authorization: Bearer eyJraWQiOiI3ODYyNDlhZi03Y2Y2LTQ3YzUtYjU1YS1mNTZmZTZkYTQzZjMiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1ZCI6Im1lc3NhZ2luZy1jbGllbnQiLCJuYmYiOjE2Nzk5MzMxMjgsInNjb3BlIjpbImNsaWVudC5jcmVhdGUiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MDAwIiwiZXhwIjoxNjgwMDE5NTI4LCJpYXQiOjE2Nzk5MzMxMjh9.dsFh-KikwfVjVR3X23qiFNv8H6nafJY9QasXczR0lz3silYlS4kfLTq4ol-DjcvWAIalyPVILULbWdXVJzuzp_oMXgWAuypgWRkUowO2eg3Ru1lA8Tl5-j32_4C-G0Lv3jFM1RSt47fsuYbPSA8Gh5RKp_cXAT6uF9f-IVimu-9kRd8YB1zrpK30C1XJ0ylPbC_bC4v5S86TpoavfJ5rPVoj7nrERJ0EAZ-eg4U4_HQSJnU-4ClkHd4QSdNNiXg6F_8koqF1n-Ij6EH1k0sGFfzCil60NmV5uPywzXN1T7edWmlR6IGhD0ylEiUaRLhR2IusauozibUAKP__jUj4gQ
+
+{
+  "client_id": "user11",
+  "client_secret_expires_at": 1000,
+  "client_secret": "admin",
+  "redirect_uris": [
+    "https://fanyi.baidu.com/oauth2",
+    "https://fanyi.baidu.com/oauth3"
+  ],
+  "scope": "openid profile email client.create"
+
+}
+
+
+
+
+
+###
+http://localhost:9000/connect/register?client_id=ymbZ0m4NSNmV9lr46lVZtbNb1Q6tguY7AucNy8LFMS4
+Authorization: Bearer eyJraWQiOiI5MTc1OWFjZi1mZGZkLTQzZDQtYTQyMC1mOTk1OTMxNmQyYTYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ5bWJaMG00TlNObVY5bHI0NmxWWnRiTmIxUTZ0Z3VZN0F1Y055OExGTVM0IiwiYXVkIjoieW1iWjBtNE5TTm1WOWxyNDZsVlp0Yk5iMVE2dGd1WTdBdWNOeThMRk1TNCIsIm5iZiI6MTY3OTkzMjEzNywic2NvcGUiOlsiY2xpZW50LnJlYWQiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MDAwIiwiZXhwIjoxNjc5OTMyNDM3LCJpYXQiOjE2Nzk5MzIxMzd9.Ue8ptOcnOEqJpyzcxEkUGat9gecV27GTNH4WXUmjBPBUYtLsm7VXkVGEKS-3mrlfO2PjbhWM7pxoYNl7CMYtfui1wMBGSi2aeRUOKb8IS5qjKdV786pZSJ4MrpBhqJS610HZ4OoVDFhqAkxho0X-Tw_j5TzKk4UYfd4ivnbgijSywRem213U2jZwot7-dZXIlmoDRib2neJvI_sAxsA8YPn6z6ZTOQzvH40hCFoDQjAWqS0iylLuhrmpZIxVWnq8CoCdRqeWA0aLtK74vVA5zPhuOMRwI9XZyAmEvCfV2SSSXOQTLXqXOuFiXHLrd7thkc31SLVGGPPJvNykhPKcTQ

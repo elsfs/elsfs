@@ -1,0 +1,24 @@
+apply plugin: "io.franzbecker.gradle-lombok"
+
+lombok {
+    version = "$lombokVersion"
+    sha256 = ""
+}
+dependencies {
+    api "org.springframework.security:spring-security-oauth2-authorization-server"
+    api "org.springframework.boot:spring-boot-actuator-autoconfigure"
+    api "org.springframework.security:spring-security-oauth2-client"
+    api "org.springframework:spring-webmvc"
+    api "jakarta.servlet:jakarta.servlet-api"
+    api "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    api project(":security:elsfs-security-core-api")
+    api project(":core:elsfs-core-util")
+    api project(":security:elsfs-security-util")
+
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+}
+
+test {
+    useJUnitPlatform()
+}

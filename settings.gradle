@@ -1,0 +1,60 @@
+pluginManagement {
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+        maven { url "https://maven.aliyun.com/repository/spring-plugin" }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/spring' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://repo.spring.io/release' }
+        maven { url 'https://repo.spring.io/milestone' }
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://repo.spring.io/release" }
+    }
+}
+plugins {
+    // gradle build --scan
+    id "com.gradle.enterprise" version "3.12.6"
+}
+settings.gradle.projectsLoaded {
+    gradleEnterprise {
+        buildScan {
+            // 连接到Gradle Enterprise
+          //  server = "https://scans.gradle.com"
+            // 允许不受信任的SSL通信
+            allowUntrustedServer = true
+            // 同意服务条款
+            termsOfServiceUrl = "https://gradle.com/terms-of-service"
+            termsOfServiceAgree = "yes"
+            // 发布每个构建的构建扫描
+            publishAlways()
+            /**
+             *  publishAlwaysIf(boolean) 如果给定条件为true，则发布构建扫描，无论构建成功还是失败
+             *  publishOnFailure() 仅当构建失败时才发布构建扫描。
+             *  publishOnFailureIf(boolean) 仅在条件满足true 且构建失败时才发布构建扫描。
+             */
+        }
+    }
+}
+
+include "framework-bom"
+include "framework-platform"
+include 'base:elsfs-base-lang'
+include "base:elsfs-base-annotation"
+
+include "core-api:elsfs-core-dto-api"
+include "core:elsfs-core-util"
+include "core:elsfs-core-events"
+
+include "security:elsfs-security-core"
+include "security:elsfs-security-core-api"
+include 'security:elsfs-security-util'
+
+include 'webapp:admin:elsfs-admin-webapp'
+
+
+
+rootProject.name = 'elsfs'
+
+

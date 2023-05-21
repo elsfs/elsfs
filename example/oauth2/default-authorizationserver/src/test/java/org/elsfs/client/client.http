@@ -1,0 +1,32 @@
+###   BASIC
+# ClientAuthenticationMethod#CLIENT_SECRET_BASIC
+POST http://127.0.0.1:9000/oauth2/token?grant_type=client_credentials
+Authorization: Basic messaging-client secret
+Content-Type: application/x-www-form-urlencoded
+
+### None
+POST http://127.0.0.1:9000/oauth2/token?grant_type=client_credentials&code_challenge = code_verifier
+Authorization: Basic messaging-client secret
+Content-Type: application/x-www-form-urlencoded
+
+### client_secret_jwt
+POST http://127.0.0.1:9000/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+scope=openid&client_id=clientId&client_assertion=客户端密钥加密jwt&grant_type=client_credentials&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+
+### CLIENT_SECRET_POST
+POST http://127.0.0.1:9000/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_secret = secret&scope=openid&client_id=client
+
+### PRIVATE_KEY_JWT
+POST http://127.0.0.1:9000/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+scope=openid
+client_assertion=私钥加密client_id生成jwt
+client_id=clientIdd
+client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer

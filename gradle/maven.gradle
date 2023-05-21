@@ -1,0 +1,70 @@
+apply plugin: "maven-publish"
+apply plugin: 'signing'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                afterEvaluate {
+                    name = project.description
+                    description = project.description
+                }
+                name = project.name
+                description = project.name
+                url = "www.elsfs.org"
+                inceptionYear="2023"
+                licenses {
+                    license {
+                        name ="The Apache Software License, Version 2.0"
+                        url ="https://www.apache.org/licenses/LICENSE-2.0.txt"
+                        distribution= "repo"
+                    }
+                }
+                organization {
+                    name = "elsfs"
+                    url = "https://www.elsfs.org"
+                }
+                developers {
+                    developer {
+                        id = "zeng"
+                        name ="Zeng mingYong"
+                        email= "2679652842@qq.com"
+                        url= "https://www.elsfs.org"
+                    }
+                }
+                issueManagement {
+                    system = "GitHub"
+                    url = "https://github.com/elsfs/elsfs/issues"
+                }
+                scm {
+                    url= "https://github.com/elsfs/openai-java"
+                    connection ="scm:git@github.com:elsfs/elsfs.git"
+                    developerConnection ="scm:git@github.com:elsfs/elsfs.git"
+                }
+            }
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionResult()
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+
+    }
+}
+
+configureDeploymentRepository(project)
+
+void configureDeploymentRepository(Project project) {
+    project.plugins.withType(MavenPublishPlugin.class).all {
+        PublishingExtension publishing = project.getExtensions().getByType(PublishingExtension.class);
+        if (project.hasProperty("deploymentRepository")) {
+            publishing.repositories.maven {
+                it.url = project.property("deploymentRepository")
+                it.name = "deployment"
+            }
+        }
+    }
+}

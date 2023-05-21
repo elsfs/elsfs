@@ -1,0 +1,20 @@
+=== @SuppressWarnings
+
+.作用:
+在java编译过程中会出现很多警告，有很多是安全的，但是每次编译有很多警告影响我们对error的过滤和修改，我们可以在代码中加上 @SuppressWarnings(“XXXX”) 来解决
+
+. @SuppressWarnings(“unchecked”) 　  // 抑制未检查的转化，例如集合没有指定类型的警告
+. @SuppressWarnings(“unused”)	　　    // 抑制未使用的变量的警告
+. @SuppressWarnings(“resource”)	　　	// 抑制与使用Closeable类型资源相关的警告
+. @SuppressWarnings(“path”)	　　　　		// 抑制在类路径，原文件路径中有不存在的路径的警告
+. @SuppressWarnings("deprecation")    // 抑制使用了某些不赞成使用的类和方法的警告
+. @SuppressWarnings("fallthrough")      // 抑制switch语句执行到底没有break关键字的警告
+. @SuppressWarnings("serial")	　　      // 抑制某类实现Serializable，但是没有定义serialVersionUID，这个需要但是不必须的字段的警告
+. @SuppressWarnings("rawtypes")        // 抑制没有传递带有泛型的参数的警告
+. @SuppressWarnings("all") 　　          // 抑制全部类型的警告
+
+
+=== @JsonIgnore注解
+
+.作用:
+JsonIgnore用在属性、方法上在json序列化时中的一些属性忽略掉，标记在属性或者方法上，返回的json数据即不包含该属性。

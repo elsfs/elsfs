@@ -1,0 +1,17 @@
+apply plugin: "org.springframework.boot"
+apply plugin: "io.franzbecker.gradle-lombok"
+
+lombok {
+    version = "$lombokVersion"
+    sha256 = ""
+}
+dependencies {
+    implementation project(":security:elsfs-security-core")
+    implementation project(":core-api:elsfs-core-dto-api")
+    implementation "org.springframework.boot:spring-boot-starter-jersey"
+    implementation "com.baomidou:mybatis-plus-boot-starter"
+    runtimeOnly "mysql:mysql-connector-java"
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+
+}

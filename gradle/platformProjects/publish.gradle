@@ -1,0 +1,11 @@
+apply from "gradle:maven.gradle"
+if (project.name == ":framework-bom"){
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.javaPlatform
+            }
+        }
+    }
+}
+
