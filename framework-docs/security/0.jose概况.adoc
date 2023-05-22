@@ -1,0 +1,36 @@
+
+=== JSON Web Token (RFC 7519)
+JSON Web 令牌 （JWT） 是一种开放标准 https://datatracker.ietf.org/doc/html/rfc7519[（RFC 7519）]，
+
+== JSON Web Algorithms (rfc7518)
+JSON Web Algorithms  （JWA） 是一种开放标准 https://datatracker.ietf.org/doc/html/rfc7518[（rfc7518）]，
+
+定义 JWS JWE 签名算法
+
+== JOSE JSON 对象签名和加密
+https://datatracker.ietf.org/wg/jose/documents/
+
+==  RFC 7515 - JSON Web Signature （JWS）
+== RFC 7516 - JSON Web 加密 （JWE）
+== RFC 7517 - JSON Web Key （JWK）
+== RFC 7518 - JSON Web Algorithms （JWA）
+== RFC 7519 - JSON Web Token （JWT）
+== RFC 7165 - JSON 对象签名和加密的用例和要求 （jose）
+== RFC 7520 - 使用 JSON 对象签名和 加密（json）
+== RFC 7638 - JSON Web 密钥 （JWK） 指纹
+== RFC 7797 - JSON Web 签名 （JWS） 未编码有效负载选项
+== RFC 8037 - CFRG 椭圆曲线 Diffie-Hellman （ECDH） 和 JSON 中的签名 对象签名和加密 （JOSE）
+== RFC 8812 - 用于 Web 身份验证 （WebAuthn） 的 CBOR 对象签名和加密 （COSE） 和 JSON 对象签名
+== RFC 9278 - JSON Web 密钥 （JWK） 指纹 URI
+
+
+== oauth2
+规范
+https://datatracker.ietf.org/wg/oauth/documents/
+
+oauth2.0 框架 https://datatracker.ietf.org/doc/rfc6749/
+oauth 令牌使用 https://datatracker.ietf.org/doc/rfc6750/
+oauth2.1 框架 https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/
+
+== OpenID Connect
+文档 https://openid.net/connect/

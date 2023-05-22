@@ -1,0 +1,513 @@
+== JSON Web Signature(JWS) (SignedJWT)
+
+JSON Web Signature是一个有着简单的统一表达形式的字符串： 已签名的jwt,包含标准jwt结构：header、payload、signature
+
+=== 头部（Header）
+
+头部用于描述关于该JWT的最基本的信息，例如其类型以及签名所用的算法等。 JSON内容要经Base64 编码生成字符串成为Header。
+
+=== 载荷（PayLoad）
+
+payload的五个字段都是由JWT的标准所定义的。
+
+. iss: 该JWT的签发者
+. sub: 该JWT所面向的用户
+. aud: 接收该JWT的一方
+. exp(expires): 什么时候过期，这里是一个Unix时间戳
+. iat(issued at): 在什么时候签发的
+
+后面的信息可以按需补充。
+
+JSON内容要经Base64 编码生成字符串成为PayLoad。
+
+=== 签名（signature）
+
+这个部分header与payload通过header中声明的加密方式，使用密钥secret进行加密，生成签名。
+
+JWS的主要目的是保证了数据在传输过程中不被修改，验证数据的完整性。但由于仅采用Base64对消息内容编码， 因此不保证数据的不可泄露性。所以不适合用于传输敏感数据。
+
+== 规范
+
+===  JSON Web Signature (JWS)
+
+一种数据结构，表示经过数字签名或MAC处理的消息。
+
+=== JOSE Header
+
+包含描述密码的参数的 JSON 对象 使用的操作和参数。 JOSE（JSON 对象签名 和加密）报头由一组报头参数组成。
+
+=== JWS Payload
+
+要保护的八位字节序列——也就是消息。有效载荷可以包含任意序列的八位字节。
+
+===    JWS Signature
+
+JWS Protected Header 和 JWS Payload 上的数字签名或 MAC
+
+===  Header Parameter
+
+作为 JOSE Header 成员的名称/值对。
+
+=== JWS Protected Header
+
+包含完整标头参数的 JSON 对象 受 JWS Signature 数字签名或 MAC 操作保护。 对于 JWS Compact Serialization，这包括整个 JOSE Header。 对于 JWS JSON 序列化，这是 JOSE Header。
+
+=== JWS Unprotected Header
+
+SON 对象，包含不受完整性保护的标头参数。这只能在使用 JWS JSON 序列化时出现
+
+=== Base64url Encoding
+
+Base64 编码 规范 RFC4648
+
+===    JWS Signing Input
+
+数字签名或 MAC 计算的输入。它的值为 ASCII(BASE64URL(UTF8(JWS Protected Header)) || '.' || BASE64URL(JWS Payload))
+
+===    JWS Compact Serialization
+
+将 JWS 表示为紧凑的 URL 安全字符串
+
+=== JWS JSON Serialization
+
+JWS 作为 JSON 对象的表示。与 JWS 紧凑序列化不同，JWS JSON 序列化支持将多个 数字签名和/或 MAC 应用于同一内容。 这种表示既没有针对紧凑性进行优化，也没有针对 URL安全进行优化。
+
+=== Unsecured JWS
+
+不提供完整性保护的 JWS。不安全的 JWS 使用 “alg”=“none”。
+
+===    Collision-Resistant Name
+
+空间中的一个名称，它使名称能够以一种极不可能与其他 名称冲突的方式进行分配。抗冲突命名空间的示例包括：域名、ITU-T X.660 和 X.670 推荐系列中定义的对象标识符 (OID) ，以及通用唯一标识符 (UUID) [ RFC4122 ]。当使用管理委托的 名称空间时，名称的定义者需要采取合理的预防措施以确保他们控制名称空间中用于定义名称的部分。
+
+=== StringOrURI
+
+一个 JSON 字符串值，附加要求是虽然 可以使用任意字符串值，但任何包含“:” 字符的值必须是一个 URI [ RFC3986 ]。StringOrURI 值 作为区分大小写的字符串进行比较，未应用转换或规范化
+
+== JSON Web 签名 (JWS) 概述
+
+JWS 使用 JSON 数据表示数字签名或 MACed 内容结构和base64url编码。 这些 JSON 数据结构可以 在任何 JSON 值之前或之后包含空格和/或换行符 或结构字符，符合 RFC 7159 第 2 节
+[RFC7159]。 JWS 表示这些逻辑值（每个值都是在上面定义）： --- JOSE Header JWS Payload JWS Signature --- 本文档定义了JWS的两个序列化：一个紧凑的URL- 安全序列化称为JWS Compact serialization和JSON 序列化称为JWS JSON序列化。在两者中 序列化、JWS受保护的标头、JWS有效载荷和JWS 签名是基于64url编码的，因为JSON缺乏直接表示任意八位位组序列。
+
+=== JWS Compact序列化概述
+
+在JWS Compact序列化中，不使用JWS Unprotected Header。 在这种情况下，JOSE标头和JWS保护标头是 相同的 在JWS Compact序列化中，JWS表示为 串联：
+
+----
+BASE64URL(UTF8(JWS Protected Header)) || '.' ||
+      BASE64URL(JWS Payload) || '.' ||
+      BASE64URL(JWS Signature)
+----
+
+==== JWS JSON 序列化概述
+
+WS JSON 序列化中， 必须存在 JWS Protected Header 和 JWS Unprotected Header 之一或两者在这种情况下， JOSE Header 的成员是 JWS Protected Header 成员 和 JWS Unprotected Header 值。
+
+在JWS JSON序列化中，JWS表示为JSON对象 包含这四个成员中的一些或全部：
+
+----
+protected BASE64URL(UTF8(JWS Protected Header))
+header  JWS Unprotected Header
+payload BASE64URL(JWS Payload)
+signature BASE64URL(JWS Signature)
+----
+
+=== JWS 实例
+
+[source,json]
+----
+ {
+"typ":"JWT",
+"alg":"HS256"
+}
+----
+头部
+----
+BASE64URL(UTF8(JWS Protected Header))
+# eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9
+----
+以下JSON对象的UTF-8表示形式用作 JWS有效载荷。（请注意，有效载荷可以是任何内容，不需要是JSON对象的表示。）
+[source,json]
+----
+ {
+"iss":"joe",
+"exp":1300819380,
+"http://example.com/is_root":true
+}
+----
+载体
+----
+BASE64URL(JWS Payload) Encoding
+# eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ
+----
+ ASCII(BASE64URL(UTF8(JWSProtected Header)) || '.' || BASE64URL(JWS Payload))
+用 HMAC SHA-256 算法加密
+得到的结果进行  BASE64URL(JWS Signature)
+
+----
+dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
+----
+
+将这些值按 Header.Payload.Signature的顺序连接各部分之间的句点（'.'）字符生成此完整的JWS
+使用JWS Compact序列化的表示法（带换行符仅用于显示目的）：
+----
+eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9
+.eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ
+.dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
+----
+
+
+
+== JWS头部参数说明
+=== JWS “alg”（算法）
+=== “jku”（JWK 设置 URL）
+===  “jwk”（JSON Web 密钥）
+===  “kid”（密钥 ID）
+=== “x5u”（X.509 URL）
+=== “x5c”（X.509 证书链）
+=== “x5t”（X.509 证书 SHA-1 指纹）
+.  “x5t#S256”（X.509 证书 SHA-256 指纹）
+.  “typ”（类型）
+. “cty”（内容类型）
+. “crit” （Critical）
+
+== 例子
+HMAC
+[source,java]
+----
+import java.security.SecureRandom;
+import java.util.Date;
+
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jwt.*;
+
+
+// Generate random 256-bit (32-byte) shared secret
+SecureRandom random = new SecureRandom();
+byte[] sharedSecret = new byte[32];
+random.nextBytes(sharedSecret);
+
+// Create HMAC signer
+JWSSigner signer = new MACSigner(sharedSecret);
+
+// Prepare JWT with claims set
+JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+    .subject("alice")
+    .issuer("https://c2id.com")
+    .expirationTime(new Date(new Date().getTime() + 60 * 1000))
+    .build();
+
+SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
+
+// Apply the HMAC protection
+signedJWT.sign(signer);
+
+// Serialize to compact form, produces something like
+// eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauDO2Uhyuz0Y18UASXlSc1eS0NkWyA
+String s = signedJWT.serialize();
+
+// On the consumer side, parse the JWS and verify its HMAC
+signedJWT = SignedJWT.parse(s);
+
+JWSVerifier verifier = new MACVerifier(sharedSecret);
+
+assertTrue(signedJWT.verify(verifier));
+
+// Retrieve / verify the JWT claims according to the app requirements
+assertEquals("alice", signedJWT.getJWTClaimsSet().getSubject());
+assertEquals("https://c2id.com", signedJWT.getJWTClaimsSet().getIssuer());
+assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));
+----
+RSA
+
+[source,java]
+----
+import java.util.Date;
+
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jose.jwk.*;
+import com.nimbusds.jose.jwk.gen.*;
+import com.nimbusds.jwt.*;
+
+
+// RSA signatures require a public and private RSA key pair, the public key
+// must be made known to the JWS recipient in order to verify the signatures
+RSAKey rsaJWK = new RSAKeyGenerator(2048)
+    .keyID("123")
+    .generate();
+RSAKey rsaPublicJWK = rsaJWK.toPublicJWK();
+
+// Create RSA-signer with the private key
+JWSSigner signer = new RSASSASigner(rsaJWK);
+
+// Prepare JWT with claims set
+JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+    .subject("alice")
+    .issuer("https://c2id.com")
+    .expirationTime(new Date(new Date().getTime() + 60 * 1000))
+    .build();
+
+SignedJWT signedJWT = new SignedJWT(
+    new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(rsaJWK.getKeyID()).build(),
+    claimsSet);
+
+// Compute the RSA signature
+signedJWT.sign(signer);
+
+// To serialize to compact form, produces something like
+// eyJhbGciOiJSUzI1NiJ9.SW4gUlNBIHdlIHRydXN0IQ.IRMQENi4nJyp4er2L
+// mZq3ivwoAjqa1uUkSBKFIX7ATndFF5ivnt-m8uApHO4kfIFOrW7w2Ezmlg3Qd
+// maXlS9DhN0nUk_hGI3amEjkKd0BWYCB8vfUbUv0XGjQip78AI4z1PrFRNidm7
+// -jPDm5Iq0SZnjKjCNS5Q15fokXZc8u0A
+String s = signedJWT.serialize();
+
+// On the consumer side, parse the JWS and verify its RSA signature
+signedJWT = SignedJWT.parse(s);
+
+JWSVerifier verifier = new RSASSAVerifier(rsaPublicJWK);
+assertTrue(signedJWT.verify(verifier));
+
+// Retrieve / verify the JWT claims according to the app requirements
+assertEquals("alice", signedJWT.getJWTClaimsSet().getSubject());
+assertEquals("https://c2id.com", signedJWT.getJWTClaimsSet().getIssuer());
+assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));
+----
+EC
+
+[source,java]
+----
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jose.jwk.*;
+import com.nimbusds.jose.jwk.gen.*;
+// Generate an EC key pair
+ECKey ecJWK = new ECKeyGenerator(Curve.P_256)
+    .keyID("123")
+    .generate();
+ECKey ecPublicJWK = ecJWK.toPublicJWK();
+// Create the EC signer
+JWSSigner signer = new ECDSASigner(ecJWK);
+// Creates the JWS object with payload
+JWSObject jwsObject = new JWSObject(
+    new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(ecJWK.getKeyID()).build(),
+    new Payload("Elliptic cure"));
+// Compute the EC signature
+jwsObject.sign(signer);
+// Serialize the JWS to compact form
+String s = jwsObject.serialize();
+// The recipient creates a verifier with the public EC key
+JWSVerifier verifier = new ECDSAVerifier(ecPublicJWK);
+ // Verify the EC signature
+assertTrue("ES256 signature verified", jwsObject.verify(verifier));
+assertEquals("Elliptic cure", jwsObject.getPayload().toString());
+----
+Edwards-Curve Digital Signature Algorithm / Ed25519
+需要依赖
+[source,xml]
+----
+<dependency>
+    <groupId>com.google.crypto.tink</groupId>
+    <artifactId>tink</artifactId>
+    <version>1.2.0-rc2</version>
+</dependency>
+----
+[source,java]
+----
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jose.jwk.*;
+import com.nimbusds.jose.jwk.gen.*;
+
+// Generate a key pair with Ed25519 curve
+OctetKeyPair jwk = new OctetKeyPairGenerator(Curve.Ed25519)
+    .keyID("123")
+    .generate();
+OctetKeyPair publicJWK = jwk.toPublicJWK();
+// Create the EdDSA signer
+JWSSigner signer = new Ed25519Signer(jwk);
+// Creates the JWS object with payload
+JWSObject jwsObject = new JWSObject(
+    new JWSHeader.Builder(JWSAlgorithm.Ed25519).keyID(jwk.getKeyID()).build(),
+    new Payload("We are having a crypto party!"));
+// Compute the EdDSA signature
+jwsObject.sign(signer);
+// Serialize the JWS to compact form
+String s = jwsObject.serialize();
+// The recipient creates a verifier with the public EdDSA key
+JWSVerifier verifier = new Ed25519Verifier(publicJWK);
+ // Verify the EdDSA signature
+assertTrue("Ed25519 signature verified", jwsObject.verify(verifier));
+assertEquals("We are having a crypto party!", jwsObject.getPayload().toString());
+----
+=== 具有JSON序列化和多个签名
+示例通用JSON序列化，其中两个签名应用于有效载荷：
+
+[source,java]
+----
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jose.jwk.*;
+import com.nimbusds.jose.jwk.gen.*;
+
+// Generate two signing keys in JWK format
+
+// 2048-bit RSA signing key for RS256 alg
+RSAKey rsaJWK = new RSAKeyGenerator(2048)
+    .algorithm(JWSAlgorithm.RS256)
+    .keyUse(KeyUse.SIGNATURE)
+    .keyID("1")
+    .generate();
+
+// EC signing key with P-256 curve for ES256 alg
+ECKey ecJWK = new ECKeyGenerator(Curve.P_256)
+    .algorithm(JWSAlgorithm.ES256)
+    .keyUse(KeyUse.SIGNATURE)
+    .keyID("2")
+    .generate();
+
+// The payload to sign
+Payload payload = new Payload("Hello, world!");
+
+// Create the JWS secured object for JSON serialisation
+JWSObjectJSON jwsObjectJSON = new JWSObjectJSON(payload);
+
+// Apply the first signature using the RSA key
+jwsObjectJSON.sign(
+    new JWSHeader.Builder((JWSAlgorithm) rsaJWK.getAlgorithm())
+        .keyID(rsaJWK.getKeyID())
+        .build(),
+    new RSASSASigner(rsaJWK)
+);
+
+// Apply the second signature using the EC key
+jwsObjectJSON.sign(
+    new JWSHeader.Builder((JWSAlgorithm) ecJWK.getAlgorithm())
+        .keyID(ecJWK.getKeyID())
+        .build(),
+    new ECDSASigner(ecJWK)
+);
+
+// Serialise to JSON
+String json = jwsObjectJSON.serializeGeneral();
+
+// Get the public keys to allow recipients to verify the signatures
+RSAKey rsaPublicJWK = rsaJWK.toPublicJWK();
+ECKey ecPublicJWK = ecJWK.toPublicJWK();
+----
+输出示例：
+[source,json]
+----
+{
+  "payload"    : "SGVsbG8sIHdvcmxkIQ",
+  "signatures" : [
+    {
+      "protected" : "eyJraWQiOiIxIiwiYWxnIjoiUlMyNTYifQ",
+      "signature" : "XAwNAgj-Dw5CBeWG4_6LwQyJrQaAGVJmtqkl21QcIxedNV8Ft0he02eU8Ih60jjNe5FbQxrgfA84JA0isb7NkdczEW_kfX9Fknh-tdypyymrPTsP9bhLKUYfQ7nglWgVf1tukFqkAVZOLdfV7ri9we_bqZblM0pD5ysbu6hjhkLbXSSe_ZD0QfKmJFDaIHWBlB2Z0BeqSmyGQTbO6ZpmxXzICz0ANqTsCrJe6TU2CE6i1mDm0arL12VdcqO9JjD7iQkWppfD3kmRCGsSk3jdJpyWUDCYSKlPVaJJElaffwYjIBevCgfMHFO8ALwpUJc_cFcwBsyalo25JzUSzBNaXg"
+    },
+    {
+      "protected" : "eyJraWQiOiIyIiwiYWxnIjoiRVMyNTYifQ",
+      "signature" : "ckfVpM4ECSrhDGitxe5smT-z65t3C238JyrHkJw3kiOAunPTRYzHD50wzvNGXG45nUlwl7Ybg8GPlOCNyJeonw"
+    }
+  ]
+}
+----
+验证具有多个签名的JWS安全对象：
+[source,java]
+----
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jose.jwk.*;
+
+// Parse the JWS JSON
+JWSObjectJSON jwsObjectJSON = JWSObjectJSON.parse(json);
+
+// Verify the signatures with the available public JWKSs
+for (JWSObjectJSON.Signature sig: jwsObjectJSON.getSignatures()) {
+
+    // The JWS kid header parameter is used to identify the signing key
+
+    if (rsaPublicJWK.getKeyID().equals(sig.getHeader().getKeyID())) {
+        if (! sig.verify(new RSASSAVerifier(rsaPublicJWK))) {
+            System.out.println("Invalid RSA signature for key " + rsaPublicJWK.getKeyID());
+        }
+    }
+
+    if (ecPublicJWK.getKeyID().equals(sig.getHeader().getKeyID())) {
+        if (! sig.verify(new ECDSAVerifier(ecPublicJWK))) {
+            System.out.println("Invalid EC signature for key " + ecJWK.getKeyID());
+        }
+    }
+}
+
+if (JWSObjectJSON.State.VERIFIED.equals(jwsObjectJSON.getState())) {
+    System.out.println("JWS JSON verified");
+} else {
+    System.out.println("JWS JSON invalid");
+}
+----
+=== 具有未编码有效载荷的 JWS （RFC 7797）
+未编码的分离JWS负载的Java代码示例：
+[source,java]
+----
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.*;
+import com.nimbusds.jose.jwk.*;
+
+// Some HMAC key for JWS with HS256
+OctetSequenceKey hmacJWK = OctetSequenceKey.parse("{"+
+    "\"kty\":\"oct\"," +
+    "\"k\":\"AyM1SysPpbyDfgZld3umj1qzKObwVMkoqQ-EstJQLr_T-1qS0gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr1Z9CAow\"" +
+    "}");
+
+// The payload which will not be encoded and must be passed to
+// the JWS consumer in a detached manner
+Payload detachedPayload = new Payload("Hello, world!");
+
+// Create and sign JWS
+JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.HS256)
+    .base64URLEncodePayload(false)
+    .criticalParams(Collections.singleton("b64"))
+    .build();
+
+JWSObject jwsObject = new JWSObject(header, detachedPayload);
+jwsObject.sign(new MACSigner(hmacJWK));
+
+boolean isDetached = true;
+String jws = jwsObject.serialize(isDetached);
+
+// The resulting JWS, note the payload is not encoded (empty second part)
+// eyJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdLCJhbGciOiJIUzI1NiJ9..
+// 5rPBT_XW-x7mjc1ubf4WwW1iV2YJyc4CCFxORIEaAEk
+
+// Parse JWS with detached payload
+JWSObject parsedJWSObject = JWSObject.parse(jws, detachedPayload);
+
+// Verify the HMAC
+if (parsedJWSObject.verify(new MACVerifier(hmacJWK))) {
+    System.out.println("Valid HMAC");
+} else {
+    System.out.println("Invalid HMAC");
+}
+----
+为了不分离未编码的有效载荷，即将其保持在串行JWS内：
+[source,java]
+----
+boolean isDetached = false;
+String jws = jwsObject.serialize(isDetached);
+
+// The resulting JWS (with line breaks for clarity)
+// eyJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdLCJhbGciOiJIUzI1NiJ9.
+// Hello, world!.
+// 5rPBT_XW-x7mjc1ubf4WwW1iV2YJyc4CCFxORIEaAEk
+----
+请注意，要解析此JWS，必须将有效负载显示为分离的，否则解析方法将抛出ParseException。未来，我们可能会增加对解析内联未编码有效载荷的支持。
+[source,java]
+----
+JWSObject.parse(
+    "eyJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdLCJhbGciOiJIUzI1NiJ9..5rPBT_XW-x7mjc1ubf4WwW1iV2YJyc4CCFxORIEaAEk",
+    new Payload("Hello, world!")
+);
+----
+
