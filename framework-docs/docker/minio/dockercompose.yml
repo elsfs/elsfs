@@ -1,0 +1,62 @@
+version: "3.7"
+
+# 所有容器通用的设置和配置
+x-minio-common: &minio-common
+  image: minio/minio:RELEASE.2022-07-15T03-44-22Z
+  command: server --console-address ":9001" http://minio{1...4}/data
+  expose:
+    - "9000"
+  environment:
+    - MINIO_ROOT_USER: minio
+    - MINIO_ROOT_PASSWORD: WNpYxHWzww6Lf
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    interval: 30s
+    timeout: 20s
+    retries: 3
+
+
+services:
+  # minio集群
+  # 启动4个docker容器运行minio服务器实例
+  # 使用nginx反向代理9000端口，负载均衡, 你可以通过9001、9002、9003、9004端口访问它们的web console
+  minio1:
+    <<: *minio-common
+    hostname: minio1
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./repository/minio/data1:/data
+
+  minio2:
+    <<: *minio-common
+    hostname: minio2
+    ports:
+      - "9002:9001"
+    volumes:
+      - ./repository/minio/data2:/data
+
+  minio3:
+    <<: *minio-common
+    hostname: minio3
+    ports:
+      - "9003:9001"
+    volumes:
+      - ./repository/minio/data3:/data
+
+  minio4:
+    <<: *minio-common
+    hostname: minio4
+    ports:
+      - "9004:9001"
+    volumes:
+      - ./repository/minio/data4:/data
+  nginx:
+    image: nginx:1.19.2-alpine
+    hostname: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - "8100:8100"
+

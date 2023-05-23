@@ -1,13 +1,9 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
     dependencies {
         classpath("io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.39")
         classpath("io.franzbecker:gradle-lombok:5.0.0")
         // 测试插件
         classpath("me.champeau.jmh:jmh-gradle-plugin:0.7.1")
-        classpath("io.freefair.gradle:lombok-plugin:8.0.1")
     }
 }
 plugins {

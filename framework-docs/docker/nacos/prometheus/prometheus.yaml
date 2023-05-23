@@ -1,0 +1,36 @@
+# 全局配置
+global:
+  scrape_interval:     15s # 将刮擦间隔设置为每15秒。默认值为每1分钟。
+  evaluation_interval: 15s # 每15秒评估一次规则。默认值为每1分钟。
+  # scrape_timeout  设置为全局默认值（10s）。
+
+# 警报管理器  配置
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # 警报管理器
+          # - alertmanager:9093
+
+# 加载规则一次，并根据全局“evaluation_interval”定期评估规则。
+rule_files:
+# - "first_rules.yml"
+# - "second_rules.yml"
+
+# 仅包含一个要刮取的端点的刮取配置：
+# 这是普罗米修斯本身。
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  # 作业名称将作为标签“job=<job_name>”添加到此配置中刮取的任何时间序列。
+  - job_name: 'prometheus'
+    # metrics_path默认为“/metrics”
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'. 默认为http
+
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'nacos'
+    metrics_path: '/nacos/actuator/prometheus'
+    static_configs:
+      - targets: ["nacos1:8848","nacos2:8848","nacos3:8848"]
