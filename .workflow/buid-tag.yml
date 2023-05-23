@@ -1,0 +1,37 @@
+version: '1.0'
+name: buid-tag
+displayName: buid-tag
+triggers:
+  trigger: auto
+  push:
+    branches:
+      prefix:
+        - ''
+    tags:
+      prefix:
+        - v
+stages:
+  - name: stage-afc86965
+    displayName: 未命名
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@gradle
+        name: build_gradle
+        displayName: Gradle 构建
+        jdkVersion: '17'
+        gradleVersion: '4.4'
+        commands:
+          - '# Gradle默认构建命令'
+          - chmod +x ./gradlew
+          - ./gradlew build
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - ./buid
+        caches:
+          - ~/.gradle/caches
+        notify: []
+        strategy:
+          retry: '0'
