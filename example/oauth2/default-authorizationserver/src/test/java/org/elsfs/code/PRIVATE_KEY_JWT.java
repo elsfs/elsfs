@@ -40,20 +40,25 @@ import java.util.function.UnaryOperator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class PRIVATE_KEY_JWT extends AbstractCodeTypeAuthorizationServerTests{
+public class PRIVATE_KEY_JWT extends AbstractCodeTypeAuthorizationServerTests {
+
     @Autowired
     JWKSet jwkSet;
-    protected UnaryOperator<UriComponentsBuilder> getCodeHttpMethodGETUnaryOperator(){
-        return t-> t .queryParam("client_id", PrivateKeyJwtClientValues.clientId);
+
+    protected UnaryOperator<UriComponentsBuilder> getCodeHttpMethodGETUnaryOperator() {
+        return t -> t.queryParam("client_id", PrivateKeyJwtClientValues.clientId);
     }
-    protected List<NameValuePair> getCodeHttpMethodPOSTUnaryOperator( ){
+
+    protected List<NameValuePair> getCodeHttpMethodPOSTUnaryOperator() {
         return Arrays.asList(new NameValuePair(OAuth2ParameterNames.CLIENT_ID, PrivateKeyJwtClientValues.clientId));
     }
+
     @Override
     protected ResponseEntity<ResponseBody> getToken(String code) {
 
         MultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
-        requestMap.add(OAuth2ParameterNames.CLIENT_ASSERTION_TYPE, "urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
+        requestMap.add(OAuth2ParameterNames.CLIENT_ASSERTION_TYPE,
+                "urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
         requestMap.add(OAuth2ParameterNames.CLIENT_ID, PrivateKeyJwtClientValues.clientId);
         requestMap.add(OAuth2ParameterNames.SCOPE, "openid profile message.read message.write");
         requestMap.add(OAuth2ParameterNames.CLIENT_ASSERTION, createPrivateKeyJwtToken());
@@ -63,12 +68,11 @@ public class PRIVATE_KEY_JWT extends AbstractCodeTypeAuthorizationServerTests{
         requestMap.add(PkceParameterNames.CODE_VERIFIER, CODE_VERIFIER_VALUE);
         requestMap.add(OAuth2ParameterNames.GRANT_TYPE, AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
 
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl()+"/oauth2/token")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(requestMap);
-        //3.响应体
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/token")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(requestMap);
+        // 3.响应体
         ResponseEntity<ResponseBody> response = restTemplate.exchange(request, ResponseBody.class);
         assertThat(response.getBody()).isNotNull();
         return response;
@@ -79,42 +83,45 @@ public class PRIVATE_KEY_JWT extends AbstractCodeTypeAuthorizationServerTests{
 
     }
 
-
     void addRegisteredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId(PrivateKeyJwtClientValues.clientId)
-                .clientSecret(PrivateKeyJwtClientValues.clientSecret)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_JWT)
-                .scope(OidcScopes.OPENID)
-                .scope(OidcScopes.PROFILE)
-                .scope("message.read")
-                .scope("message.write")
-                .redirectUri(redirectUri)
-                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true)
-                        // .tokenEndpointAuthenticationSigningAlgorithm(MacAlgorithm.HS512) // client_secret_jwt 需要
-                        .tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.RS512)  // private_key_jwt 需要
-                        .jwkSetUrl(getJwkSetUrl()) // private_key_jwt 需要
-                        .build())
-                .tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE) // REFERENCE 不需要设置 jwk   SELF_CONTAINED 需要设置 jwk
-                        .build())
-                .build();
+            .clientId(PrivateKeyJwtClientValues.clientId)
+            .clientSecret(PrivateKeyJwtClientValues.clientSecret)
+            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_JWT)
+            .scope(OidcScopes.OPENID)
+            .scope(OidcScopes.PROFILE)
+            .scope("message.read")
+            .scope("message.write")
+            .redirectUri(redirectUri)
+            .clientSettings(ClientSettings.builder()
+                .requireAuthorizationConsent(true)
+                // .tokenEndpointAuthenticationSigningAlgorithm(MacAlgorithm.HS512) //
+                // client_secret_jwt 需要
+                .tokenEndpointAuthenticationSigningAlgorithm(SignatureAlgorithm.RS512) // private_key_jwt
+                                                                                       // 需要
+                .jwkSetUrl(getJwkSetUrl()) // private_key_jwt 需要
+                .build())
+            .tokenSettings(TokenSettings.builder()
+                .accessTokenFormat(OAuth2TokenFormat.REFERENCE) // REFERENCE 不需要设置 jwk
+                                                                // SELF_CONTAINED 需要设置 jwk
+                .build())
+            .build();
         registeredClientRepository.save(registeredClient);
     }
 
     private String createPrivateKeyJwtToken() {
         // 至少以下四项信息
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                // 主体：固定clientId
-                .subject(PrivateKeyJwtClientValues.clientId)
-                // 发行者：固定clientId
-                .issuer(PrivateKeyJwtClientValues.clientId)
-                // 授权中心的地址
-                .audience("http://localhost:" + this.environment.getProperty("local.server.port", "8080"))
-                // 过期时间 24h
-                .expirationTime(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .build();
-
+            // 主体：固定clientId
+            .subject(PrivateKeyJwtClientValues.clientId)
+            // 发行者：固定clientId
+            .issuer(PrivateKeyJwtClientValues.clientId)
+            // 授权中心的地址
+            .audience("http://localhost:" + this.environment.getProperty("local.server.port", "8080"))
+            // 过期时间 24h
+            .expirationTime(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+            .build();
 
         SignedJWT signedJWT = null;
         try {
@@ -122,24 +129,18 @@ public class PRIVATE_KEY_JWT extends AbstractCodeTypeAuthorizationServerTests{
             if (keys == null || keys.isEmpty()) {
                 throw new Exception("key不存在");
             }
-            JWSHeader header = new JWSHeader(JWSAlgorithm.RS512,
-                    JOSEObjectType.JWT,
-                    null,
-                    null, null
-                    ,
-                    null
-                    , null,
-                    null,
-                    null, null, null, true, null, null
-            );
+            JWSHeader header = new JWSHeader(JWSAlgorithm.RS512, JOSEObjectType.JWT, null, null, null, null, null, null,
+                    null, null, null, true, null, null);
             RSASSASigner signer = new RSASSASigner(keys.get(0).toRSAKey().toPrivateKey());
 
             signedJWT = new SignedJWT(header, claimsSet);
             signedJWT.sign(signer);
 
-        } catch (JOSEException e) {
+        }
+        catch (JOSEException e) {
             throw new RuntimeException(e);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
         String token = signedJWT.serialize();
@@ -148,8 +149,11 @@ public class PRIVATE_KEY_JWT extends AbstractCodeTypeAuthorizationServerTests{
     }
 
     private interface PrivateKeyJwtClientValues {
+
         String clientId = "private-key-jwt-code";
+
         String clientSecret = PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("secret");
+
     }
 
 }

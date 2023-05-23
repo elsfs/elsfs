@@ -27,7 +27,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
  */
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
+
     private static final String ISSUER = "http://localhost:";
+
     @Autowired
     protected Environment environment;
 
@@ -37,31 +39,30 @@ public class AuthorizationServerConfig {
 
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .oidc(Customizer.withDefaults())    // Enable OpenID Connect 1.0
-                .oidc(oidcConfigurer -> oidcConfigurer.clientRegistrationEndpoint(Customizer.withDefaults()))
-                ;
-        RequestMatcher endpointsMatcher = http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).getEndpointsMatcher();
+            .oidc(Customizer.withDefaults()) // Enable OpenID Connect 1.0
+            .oidc(oidcConfigurer -> oidcConfigurer.clientRegistrationEndpoint(Customizer.withDefaults()));
+        RequestMatcher endpointsMatcher = http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+            .getEndpointsMatcher();
         http
 
-                .securityMatcher("/h2-console/**")
-                .securityMatcher(endpointsMatcher)
-                .exceptionHandling(exceptions ->
-                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-                )
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+            .securityMatcher("/h2-console/**")
+            .securityMatcher(endpointsMatcher)
+            .exceptionHandling(
+                    exceptions -> exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")))
+            .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
         return http.build();
     }
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().issuer(ISSUER+
-               environment.getProperty("server.port","9000")
-        ).build();
+        return AuthorizationServerSettings.builder()
+            .issuer(ISSUER + environment.getProperty("server.port", "9000"))
+            .build();
     }
-
 
 }

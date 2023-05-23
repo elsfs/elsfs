@@ -10,10 +10,12 @@ import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
 public class UserDetailsServiceConfig {
+
     @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource){
+    public UserDetailsService userDetailsService(DataSource dataSource) {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
         manager.createUser(User.withUsername("admin").password("{noop}admin").roles("admin").build());
         return manager;
     }
+
 }

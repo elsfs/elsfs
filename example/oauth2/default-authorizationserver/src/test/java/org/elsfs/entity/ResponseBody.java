@@ -1,20 +1,24 @@
 package org.elsfs.entity;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.shaded.gson.Gson;
 
-
 public class ResponseBody {
-    private static ObjectMapper MAPPER=new ObjectMapper();
-    private String access_token;
-    private String scope;
-    private String refresh_token;
-    private String token_type;
-    private Integer expires_in;
-    private String id_token;
 
+    private static ObjectMapper MAPPER = new ObjectMapper();
+
+    private String access_token;
+
+    private String scope;
+
+    private String refresh_token;
+
+    private String token_type;
+
+    private Integer expires_in;
+
+    private String id_token;
 
     public String getAccess_token() {
         return access_token;
@@ -67,9 +71,11 @@ public class ResponseBody {
     @Override
     public String toString() {
         try {
-            return  MAPPER.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
+            return MAPPER.writeValueAsString(this);
+        }
+        catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
+
 }

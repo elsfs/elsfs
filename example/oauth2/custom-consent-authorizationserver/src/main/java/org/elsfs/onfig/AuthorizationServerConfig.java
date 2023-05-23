@@ -33,32 +33,26 @@ import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig {
+
     private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
-                new OAuth2AuthorizationServerConfigurer();
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
         authorizationServerConfigurer
-                .authorizationEndpoint(authorizationEndpoint ->
-                        authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))
-                .oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
+            .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))
+            .oidc(Customizer.withDefaults()); // Enable OpenID Connect 1.0
 
-        RequestMatcher endpointsMatcher = authorizationServerConfigurer
-                .getEndpointsMatcher();
+        RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
 
-        http
-                .securityMatcher(endpointsMatcher)
-                .authorizeHttpRequests(authorize ->
-                        authorize.anyRequest().authenticated()
-                )
-                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
-                .exceptionHandling(exceptions ->
-                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-                )
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .apply(authorizationServerConfigurer);
+        http.securityMatcher(endpointsMatcher)
+            .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+            .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+            .exceptionHandling(
+                    exceptions -> exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")))
+            .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()))
+            .apply(authorizationServerConfigurer);
         return http.build();
     }
 

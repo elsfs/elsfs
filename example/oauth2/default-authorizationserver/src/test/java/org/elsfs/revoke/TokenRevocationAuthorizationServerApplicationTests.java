@@ -38,11 +38,10 @@ public class TokenRevocationAuthorizationServerApplicationTests extends Abstract
         requestMap.add(OAuth2ParameterNames.REDIRECT_URI, redirectUri);
         // BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))
         requestMap.add(PkceParameterNames.CODE_VERIFIER, "ss");
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/oauth2/token")
-                .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/token")
+            .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         return restTemplate.exchange(request, ResponseBody.class);
     }
 
@@ -61,14 +60,15 @@ public class TokenRevocationAuthorizationServerApplicationTests extends Abstract
         MultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
         requestMap.add(OAuth2ParameterNames.TOKEN, access_token);
         requestMap.add(OAuth2ParameterNames.TOKEN_TYPE_HINT, "access_token");
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/oauth2/revoke")
-                .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/revoke")
+            .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-        // {"active":true,"sub":"admin","aud":["messaging-client"],"nbf":1682348184,"scope":"openid message.read message.write","iss":"http://localhost:0",
+        // {"active":true,"sub":"admin","aud":["messaging-client"],"nbf":1682348184,"scope":"openid
+        // message.read message.write","iss":"http://localhost:0",
         // "exp":1682348484,"iat":1682348184,"client_id":"messaging-client","token_type":"Bearer"}
         assertThat(response.getStatusCode().value()).isEqualTo(200);
     }
+
 }

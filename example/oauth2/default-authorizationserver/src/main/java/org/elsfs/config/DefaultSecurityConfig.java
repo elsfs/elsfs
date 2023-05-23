@@ -20,29 +20,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
 public class DefaultSecurityConfig {
-    private final String[] requestMatchers=new String[]{
-            "/actuator/**", "/css/**", "/error","templates/**",
-            "/assets/**", "/webjars/**", "/login",
-            "/js/**","/img/**","/favicon.ico","**.css","**.js"
-    };
+
+    private final String[] requestMatchers = new String[] { "/actuator/**", "/css/**", "/error", "templates/**",
+            "/assets/**", "/webjars/**", "/login", "/js/**", "/img/**", "/favicon.ico", "**.css", "**.js" };
+
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .formLogin()
-                .and()
-                .authorizeHttpRequests(authorize ->
-                        authorize
-                                .requestMatchers(requestMatchers)
-                                .permitAll()
-                                .requestMatchers
-                                        (PathRequest.toH2Console())
-                                .permitAll()
-                                .anyRequest().authenticated()
-                )
-              //  .userDetailsService(http.getSharedObject(UserDetailsService.class))
+        http.csrf(csrf -> csrf.disable())
+            .formLogin(Customizer.withDefaults())
+            .authorizeHttpRequests(authorize -> authorize.requestMatchers(requestMatchers)
+                .permitAll()
+                .requestMatchers(PathRequest.toH2Console())
+                .permitAll()
+                .anyRequest()
+                .authenticated())
+        // .userDetailsService(http.getSharedObject(UserDetailsService.class))
 
-               ;
+        ;
         return http.build();
     }
 

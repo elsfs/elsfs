@@ -12,8 +12,11 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
  */
 @Configuration(proxyBeanMethods = false)
 public class OAuth2AuthorizationServiceConfig {
+
     @Bean
-    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
+    public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
+            RegisteredClientRepository registeredClientRepository) {
         return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
     }
+
 }

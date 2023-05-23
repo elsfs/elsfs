@@ -1,6 +1,5 @@
 package org.elsfs.code;
 
-
 import org.elsfs.entity.ResponseBody;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -30,14 +29,11 @@ public class CLIENT_SECRET_BASIC extends AbstractCodeTypeAuthorizationServerTest
         requestMap.add(OAuth2ParameterNames.REDIRECT_URI, redirectUri);
         // BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))
         requestMap.add(PkceParameterNames.CODE_VERIFIER, "ss");
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/oauth2/token")
-                .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/token")
+            .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         return restTemplate.exchange(request, ResponseBody.class);
     }
 
-
-
- }
+}

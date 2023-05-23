@@ -57,31 +57,36 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 public abstract class AbstractCodeTypeAuthorizationServerTests {
 
     protected static String CODE_VERIFIER_VALUE = "ss";
+
     protected static String CODE_CHALLENGE_VAlUE = Base64URL.encode(getSha256Str(CODE_VERIFIER_VALUE)).toString();
-    protected static String BASIC_TOKEN = "Basic " + Base64.getEncoder().encodeToString(
-            ("messaging-client:secret").getBytes(StandardCharsets.UTF_8));
+
+    protected static String BASIC_TOKEN = "Basic "
+            + Base64.getEncoder().encodeToString(("messaging-client:secret").getBytes(StandardCharsets.UTF_8));
+
     @MockBean
     private OAuth2AuthorizationConsentService authorizationConsentService;
+
     @Autowired
     protected RegisteredClientRepository registeredClientRepository;
+
     @Autowired
     protected AuthorizationServerSettings authorizationServerSettings;
+
     @Autowired
- protected   Environment environment;
+    protected Environment environment;
+
     protected final String redirectUri = "http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc";
+
     protected RestTemplate restTemplate = new RestTemplate();
+
     @Autowired
     protected WebClient webClient;
-
-
-
 
     @BeforeEach
     public void setUp() {
@@ -99,21 +104,27 @@ public abstract class AbstractCodeTypeAuthorizationServerTests {
         final HtmlPage consentPage = this.webClient.getPage(uriComponentsBuilder.toUriString());
         return assertThatHtmlPage(consentPage);
     }
-    protected UnaryOperator<UriComponentsBuilder> getCodeHttpMethodGETUnaryOperator(){
-        return t-> t .queryParam("client_id", "messaging-client");
+
+    protected UnaryOperator<UriComponentsBuilder> getCodeHttpMethodGETUnaryOperator() {
+        return t -> t.queryParam("client_id", "messaging-client");
     }
+
     protected String getCodeHttpMethodPOST(List<NameValuePair> nameValuePairs) throws IOException {
         WebRequest request = new WebRequest(new URL(getUrl() + "/oauth2/authorize"), HttpMethod.POST);
         request.setRequestParameters(nameValuePairs);
         final HtmlPage consentPage = this.webClient.getPage(request);
         return assertThatHtmlPage(consentPage);
     }
-    protected List<NameValuePair> getCodeHttpMethodPOSTUnaryOperator( ){
-     return Arrays.asList(new NameValuePair(OAuth2ParameterNames.CLIENT_ID, "messaging-client"));
+
+    protected List<NameValuePair> getCodeHttpMethodPOSTUnaryOperator() {
+        return Arrays.asList(new NameValuePair(OAuth2ParameterNames.CLIENT_ID, "messaging-client"));
     }
 
     protected abstract ResponseEntity<ResponseBody> getToken(String code);
-    void addRegisteredClientRepository(){}
+
+    void addRegisteredClientRepository() {
+    }
+
     @Test
     @WithMockUser("admin")
     @Order(100)
@@ -130,42 +141,51 @@ public abstract class AbstractCodeTypeAuthorizationServerTests {
         assertThat(responsePODT.getBody()).isNotNull();
     }
 
-    private  List<NameValuePair> getNameValuePairs( List<NameValuePair> list){
+    private List<NameValuePair> getNameValuePairs(List<NameValuePair> list) {
         List<NameValuePair> nameValuePairs = Arrays.asList(
                 new NameValuePair(OAuth2ParameterNames.RESPONSE_TYPE, "code"),
                 new NameValuePair(OAuth2ParameterNames.SCOPE, "openid message.read message.write"),
                 new NameValuePair(OAuth2ParameterNames.REDIRECT_URI, redirectUri),
                 new NameValuePair(OAuth2ParameterNames.STATE, "state"), // 可选
-                new NameValuePair(PkceParameterNames.CODE_CHALLENGE, CODE_CHALLENGE_VAlUE), // 可选 CODE_CHALLENGE CODE_CHALLENGE_METHOD 一组
-                new NameValuePair(PkceParameterNames.CODE_CHALLENGE_METHOD, "S256") // 可选 CODE_CHALLENGE CODE_CHALLENGE_METHOD 一组 固定值 S256
+                new NameValuePair(PkceParameterNames.CODE_CHALLENGE, CODE_CHALLENGE_VAlUE), // 可选
+                                                                                            // CODE_CHALLENGE
+                                                                                            // CODE_CHALLENGE_METHOD
+                                                                                            // 一组
+                new NameValuePair(PkceParameterNames.CODE_CHALLENGE_METHOD, "S256") // 可选
+                                                                                    // CODE_CHALLENGE
+                                                                                    // CODE_CHALLENGE_METHOD
+                                                                                    // 一组
+                                                                                    // 固定值
+                                                                                    // S256
         );
         ArrayList<NameValuePair> arrayList = new ArrayList<>(nameValuePairs);
-        if (!CollectionUtils.isEmpty(list)){
+        if (!CollectionUtils.isEmpty(list)) {
             arrayList.addAll(list);
         }
         return arrayList;
     }
 
-
-
-    protected   UriComponentsBuilder getUriComponentsBuilder() {
-        return UriComponentsBuilder
-                .fromPath("/oauth2/authorize")
-                .queryParam("response_type", "code")
-                .queryParam("scope", "openid message.read message.write")
-                .queryParam("state", "state")
-                .queryParam("redirect_uri", this.redirectUri)
-                .queryParam(PkceParameterNames.CODE_CHALLENGE, CODE_CHALLENGE_VAlUE) // 可选 CODE_CHALLENGE CODE_CHALLENGE_METHOD 一组
-                .queryParam(PkceParameterNames.CODE_CHALLENGE_METHOD, "S256") // 可选 CODE_CHALLENGE CODE_CHALLENGE_METHOD 一组 固定值 S256
-                ;
+    protected UriComponentsBuilder getUriComponentsBuilder() {
+        return UriComponentsBuilder.fromPath("/oauth2/authorize")
+            .queryParam("response_type", "code")
+            .queryParam("scope", "openid message.read message.write")
+            .queryParam("state", "state")
+            .queryParam("redirect_uri", this.redirectUri)
+            .queryParam(PkceParameterNames.CODE_CHALLENGE, CODE_CHALLENGE_VAlUE) // 可选
+                                                                                 // CODE_CHALLENGE
+                                                                                 // CODE_CHALLENGE_METHOD
+                                                                                 // 一组
+            .queryParam(PkceParameterNames.CODE_CHALLENGE_METHOD, "S256") // 可选
+                                                                          // CODE_CHALLENGE
+                                                                          // CODE_CHALLENGE_METHOD
+                                                                          // 一组 固定值 S256
+        ;
     }
-
 
     private String assertThatHtmlPage(HtmlPage consentPage) throws IOException {
         assertThat(consentPage.getTitleText()).isEqualTo("Consent required");
         List<HtmlCheckBoxInput> scopes = new ArrayList<>();
-        consentPage.querySelectorAll("input[name='scope']").forEach(scope ->
-                scopes.add((HtmlCheckBoxInput) scope));
+        consentPage.querySelectorAll("input[name='scope']").forEach(scope -> scopes.add((HtmlCheckBoxInput) scope));
         for (HtmlCheckBoxInput scope : scopes) {
             scope.click();
         }
@@ -186,10 +206,8 @@ public abstract class AbstractCodeTypeAuthorizationServerTests {
         return location.split("code=")[1].split("&")[0];
     }
 
-
     /**
      * sha256加密
-     *
      * @param str 要加密的字符串
      * @return 加密后的字符串
      */
@@ -199,9 +217,11 @@ public abstract class AbstractCodeTypeAuthorizationServerTests {
             messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(str.getBytes(StandardCharsets.US_ASCII));
             return messageDigest.digest();
-        } catch (NoSuchAlgorithmException e) {
+        }
+        catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return null;
     }
+
 }

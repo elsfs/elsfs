@@ -32,8 +32,7 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author zeng
- * 默认授权测试
+ * @author zeng 默认授权测试
  */
 
 public class RefreshTokenAuthorizationServerApplicationTests extends AbstractCodeTypeAuthorizationServerTests {
@@ -47,11 +46,10 @@ public class RefreshTokenAuthorizationServerApplicationTests extends AbstractCod
         requestMap.add(OAuth2ParameterNames.REDIRECT_URI, redirectUri);
         // BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))
         requestMap.add(PkceParameterNames.CODE_VERIFIER, "ss");
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/oauth2/token")
-                .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/token")
+            .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         return restTemplate.exchange(request, ResponseBody.class);
     }
 
@@ -70,13 +68,13 @@ public class RefreshTokenAuthorizationServerApplicationTests extends AbstractCod
         MultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
         requestMap.add(OAuth2ParameterNames.GRANT_TYPE, AuthorizationGrantType.REFRESH_TOKEN.getValue());
         requestMap.add(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken);
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/oauth2/token")
-                .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/token")
+            .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         ResponseEntity<ResponseBody> response = restTemplate.exchange(request, ResponseBody.class);
         assertThat(response.getBody()).isNotNull();
         System.out.println(response.getBody());
     }
+
 }

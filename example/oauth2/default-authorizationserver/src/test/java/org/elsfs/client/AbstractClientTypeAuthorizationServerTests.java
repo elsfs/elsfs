@@ -1,6 +1,5 @@
 package org.elsfs.client;
 
-
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -37,38 +36,45 @@ import java.util.Date;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
- abstract class AbstractClientTypeAuthorizationServerTests {
+abstract class AbstractClientTypeAuthorizationServerTests {
+
     protected static String CLIENT_ID = "messaging-client";
+
     protected static String CLIENT_SECRET = "secret";
+
     protected static String PATH = "/oauth2/token";
-    protected static String BASIC_TOKEN = "Basic " + Base64.
-            getEncoder()
-            .encodeToString(
-                    (CLIENT_ID + ":" + CLIENT_SECRET).getBytes(StandardCharsets.UTF_8)
-            );
+
+    protected static String BASIC_TOKEN = "Basic "
+            + Base64.getEncoder().encodeToString((CLIENT_ID + ":" + CLIENT_SECRET).getBytes(StandardCharsets.UTF_8));
+
     protected RestTemplate restTemplate = new RestTemplate();
+
     @Autowired
     protected Environment environment;
+
     @Autowired
     protected RegisteredClientRepository registeredClientRepository;
+
     @Autowired
     protected AuthorizationServerSettings authorizationServerSettings;
+
     @Autowired(required = false)
     protected PasswordEncoder passwordEncoder;
+
     @BeforeEach
     public void setUp() {
-        if (passwordEncoder==null){
-            passwordEncoder=PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        if (passwordEncoder == null) {
+            passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         }
     }
 
     protected UriComponentsBuilder getUriComponentsBuilder() {
         return UriComponentsBuilder
-                .fromHttpUrl("http://localhost:" + this.environment.getProperty("local.server.port", "8080"))
-                .path(PATH)
-                .queryParam(OAuth2ParameterNames.GRANT_TYPE, "client_credentials")
-                .queryParam(OAuth2ParameterNames.CLIENT_ID, CLIENT_ID)
-                .queryParam(OAuth2ParameterNames.STATE, "some-state"); // 可选
+            .fromHttpUrl("http://localhost:" + this.environment.getProperty("local.server.port", "8080"))
+            .path(PATH)
+            .queryParam(OAuth2ParameterNames.GRANT_TYPE, "client_credentials")
+            .queryParam(OAuth2ParameterNames.CLIENT_ID, CLIENT_ID)
+            .queryParam(OAuth2ParameterNames.STATE, "some-state"); // 可选
     }
 
     abstract void exchange();
@@ -76,11 +82,10 @@ import java.util.Date;
     protected String getUrlStr() {
         return "http://localhost:" + this.environment.getProperty("local.server.port", "8080") + PATH;
     }
+
     protected String getJwkSetUrl() {
         return "http://localhost:" + this.environment.getProperty("local.server.port", "8080") + "/oauth2/jwks";
 
     }
-
-
 
 }

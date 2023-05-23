@@ -20,8 +20,7 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author zeng
- * OAuth2令牌自检端点筛选器
+ * @author zeng OAuth2令牌自检端点筛选器
  */
 
 public class TokenIntrospectioAuthorizationServerApplicationTests extends AbstractCodeTypeAuthorizationServerTests {
@@ -35,11 +34,10 @@ public class TokenIntrospectioAuthorizationServerApplicationTests extends Abstra
         requestMap.add(OAuth2ParameterNames.REDIRECT_URI, redirectUri);
         // BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))
         requestMap.add(PkceParameterNames.CODE_VERIFIER, "ss");
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/oauth2/token")
-                .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/token")
+            .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         return restTemplate.exchange(request, ResponseBody.class);
     }
 
@@ -58,13 +56,13 @@ public class TokenIntrospectioAuthorizationServerApplicationTests extends Abstra
         MultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
         requestMap.add(OAuth2ParameterNames.TOKEN_TYPE_HINT, "access_token");
         requestMap.add(OAuth2ParameterNames.TOKEN, access_token);
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/oauth2/introspect")
-                .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/introspect")
+            .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
         assertThat(response.getBody()).isNotNull();
         System.out.println(response.getBody());
     }
+
 }

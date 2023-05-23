@@ -21,8 +21,9 @@ public class JWKSourceConfig {
 
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
+
     @Bean
-    public JWKSet jwkSet(){
+    public JWKSet jwkSet() {
         RSAKey rsaKey = JwkGeneratorUtils.generateRsa();
         return new JWKSet(rsaKey);
     }

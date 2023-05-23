@@ -12,7 +12,8 @@ import org.springframework.util.MultiValueMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CLIENT_SECRET_POST extends AbstractCodeTypeAuthorizationServerTests{
+public class CLIENT_SECRET_POST extends AbstractCodeTypeAuthorizationServerTests {
+
     @Override
     protected ResponseEntity<ResponseBody> getToken(String code) {
         MultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
@@ -24,14 +25,13 @@ public class CLIENT_SECRET_POST extends AbstractCodeTypeAuthorizationServerTests
         requestMap.add(PkceParameterNames.CODE_VERIFIER, CODE_VERIFIER_VALUE);
         requestMap.add(OAuth2ParameterNames.GRANT_TYPE, AuthorizationGrantType.AUTHORIZATION_CODE.getValue());
 
-
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl()+"/oauth2/token")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(requestMap);
-        //3.响应体
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/token")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .accept(MediaType.APPLICATION_JSON)
+            .body(requestMap);
+        // 3.响应体
         ResponseEntity<ResponseBody> exchange = restTemplate.exchange(request, ResponseBody.class);
-       return exchange;
+        return exchange;
     }
+
 }

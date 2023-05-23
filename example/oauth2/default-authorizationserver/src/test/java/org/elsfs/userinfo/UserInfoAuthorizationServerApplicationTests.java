@@ -37,11 +37,10 @@ public class UserInfoAuthorizationServerApplicationTests extends AbstractCodeTyp
         requestMap.add(OAuth2ParameterNames.REDIRECT_URI, redirectUri);
         // BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))
         requestMap.add(PkceParameterNames.CODE_VERIFIER, "ss");
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/oauth2/token")
-                .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/oauth2/token")
+            .header(HttpHeaders.AUTHORIZATION, BASIC_TOKEN)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         return restTemplate.exchange(request, ResponseBody.class);
     }
 
@@ -59,15 +58,15 @@ public class UserInfoAuthorizationServerApplicationTests extends AbstractCodeTyp
     private void userInfo(String access_token) {
         MultiValueMap<String, Object> requestMap = new LinkedMultiValueMap<>();
         requestMap.add(OAuth2ParameterNames.TOKEN, access_token);
-       // requestMap.add(OAuth2ParameterNames.TOKEN_TYPE_HINT, "access_token");
-        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity
-                .post(getUrl() + "/userinfo")
-                 .header(HttpHeaders.AUTHORIZATION, "Bearer "+access_token)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(requestMap);
+        // requestMap.add(OAuth2ParameterNames.TOKEN_TYPE_HINT, "access_token");
+        RequestEntity<MultiValueMap<String, Object>> request = RequestEntity.post(getUrl() + "/userinfo")
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + access_token)
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(requestMap);
         ResponseEntity<String> response = restTemplate.exchange(request, String.class);
-    //    {"sub":"admin"}
+        // {"sub":"admin"}
         System.out.println(response.getBody());
         assertThat(response.getBody()).contains("sub=");
     }
+
 }
