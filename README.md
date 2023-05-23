@@ -7,7 +7,7 @@ Enterprise level safety function system
 #### star
 <form method="post" about="https://gitee.com/elsfs/elsfs/star">
   <input type="submit" value="star" />
-</form>>
+</form>
 
  
 
