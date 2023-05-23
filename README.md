@@ -8,7 +8,7 @@ Enterprise level safety function system
 - 基于 Spring Cloud 2022、Spring Boot 3.0、 spring-oauth2-authorization-server的 RBAC 权限管理系统
 . 基于数据驱动视图的理念封装 ant-design，即使没有 vue 的使用经验也能快速上手
 . 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持（待实现）
-. 
+.
 
 #### 核心依赖
 | 依赖                         | 版本      |
@@ -73,7 +73,7 @@ elsfs
 cd elsfs
 ./gradlew # or gradle
  # 代码格式化
-./gradlew format # or gradle format 
+./gradlew format # or gradle format
    # 编译跳过 测试 跳过测试是因为 例子项目测试有有相互依赖
 ./gradlew build -x test # or gradle build -x test
 
@@ -94,7 +94,7 @@ cd elsfs
     3. 其他开发工具，请参考 <a href="https://github.com/spring-io/spring-javaformat" target="_blank">spring-javaformat</a>
        说明，或`提交代码前`在项目根目录运行下列命令（需要开发者电脑支持`gradle(w)`命令）进行代码格式化
        ```shell
-       ./gradlew format 
+       ./gradlew format
        # or
        gradle format
        ```

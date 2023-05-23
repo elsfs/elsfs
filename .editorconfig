@@ -1,0 +1,20 @@
+# 表示是最顶层的配置文件，发现值为true时，才会停止查找.editorconfig文件
+root = true
+[*.{java,gradle}]
+# 设置编码
+charset = utf-8
+# 设置使用那种缩进风格(tab是制表符，space是空格)
+indent_style = space
+# 定义用于每个缩进级别的空格数
+indent_size = 4
+# 用一个整数来设置tab缩进的列数。
+tab_width= 4
+# 设置换行符，值为lf、cr和crlf
+end_of_line = lf
+# 设置为true则删除换行符之前的任何空白字符
+# 设置为true会删除每一行后的任何空格  ***
+trim_trailing_whitespace = true
+# 设置为true以确保文件在保存时以换行符结尾
+# 如果设置为true，则文件最后一行也会确保以换行符结尾，会强制换行到下一行  ***
+insert_final_newline = true
+
