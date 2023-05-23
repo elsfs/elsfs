@@ -4,6 +4,13 @@
 Enterprise level safety function system
 企业级安全功能系统
 
+#### star
+<form method="post" about="https://gitee.com/elsfs/elsfs/star">
+  <input type="submit" value="star" />
+</form>>
+
+ 
+
 #### 系统说明
 - 基于 Spring Cloud 2022、Spring Boot 3.0、 spring-oauth2-authorization-server的 RBAC 权限管理系统
 . 基于数据驱动视图的理念封装 ant-design，即使没有 vue 的使用经验也能快速上手
