@@ -1,14 +1,14 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 description = "oauth自定义授权的授权服务器实例 "
 apply plugin: 'org.springframework.boot'
-dependencies {
-    implementation platform(SpringBootPlugin.BOM_COORDINATES)
-    implementation "org.springframework.security:spring-security-oauth2-authorization-server:$springSecurityOauth2AuthorizationServerVersion"
+apply from: "${rootDir}/gradle/module.gradle"
 
+dependencies {
+    implementation "org.springframework.security:spring-security-oauth2-authorization-server"
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.springframework.boot:spring-boot-starter-security"
-    api(project(':security:security-utlis'))
+    api(project(':security:elsfs-security-util'))
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.junit.jupiter:junit-jupiter"

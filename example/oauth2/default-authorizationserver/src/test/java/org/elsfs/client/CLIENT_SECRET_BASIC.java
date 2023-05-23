@@ -3,6 +3,8 @@ package org.elsfs.client;
 import org.elsfs.entity.ResponseBody;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -17,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @see  ClientAuthenticationMethod#CLIENT_SECRET_BASIC
  */
  class CLIENT_SECRET_BASIC extends AbstractClientTypeAuthorizationServerTests {
-
+    private  final Logger LOGGER= LoggerFactory.getLogger(this.getClass());
     @Test
     @Order(10)
     public void exchange() {
@@ -27,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .build();
         ResponseEntity<ResponseBody> response = restTemplate.exchange(request, ResponseBody.class);
+       LOGGER.info("{}",response);
         assertThat(response.getBody()).isNotNull();
     }
 }

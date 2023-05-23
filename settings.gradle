@@ -54,7 +54,13 @@ include 'security:elsfs-security-util'
 include 'webapp:admin:elsfs-admin-webapp'
 
 
-
+/**
+ * 例子
+ */
+include "example:oauth2:custom-consent-authorizationserver"
+include "example:oauth2:default-authorizationserver"
+include "example:oauth2:messages-client"
+include "example:oauth2:messages-resource"
 rootProject.name = 'elsfs'
 
 

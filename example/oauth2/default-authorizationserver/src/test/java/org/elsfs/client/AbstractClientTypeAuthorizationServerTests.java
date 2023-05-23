@@ -46,7 +46,6 @@ import java.util.Date;
             .encodeToString(
                     (CLIENT_ID + ":" + CLIENT_SECRET).getBytes(StandardCharsets.UTF_8)
             );
-
     protected RestTemplate restTemplate = new RestTemplate();
     @Autowired
     protected Environment environment;

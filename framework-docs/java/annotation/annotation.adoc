@@ -12,9 +12,3 @@
 . @SuppressWarnings("serial")	　　      // 抑制某类实现Serializable，但是没有定义serialVersionUID，这个需要但是不必须的字段的警告
 . @SuppressWarnings("rawtypes")        // 抑制没有传递带有泛型的参数的警告
 . @SuppressWarnings("all") 　　          // 抑制全部类型的警告
-
-
-=== @JsonIgnore注解
-
-.作用:
-JsonIgnore用在属性、方法上在json序列化时中的一些属性忽略掉，标记在属性或者方法上，返回的json数据即不包含该属性。
