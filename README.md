@@ -1,23 +1,43 @@
-# elsfs
+<h1 align="center">欢迎使用elsfs</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Elsfs v0.0.1</h1>
+<h4 align="center">Enterprise level safety function system</h4>
+<h4 align="center">企业级安全功能系统</h4>
+
+<p align="center">
+	<a href="https://gitee.com/elsfs/elsfs/stargazers"><img src="https://gitee.com/elsfs/elsfs/badge/star.svg"></a>
+	<a href="https://gitee.com/elsfs/elsfs/fork"><img src="https://gitee.com/elsfs/elsfs/badge/fork.svg"></a>
+    <a href="https://github.com/elsfs/elsfs/stargazers"><img src="https://img.shields.io/github/stars/elsfs/elsfs.svg?style=social&label=Stars"></a>
+	<a href="https://github.com/elsfs/elsfs/fork"><img src="https://img.shields.io/github/forks/elsfs/elsfs.svg?style=social&label=Fork"></a>
+    <a href="https://gitee.com/elsfs/elsfs"><img src="https://img.shields.io/badge/elsfs-v0.0.1-brightgreen.svg"></a>
+    <a href="https://gitee.com/elsfs/elsfs/blob/master/LICENSE"><img src="https://img.shields.io/github/license/elsfs/elsfs"></a>
+</p>
+
+<p align="center">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-2022-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-3.0-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Vue-3.x-blue.svg" alt="Downloads">
+</p>
 
 #### 介绍
+
 Enterprise level safety function system
 企业级安全功能系统
 
 #### star
+
 <form method="post" about="https://gitee.com/elsfs/elsfs/star">
   <input type="submit" value="star" />
 </form>
 
- 
-
 #### 系统说明
-- 基于 Spring Cloud 2022、Spring Boot 3.0、 spring-oauth2-authorization-server的 RBAC 权限管理系统
-. 基于数据驱动视图的理念封装 ant-design，即使没有 vue 的使用经验也能快速上手
-. 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持（待实现）
-.
+
+- 基于 Spring Cloud 2022、Spring Boot 3.0
+- spring-oauth2-authorization-server的 RBAC 权限管理系统
+- 基于数据驱动视图的理念封装 ant-design，即使没有 vue 的使用经验也能快速上手
+- 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持（待实现）
 
 #### 核心依赖
+
 | 依赖                         | 版本      |
 |-----------------------------|----------|
 | Spring Cloud                | 2022.0.x |
@@ -26,9 +46,8 @@ Enterprise level safety function system
 | Mybatis Plus	               | 3.5.3.1  |
 | Spring Boot                 | 3.0.x    |
 
-
-
 #### 模块说明
+
 ```lua
 elsfs
 ├── .workflow gitee -- 工作流
@@ -68,12 +87,14 @@ elsfs
 ```
 
 #### 使用说明
-1.  clone 项目
+
+1. clone 项目
 
 | 平台     | 地址                             |
 |--------|--------------------------------|
 | gitee  | https://gitee.com/elsfs/elsfs  |
 | github | https://github.com/elsfs/elsfs |
+
 2. 构建项目
 
 ```shell
@@ -86,8 +107,8 @@ cd elsfs
 
 ```
 
-
 #### 参与贡献
+
 1. 欢迎提交 [PR](https://gitee.com/elsfs/elsfs/pulls)，
    代码规范 [spring-javaformat](https://github.com/spring-io/spring-javaformat)
    <details>
@@ -98,7 +119,8 @@ cd elsfs
     2. 如果使用 IntelliJ IDEA
        开发，请安装自动格式化软件 <a href="https://repo1.maven.org/maven2/io/spring/javaformat/spring-javaformat-intellij-idea-plugin/" target="_blank">
        spring-javaformat-intellij-idea-plugin</a>
-    3. 其他开发工具，请参考 <a href="https://github.com/spring-io/spring-javaformat" target="_blank">spring-javaformat</a>
+    3. 其他开发工具，请参考 <a href="https://github.com/spring-io/spring-javaformat" target="_blank">
+       spring-javaformat</a>
        说明，或`提交代码前`在项目根目录运行下列命令（需要开发者电脑支持`gradle(w)`命令）进行代码格式化
        ```shell
        ./gradlew format

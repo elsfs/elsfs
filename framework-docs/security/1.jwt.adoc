@@ -17,7 +17,7 @@ JWT固定各种的字符串，由三部分组成：
 header一般的由两部分组成：token的类型（“JWT”）和算法名称（比如：HMAC SHA256或者RSA等等）。
 
 JWT里验证和签名使用的算法列表如下：
-image:11.png[]
+image:image/11.png[]
 
 [source,json]
 ----
