@@ -47,26 +47,21 @@ public class SysDeptServiceImpl implements SysDeptService {
         return deptByIdQryExe.execute(id);
     }
 
-    /**
-     * @return
-     */
+
     @Override
     public MultiResponse<Tree<String>> listDeptTrees() {
         return deptListDeptTreesQryExe.execute();
     }
 
-    /**
-     * @param deptDB
-     * @return
-     */
+
     @Override
     public Response updateById(SysDeptDB deptDB) {
         return null;
     }
 
     /**
-     * @param deptCO
-     * @return
+     * @param deptCO deptCO
+     * @return Response
      */
     @Override
     public Response save(DeptCO deptCO) {
