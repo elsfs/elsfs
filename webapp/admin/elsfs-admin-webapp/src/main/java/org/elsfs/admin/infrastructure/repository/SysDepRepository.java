@@ -32,4 +32,10 @@ public interface SysDepRepository {
 
     Optional<SysDeptDB> findById(String id);
 
+    /**
+     * 如果根据id查询 如果存在则更新，如果不存在则新增
+     * @param sysDeptDB sysDeptDB
+     */
+    void save(SysDeptDB sysDeptDB);
+
 }

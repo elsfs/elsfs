@@ -3,7 +3,6 @@ package org.elsfs.admin.client.api;
 import org.elsfs.admin.client.dto.DeptQry;
 import org.elsfs.admin.client.dto.clientobject.dept.DeptCO;
 import org.elsfs.admin.client.dto.clientobject.dept.DeptTreeCO;
-import org.elsfs.admin.infrastructure.dataobject.SysDeptDB;
 import org.elsfs.core.dto.MultiResponse;
 import org.elsfs.core.dto.Response;
 import org.elsfs.core.dto.SingleResponse;
@@ -42,7 +41,7 @@ public interface SysDeptService {
 
     MultiResponse<Tree<String>> listDeptTrees();
 
-    Response updateById(SysDeptDB deptDB);
+    Response updateById(DeptCO deptCO);
 
     Response save(DeptCO deptCO);
 

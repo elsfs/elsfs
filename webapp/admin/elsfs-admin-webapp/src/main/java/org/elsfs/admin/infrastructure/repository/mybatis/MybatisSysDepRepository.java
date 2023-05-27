@@ -2,8 +2,8 @@ package org.elsfs.admin.infrastructure.repository.mybatis;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.elsfs.admin.infrastructure.dataobject.SysDeptDB;
 import org.elsfs.admin.infrastructure.repository.SysDepRepository;
 
@@ -61,6 +61,23 @@ public interface MybatisSysDepRepository extends SysDepRepository, BaseMapper<Sy
     @Override
     default List<SysDeptDB> findAll() {
         return selectList(Wrappers.emptyWrapper());
+    }
+
+    /**
+     * 如果根据id查询 如果存在则更新，如果不存在则新增
+     * @param sysDeptDB sysDeptDB
+     */
+    @Override
+    default void save(SysDeptDB sysDeptDB) {
+        if (StringUtils.isNotBlank(sysDeptDB.getDeptId())) {
+            SysDeptDB deptDB = selectById(sysDeptDB);
+            if (deptDB != null) {
+                updateById(sysDeptDB);
+                return;
+            }
+        }
+        insert(sysDeptDB);
+
     }
 
 }

@@ -1,6 +1,6 @@
 
 /**
- * gradle format ¸ñÊ½»¯´úÂë
- * gradle checkFormat ¼ì²é´úÂë
+ * gradle format æ ¼å¼åŒ–ä»£ç 
+ * gradle checkFormat æ£€æŸ¥ä»£ç 
  */
 apply plugin: 'io.spring.javaformat'

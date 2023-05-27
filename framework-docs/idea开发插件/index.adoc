@@ -1,23 +1,23 @@
-=== idea¿ª·¢²å¼ş
+=== ideaå¼€å‘æ’ä»¶
 
-==== °¢Àï°Í°Í´úÂë¹æ·¶
+==== é˜¿é‡Œå·´å·´ä»£ç è§„èŒƒ
 
 https://github.com/alibaba/p3c/wiki/IDEA%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3[Alibaba Java Code Guidelines]
 
-==== ´úÂëÖÊÁ¿ÆÀ¹À
+==== ä»£ç è´¨é‡è¯„ä¼°
 
 https://gitee.com/XmirrorSecurity/OpenSCA-intellij-plugin[OpenSCA Xcheck]
 
 ====
-. ²å¼şÊ¹ÓÃÎÄµµ
+. æ’ä»¶ä½¿ç”¨æ–‡æ¡£
 .. https://opensca.xmirror.cn/docs/v1/idea.html#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6
-. ¹ÙÍøµØÖ·
+. å®˜ç½‘åœ°å€
 .. https://opensca.xmirror.cn/
-. Éú³ÉÁîÅÆ
+. ç”Ÿæˆä»¤ç‰Œ
 .. https://opensca.xmirror.cn/pages/auth-token
-. ÉèÖÃurl ºÍtoken
-.. url£º https://opensca.xmirror.cn/
+. è®¾ç½®url å’Œtoken
+.. urlï¼š https://opensca.xmirror.cn/
 .. token: token
-. ×ÔĞĞ°²×°
+. è‡ªè¡Œå®‰è£…
 .. https://gitee.com/XmirrorSecurity/OpenSCA-cli
 ====

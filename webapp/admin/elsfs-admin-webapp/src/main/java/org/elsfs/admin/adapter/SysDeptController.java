@@ -5,7 +5,6 @@ import org.elsfs.admin.client.api.SysDeptService;
 import org.elsfs.admin.client.dto.DeptQry;
 import org.elsfs.admin.client.dto.clientobject.dept.DeptCO;
 import org.elsfs.admin.client.dto.clientobject.dept.DeptTreeCO;
-import org.elsfs.admin.infrastructure.dataobject.SysDeptDB;
 import org.elsfs.core.dto.MultiResponse;
 import org.elsfs.core.dto.Response;
 import org.elsfs.core.dto.SingleResponse;
@@ -50,8 +49,8 @@ public class SysDeptController {
     }
 
     @PutMapping
-    public Response update(@RequestBody SysDeptDB deptDB) {
-        return sysDeptService.updateById(deptDB);
+    public Response update(@RequestBody DeptCO deptCO) {
+        return sysDeptService.updateById(deptCO);
     }
 
     @PostMapping

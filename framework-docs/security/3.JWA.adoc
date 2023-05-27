@@ -1,271 +1,259 @@
 
-== JSON Web Algorithms  for JWS��JWS ǩ���㷨��
-���� JWS Header �ġ�alg�����㷨������ֵ
+== JSON Web Algorithms  for JWS（JWS 签名算法）
 
-�±���һ�顰alg�����㷨��Header Parameter rfc7518�淶��������� JWS ��ֵ��ÿ��ֵ�������и���ϸ�Ľ���
+定义 JWS Header 的“alg”（算法）参数值
+
+下表是一组“alg”（算法）Header Parameter rfc7518规范定义的用于 JWS 的值，每个值在以下有更详细的解释
+
 |===
-|alg ��ֵ | �㷨 | ����ǩ���� MACҪ��
+|alg 的值 | 算法 | 数字签名或 MAC要求
 
 |HS256
-| HMAC ʹ�� SHA-256
-|����
+| HMAC 使用 SHA-256
+|必须
 
 |HS384
-|HMAC ʹ�� SHA-384
-|��ѡ
+|HMAC 使用 SHA-384
+|可选
 
 |HS512
-|HMAC ʹ�� SHA-512
-|��ѡ
+|HMAC 使用 SHA-512
+|可选
 
 |RS256
-|RSASSA-PKCS1-v1_5 ʹ�� SHA-256
-|�Ƽ�
+|RSASSA-PKCS1-v1_5 使用 SHA-256
+|推荐
 
 |RS384
-| RSASSA-PKCS1-v1_5  ʹ�� SHA-384
-|��ѡ
+| RSASSA-PKCS1-v1_5  使用 SHA-384
+|可选
 
 |RS512
-| RSASSA-PKCS1-v1_5  ʹ�� SHA-512
-|��ѡ
+| RSASSA-PKCS1-v1_5  使用 SHA-512
+|可选
 
 |ES256
-|ʹ�� P-256 �� SHA-256 �� ECDSA
-|�Ƽ�+
+|使用 P-256 和 SHA-256 的 ECDSA
+|推荐+
 
 |ES384
-|ʹ�� P-384 �� SHA-384 �� ECDSA
-|��ѡ
+|使用 P-384 和 SHA-384 的 ECDSA
+|可选
 
 |ES512
-|ʹ�� P-521 �� SHA-512 �� ECDSA
-|��ѡ
+|使用 P-521 和 SHA-512 的 ECDSA
+|可选
 
 | PS256
-| ʹ��SHA-256��RSASSA-PPS��ʹ��SHA-256��MGF1
-|��ѡ
+| 使用SHA-256的RSASSA-PPS和使用SHA-256的MGF1
+|可选
 
 | PS384
-| ʹ��SHA-384��RSASSA-PPS��ʹ��SHA-384��MGF1
-|��ѡ
+| 使用SHA-384的RSASSA-PPS和使用SHA-384的MGF1
+|可选
 
 | PS512
-| ʹ��SHA-512��RSASSA-PPS��ʹ��SHA-512��MGF1
-|��ѡ
+| 使用SHA-512的RSASSA-PPS和使用SHA-512的MGF1
+|可选
 
 | none
-|  û������ǩ���� MAC
-|��ѡ
+|  没有数字签名或 MAC
+|可选
 |===
 == HS256 ES384 ES512
-Ҫ��ʹ�� ����SHA-2���ܵ�HMAC
 
-=== HMAC�㷨
+要求使用 具有SHA-2功能的HMAC
+
+=== HMAC算法
+
 ====
-*HMAC�㷨���*
+*HMAC算法简介*
 
-HMAC��Hash-based Message Authentication Code��ɢ����Ϣ��֤�룩��һ��ʹ������ɢ�к�����ͬʱ���һ��������Կ��ͨ���ر���㷽ʽ֮���������Ϣ��֤�루MAC����������������֤���ݵ������ԣ�ͬʱ����������ĳ����Ϣ��������֤��
-HMAC�㷨 ��һ�ֻ�����Կ�ı��������Ե���֤������HMAC�㷨���ù�ϣ���㣬��һ����Կ��һ����ϢΪ���룬����һ����ϢժҪ��Ϊ������䰲ȫ���ǽ�����Hash�����㷨�����ϵġ���Ҫ��ͨ��˫��������Կ��Լ���㷨���Ա��Ľ���Hash���㣬�γɹ̶����ȵ���֤�롣ͨ��˫��ͨ����֤���У����ȷ�����ĵĺϷ��ԡ�HMAC�㷨�������������ܡ�����ǩ����������֤�ȡ�
+HMAC（Hash-based Message Authentication Code，散列消息认证码）是一种使用密码散列函数，同时结合一个加密密钥，通过特别计算方式之后产生的消息认证码（MAC）。它可以用来保证数据的完整性，同时可以用来作某个消息的身份验证。 HMAC算法 是一种基于密钥的报文完整性的验证方法。HMAC算法利用哈希运算，以一个密钥和一个消息为输入，生成一个消息摘要作为输出。其安全性是建立在Hash加密算法基础上的。它要求通信双方共享密钥、约定算法、对报文进行Hash运算，形成固定长度的认证码。通信双方通过认证码的校验来确定报文的合法性。HMAC算法可以用来作加密、数字签名、报文验证等。
 
-*HMAC�㷨����*
+*HMAC算法定义*
 
-HMAC�㷨����ѧ��ʽΪ��
-HMAC(k,m)=H(k��?opad,H(k��?ipad,m))
+HMAC算法的数学公式为： HMAC(k,m)=H(k’?opad,H(k’?ipad,m))
 
-. H Ϊ����Hash��������MD5��SHA-2�����ܹ������Ľ��з���ѭ��ѹ����
-. k Ϊ��Կ��secret key����
-. m ΪҪ��֤����Ϣ��
-. k�� �Ǵ�ԭʼ��Կ k ��������һ����Կ����� k ����ɢ�к�����������С������������㣻����ȸÿ��С��������� k ����ɢ�У�
-. ipad �ڲ���䣨0x5C5C5C��5C5C��һ��ʮ�����Ƴ�������
-. opad �ⲿ��䣨0x363636��3636��һ��ʮ�����Ƴ�����
+. H 为密码Hash函数（如MD5或SHA-2），能够对明文进行分组循环压缩；
+. k 为密钥（secret key）；
+. m 为要认证的消息；
+. k’ 是从原始密钥 k 导出的另一个密钥（如果 k 短于散列函数的输入块大小，则向右填充零；如果比该块大小更长，则对 k 进行散列）
+. ipad 内部填充（0x5C5C5C…5C5C，一段十六进制常量）；
+. opad 外部填充（0x363636…3636，一段十六进制常量）
 
-*HMAC�㷨����*
+*HMAC算法步骤*
 
- 1.����Կk��������0�����߶���Կk��H��Hash���������д���������һ���ֳ�ΪB���ַ�����BΪHash���������ķ��鳤�ȣ���
- 2.����һ�����ɵ�B�ֳ����ַ���ipad��������㣻
- 3.��������m������ڶ����Ľ���ַ����У�
- 4. ��H�����ڵ��������ɵ���������
- 5. ����һ�����ɵ�B�ֳ��ַ�����opad��������㣻
- 6. �ٽ����Ĳ��Ľ���������岽�Ľ���У�
- 7. ��H�����ڵ��������ɵ���������������ս����
+ 1.在密钥k后面添加0，或者对密钥k用H（Hash函数）进行处理，创建一个字长为B的字符串（B为Hash函数的明文分组长度）；
+ 2.将上一步生成的B字长的字符串ipad做异或运算；
+ 3.将数据流m填充至第二步的结果字符串中；
+ 4. 用H作用于第三步生成的数据流；
+ 5. 将第一步生成的B字长字符串与opad做异或运算；
+ 6. 再将第四步的结果填充进第五步的结果中；
+ 7. 用H作用于第六步生成的数据流，输出最终结果。
 ====
 
-=== JWA HMACʹ�ù淶
-����ɢ�е���Ϣ��֤���� (HMAC) ʹ�� secret ���ϼ��ܹ�ϣ���������� MAC���������֤������ MAC ������
-ӵ��MAC��Կ���㷨ʵ�ֹ淶 [RFC2104] ���ṩ����֤ HMAC��
+=== JWA HMAC使用规范
 
-��ɢ�������С��ͬ����Կ�����磬256 λ"HS256") ������ֵ��������㷨һ��ʹ�á�����
-����ָ����Ч��ȫǿ���ǰ�ȫǿ�ȵ���Сֵ ��Կ�Ĵ�С���ڲ���ϣֵ��С��������
+基于散列的消息认证代码 (HMAC) 使用 secret 加上加密哈希函数以生成 MAC。这可用于证明生成 MAC 的人在 拥有MAC密钥。算法实现规范 [RFC2104] 中提供了验证 HMAC。
 
-HMAC SHA-256 MAC �Ǹ��� RFC2104 ���ɵģ�ʹ�� SHA-256 ��Ϊ��ϣ�㷨��H����ʹ�� JWS ǩ��������Ϊ��text��ֵ��
-��ʹ����Կ��HMAC���ֵ����JWS ǩ����
+与散列输出大小相同的密钥（例如，256 位"HS256") 或更大的值必须与此算法一起使用。（这 其中指出有效安全强度是安全强度的最小值 密钥的大小和内部哈希值大小的两倍。
 
+HMAC SHA-256 MAC 是根据 RFC2104 生成的，使用 SHA-256 作为哈希算法“H”，使用 JWS 签名输入作为“text”值， 并使用密钥。HMAC输出值就是JWS 签名。
 
-== RS256  RS384 RS512  RSASSA-PKC1-v1_5����ǩ��
+== RS256  RS384 RS512  RSASSA-PKC1-v1_5数字签名
 
-RSASSA-PKCS1-v1_5 ���ֵ�ʹ�� [RFC3447] �� 8.2 ���ж����ǩ���㷨��ͨ����Ϊ PKCS #1����ʹ�� SHA-2 [SHS] ��ϣ��������Щ�㷨����ʹ�ô�СΪ 2048 λ��������Կ��
+RSASSA-PKCS1-v1_5 数字的使用 [RFC3447] 第 8.2 节中定义的签名算法（通常称为 PKCS #1），使用 SHA-2 [SHS] 哈希函数。这些算法必须使用大小为 2048 位或更大的密钥。
 
-RSASSA-PKCS1-v1_5 SHA-256 ����ǩ������Ϊ���£�
+RSASSA-PKCS1-v1_5 SHA-256 数字签名生成为如下：
 
- ʹ������ JWS ǩ�����������ǩ�� RSASSA-PKCS1-v1_5-SIGN �;�������� SHA-256 ��ϣ����˽Կ������ JWS Signatureֵ��
+ 使用生成 JWS 签名输入的数字签名 RSASSA-PKCS1-v1_5-SIGN 和具有所需的 SHA-256 哈希函数私钥。这是 JWS Signature值。
 
-��֤���£�
-�ύ JWS ǩ�����룬JWS
-ǩ�����Լ�ʹ�õ�˽Կ��Ӧ�Ĺ�Կ
-��ǩ����ʹ�� SHA-256 ���ݸ� RSASSA-PKCS1-v1_5-VERIFY �㷨
-��Ϊ��ϣ������
+验证如下： 提交 JWS 签名输入，JWS 签名，以及使用的私钥对应的公钥 由签名者使用 SHA-256 传递给 RSASSA-PKCS1-v1_5-VERIFY 算法 作为哈希函数。
 
-  �ύ JWS ǩ�����룬JWSǩ�����Լ�ʹ�õ�˽Կ��Ӧ�Ĺ�Կ��ǩ����ʹ�� SHA-256 ���ݸ� RSASSA-PKCS1-v1_5-VERIFY �㷨��Ϊ��ϣ������
+  提交 JWS 签名输入，JWS签名，以及使用的私钥对应的公钥由签名者使用 SHA-256 传递给 RSASSA-PKCS1-v1_5-VERIFY 算法作为哈希函数。
 
 
 == ES256  ES384  ES512
-��Բ��������ǩ���㷨 (ECDSA) [DSS] �ṩ����ʹ����Բ���������������ܹ��ṩ �� RSA ��������Ч�İ�ȫ�ԣ���ʹ�ø��̵���Կ��С
-��������Ĵ����ٶȸ��졣����ζ�� ECDSA ����ǩ���������ٳ��ȱ�ͬ��ǿ�ȵ� RSA ����ǩ����
-JWA�淶 ECDSA �� P-256 ���ߵ�ʹ�ã��Լ�SHA-256 ���ܹ�ϣ������ECDSA �� P-384 ����
-�� SHA-384 ��ϣ�������Լ� ECDSA �� P-521 ���ߺ�SHA-512 ��ϣ������P-256��P-384 �� P-521 ������ [DSS] �ж��塣
 
-=== ECDSA P-256 SHA-256 ����ǩ���������£�
+椭圆曲线数字签名算法 (ECDSA) [DSS] 提供用于使用椭圆曲线密码术，它能够提供 与 RSA 密码术等效的安全性，但使用更短的密钥大小 许多操作的处理速度更快。这意味着 ECDSA 数字签名将大大减少长度比同等强度的 RSA 数字签名。 JWA规范 ECDSA 与 P-256 曲线的使用，以及SHA-256 加密哈希函数，ECDSA 与 P-384 曲线 和 SHA-384 哈希函数，以及 ECDSA 与 P-521 曲线和SHA-512 哈希函数。P-256、P-384 和 P-521 曲线是 [DSS] 中定义。
 
-.  ʹ�� ECDSA ���� JWS ǩ�����������ǩ����������˽Կ�� P-256 SHA-256��������� (R, S) �ԣ����� R �� S �� 256 λ�޷���������
-. �� R �� S ת��Ϊ���˳��İ�λ�ֽ����У�ÿ�����鳤��Ϊ 32 ����λ�ֽڡ���λλ�����в������̱�ʾ��ʡ���κ�ǰ����ֵ�а����İ�λ�ֽڡ�
-.  ���� R �� S ��˳������������λλ�����С�����ע�⣬���� ECDSA ʵ�ֽ�ֱ�����ɴ˴�����Ϊ���ǵ��������
-. ���ɵ� 64 �ֽ������� JWS signature ֵ��
+=== ECDSA P-256 SHA-256 数字签名生成如下：
+
+. 使用 ECDSA 生成 JWS 签名输入的数字签名具有所需私钥的 P-256 SHA-256。输出将是 (R, S) 对，其中 R 和 S 是 256 位无符号整数。
+. 将 R 和 S 转换为大端顺序的八位字节序列，每个数组长度为 32 个八位字节。八位位组序列不得缩短表示以省略任何前导零值中包含的八位字节。
+. 按照 R 和 S 的顺序连接两个八位位组序列。（请注意，许多 ECDSA 实现将直接生成此串联作为它们的输出。）
+. 生成的 64 字节序列是 JWS signature 值。
 
 
 == PS256  PS384 PS512
-RSASSA-PSS ����ǩ����ʹ��[RFC3447] �� 8.1 ���ж�����㷨MGF1 �������ɺ����� SHA-2 ��ϣ������ʼ��ʹ��
-RSASSA-PSS ��ϣ������MGF1 ��ϣ��������ֵ�Ĵ�С���ϣ������������������㷨����ʹ��RFC 3447 �ĸ�¼ A.2.3 ��ָ����Ĭ��ֵ�����㷨����ʹ�ô�СΪ 2048 λ��������Կ��
 
+RSASSA-PSS 数字签名的使用[RFC3447] 第 8.1 节中定义的算法MGF1 掩码生成函数和 SHA-2 哈希函数，始终使用 RSASSA-PSS 哈希函数和MGF1 哈希函数。盐值的大小与哈希函数输出。所有其他算法参数使用RFC 3447 的附录 A.2.3 中指定的默认值。此算法必须使用大小为 2048 位或更大的密钥。
 
- RSASSA-PSS SHA-256 ����ǩ���������£�
-   ʹ�� RSASSA- ���� JWS ǩ�����������ǩ��PSS-SIGN��SHA-256 ��ϣ������ MGF1 ��������ʹ������˽Կ�� SHA-256 ���������� JWSǩ��ֵ��
+ RSASSA-PSS SHA-256 数字签名生成如下：
+   使用 RSASSA- 生成 JWS 签名输入的数字签名PSS-SIGN、SHA-256 哈希函数和 MGF1 掩码生成使用所需私钥的 SHA-256 函数。这是 JWS签名值。
 
 == none
-ʹ���㷨��none��Ҳ���Դ������ṩ�����Ա����� JWS�� ������ JWS ��Ϊ����ȫ�� JWS������ȫ�� JWS ʹ��
-��alg��ֵΪ��none�����Ҹ�ʽ������ JWS ��ͬ�����Ǳ���ʹ�ÿհ�λ�ֽ�������Ϊ�� JWS ǩ��ֵ��
-֧�ֲ���ȫ JWS ��ʵ�־����ܽ��������Ķ���Ϊ��Ч������Ӧ�ó���ָ������ �ض������������Ա����ǿ��Խ��ܵġ�
-Ĭ������£�ʵ�ֲ��ý��ܲ���ȫ�� JWS��Ϊ�� Ϊ�˼��ή��������Ӧ�ó��򲻵÷����ź�
-��ȫ��Χ�ڽ��ܲ���ȫ�� JWS������Ӧ�÷����ź���ÿ������Ļ��������ա�
 
+使用算法“none”也可以创建不提供完整性保护的 JWS。 这样的 JWS 称为不安全的 JWS。不安全的 JWS 使用 “alg”值为“none”并且格式与其他 JWS 相同，但是必须使用空八位字节序列作为其 JWS 签名值。 支持不安全 JWS 的实现绝不能接受这样的对象为有效，除非应用程序指定它是 特定对象不受完整性保护是可以接受的。 默认情况下，实现不得接受不安全的 JWS。为了 为了减轻降级攻击，应用程序不得发出信号 在全球范围内接受不安全的 JWS，并且应该发出信号在每个对象的基础上验收。
 
-== JSON Web Algorithms  for JWE��JWE �����㷨��
-���� JWE Header �ġ�alg�����㷨������ֵ
+== JSON Web Algorithms  for JWE（JWE 加密算法）
 
+定义 JWE Header 的“alg”（算法）参数值
 
 |===
-|alg ������ֵ |��Կ�����㷨 | ����Header���� | Ҫ��
+|alg 参数的值 |密钥管理算法 | 更多Header参数 | 要求
 
 | RSA1_5
 | RSAES-PKCS1-v1_5
 |(none)
-| �Ƽ�+
+| 推荐+
 
 |RSA-OAEP
-|Cʹ��Ĭ�ϲ�����RSAES OAEP
+|C使用默认参数的RSAES OAEP
 |(none)
-| �Ƽ�+
+| 推荐+
 
 |RSA-OAEP-256
-| RSAES OAEP��ʹ��SHA-256����MGF1��ʹ��SHA-25 6��
+| RSAES OAEP（使用SHA-256）和MGF1（使用SHA-25 6）
 |(none)
-| ��ѡ
+| 可选
 
 |A128KW
-| 128λ��Կʹ��Ĭ�ϳ�ʼֵ����AES��Կ����
+| 128位密钥使用默认初始值进行AES密钥换行
 |(none)
-| �Ƽ�
+| 推荐
 
 |A192KW
-| 192λ��Կʹ��Ĭ�ϳ�ʼֵ����AES��Կ����
+| 192位密钥使用默认初始值进行AES密钥换行
 |(none)
-| ��ѡ
+| 可选
 
 |A256KW
-| 256λ��Կʹ��Ĭ�ϳ�ʼֵ����AES��Կ����
+| 256位密钥使用默认初始值进行AES密钥换行
 |(none)
-| �Ƽ�
+| 推荐
 
 | dir
-| ֱ��ʹ�ù����Գ���Կ��ΪCEK
+| 直接使用共享对称密钥作为CEK
 |none
-| �Ƽ�
+| 推荐
 
 | ECDH-ES
-| ʹ��Concat KDF����Բ����Diffie-Hellman���ݾ�̬��ԿЭ��
+| 使用Concat KDF的椭圆曲线Diffie-Hellman短暂静态密钥协商
 | "epk", "apu","apv"
-| �Ƽ�+
+| 推荐+
 
 |ECDH-ES+A128KW
-|ʹ�á�A128KW�������İ���KDF��CEK��ECD-ES
+|使用“A128KW”包裹的凹形KDF和CEK的ECD-ES
 | "epk", "apu","apv"
-| �Ƽ�
+| 推荐
 
 |ECDH-ES+A192KW
-|ʹ�á�A192KW�������İ���KDF��CEK��ECD-ES
+|使用“A192KW”包裹的凹形KDF和CEK的ECD-ES
 | "epk", "apu","apv"
-| ��ѡ
+| 可选
 
 |===
 
-RFC 7518 JSON Web�㷨��JWA��
+RFC 7518 JSON Web算法（JWA）
 
 |===
-|alg ������ֵ |��Կ�����㷨 | ����Header���� | Ҫ��
+|alg 参数的值 |密钥管理算法 | 更多Header参数 | 要求
 
 |ECDH-ES+A256KW
-|ʹ�á�A256KW�������İ���KDF��CEK��ECD-ES
+|使用“A256KW”包裹的凹形KDF和CEK的ECD-ES
 | "epk", "apu","apv"
-| �Ƽ�
+| 推荐
 
 |A128GCMKW
-| ʹ��128λ��Կ��AES GCM��Կ��װ
+| 使用128位密钥的AES GCM密钥包装
 |"iv","tag"
-| ��ѡ
+| 可选
 
 | A192GCMKW
-| ʹ��192λ��Կ��AES GCM��Կ��װ
+| 使用192位密钥的AES GCM密钥包装
 |"iv","tag"
-| ��ѡ
+| 可选
 
 | A256GCMKW
-| ʹ��256λ��Կ��AES GCM��Կ��װ
+| 使用256位密钥的AES GCM密钥包装
 |"iv","tag"
-| ��ѡ
+| 可选
 
 |PBES2-HS256+A128KW
-|PBES2����HMAC SHA-256�͡�A128KW����װ
+|PBES2，带HMAC SHA-256和“A128KW”包装
 |"p2s","p2c"
-| ��ѡ
+| 可选
 
 |PBES2-HS384+A192KW
-|PBES2����HMAC SHA-384�͡�A192KW����װ
+|PBES2，带HMAC SHA-384和“A192KW”包装
 |"p2s","p2c"
-| ��ѡ
+| 可选
 
 |PBES2-HS512+A256KW
-|PBES2����HMAC SHA-512�͡�A256KW����װ
+|PBES2，带HMAC SHA-512和“A256KW”包装
 |"p2s","p2c"
-| ��ѡ
+| 可选
 
 |===
-Header ���� ˵��
 
-. ��epk������ʱ��Կ��Header ����
-. ��apu����Э�� PartyUInfo��Header ����
-. ��apv����Э�鷽VInfo��Header ����
-. enc ASCII ��ʾ�İ�λ�ֽ�Header ���������� Key Wrapping ����ԿЭ���� ����£���������Ϊ ASCII ��ʾ�İ�λ�ֽڡ�alg�����㷨����ͷ����ֵ��
-. ��iv������ʼ��������Header ����ֵ�� IV �� base64url ������ʽ��ʾ
-. ��alg�� ����JWE Encrypted Key�Ǽ��ܵĽ��CEKʹ����Ӧ���㷨����Կ��С��
-. "tag" (Authentication Tag) 128 λ������֤��ǵ� base64url �����ʾ��Կ���ܲ���������ֵ
-. ��p2s����PBES2 �����룩Header ����
-. ��p2c����PBES2 ������Header����
+Header 参数 说明
 
-JWE �ġ�enc���������㷨��Header����ֵ
+. “epk”（临时公钥）Header 参数
+. “apu”（协议 PartyUInfo）Header 参数
+. “apv”（协议方VInfo）Header 参数
+. enc ASCII 表示的八位字节Header 参数。在与 Key Wrapping 的密钥协议中 情况下，数据设置为 ASCII 表示的八位字节“alg”（算法）标头参数值。
+. “iv”（初始化向量）Header 参数值。 IV 以 base64url 编码形式表示
+. “alg” 表明JWE Encrypted Key是加密的结果CEK使用相应的算法和密钥大小：
+. "tag" (Authentication Tag) 128 位身份验证标记的 base64url 编码表示密钥加密操作产生的值
+. “p2s”（PBES2 盐输入）Header 参数
+. “p2c”（PBES2 计数）Header参数
 
+JWE 的“enc”（加密算法）Header参数值
 
 |===
-|��enc�� ���� ��ֵ |���ݼ����㷨
+|“enc” 参数 的值 |内容加密算法
 
 |A128CBC-HS256
 |AES_128_CBC_HMAC_SHA_256
@@ -277,22 +265,21 @@ JWE �ġ�enc���������㷨��Header����ֵ
 |AES_256_CBC_HMAC_SHA_512
 
 |A128GCM
-|ʹ�� 128 λ��Կ�� AES GCM
+|使用 128 位密钥的 AES GCM
 
 |A192GCM
-|ʹ�� 192 λ��Կ�� AES GCM
+|使用 192 位密钥的 AES GCM
 
 |A256GCM
-|ʹ�� 256 λ��Կ�� AES GCM
+|使用 256 位密钥的 AES GCM
 
 
 |===
 
- ��kty������Կ���ͣ�����ֵ
-
+ “kty”（密钥类型）参数值
 
 |===
-|kty ������ֵ |Key Type
+|kty 参数的值 |Key Type
 
 |EC
 |Elliptic Curve [DSS]
@@ -301,30 +288,33 @@ JWE �ġ�enc���������㷨��Header����ֵ
 |RSA [RFC3447]
 
 |oct
-| �˽������У����ڱ�ʾ�Գ���Կ��
+| 八进制序列（用于表示对称密钥）
 
 |===
-==== ����
-. ��crv�������ߣ�����  ��P-256�� ��P-384�� ��P-521��
-. ��x����X ���꣩����
-. ��y����Y ���꣩����
-. ��d����ECC ˽Կ������
 
-==== RSA ��Կ�Ĳ���
-. ��kty��ֵΪ��RSA��
-. ��n����ģ��������
-. ��e����ָ��������
-. ��d����˽��ָ��������
-. ��p������һ����������
-. ��q�����ڶ�����������
-.  ��dp������һ���� CRT ָ��������
-. ��dq�����ڶ����� CRT ָ��������
-. ��qi������һ�� CRT ϵ��������
-. ��oth��������������Ϣ������
-.. ��r����������
-.. ��d�������� CRT ָ����
-.. ��t�������� CRT ϵ����
-. ��k������ֵ������
+==== 曲线
+
+. “crv”（曲线）参数 “P-256” “P-384” “P-521”
+. “x”（X 坐标）参数
+. “y”（Y 坐标）参数
+. “d”（ECC 私钥）参数
+
+==== RSA 密钥的参数
+
+. “kty”值为“RSA”
+. “n”（模数）参数
+. “e”（指数）参数
+. “d”（私有指数）参数
+. “p”（第一素数）参数
+. “q”（第二素数）参数
+. “dp”（第一因子 CRT 指数）参数
+. “dq”（第二因子 CRT 指数）参数
+. “qi”（第一个 CRT 系数）参数
+. “oth”（其他素数信息）参数
+.. “r”（素数）
+.. “d”（因子 CRT 指数）
+.. “t”（因子 CRT 系数）
+. “k”（键值）参数
 
 
 

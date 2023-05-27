@@ -2,10 +2,9 @@ package org.elsfs.security.core.authentication;
 
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
-
-import org.springframework.security.oauth2.server.authorization.oidc.authentication.OidcUserInfoAuthenticationContext;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
+import org.springframework.security.oauth2.server.authorization.oidc.authentication.OidcUserInfoAuthenticationContext;
 
 import java.util.*;
 

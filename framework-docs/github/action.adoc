@@ -1,15 +1,15 @@
-= gitHub Action - workflow ¸ÅÄîºÍ»ù±¾²Ù×÷
+= gitHub Action - workflow æ¦‚å¿µå’ŒåŸºæœ¬æ“ä½œ
 
-===== workflow ÎÄ¼þ
+===== workflow æ–‡ä»¶
 
-* GitHub Actions µÄÅäÖÃÎÄ¼þ½Ð×ö workflowÎÄ¼þ£¬´æ·ÅÔÚ´úÂë²Ö¿âµÄ.github/workflows/Ä¿Â¼ÏÂ¡£ ±ÈÈçÐ´Ò»¸öfirst.yamlÎÄ¼þ£¬´æ´¢µÄÄ¿Â¼¾ÍÊÇ.github/workflows/first.yaml
-* workflow/ÏÂµÄÎÄ¼þ²ÉÓÃ YAML ¸ñÊ½£¬ÎÄ¼þÃû¿ÉÒÔÈÎÒâÈ¡£¬µ«ÊÇºó×ºÃûÍ³Ò»Îª.yml»òÕßyaml£¬ ±ÈÈçfoo.yml¡£Ò»¸ö¿â¿ÉÒÔÓÐ¶à¸ö workflow ÎÄ¼þ¡£ GitHub Ö»Òª·¢ÏÖ.github/workflowsÄ¿Â¼ÏÂÀïÃæÓÐ.ymlÎÄ¼þ£¬¾Í»á×Ô¶¯ÔËÐÐ¸ÃÎÄ¼þ
+* GitHub Actions çš„é…ç½®æ–‡ä»¶å«åš workflowæ–‡ä»¶ï¼Œå­˜æ”¾åœ¨ä»£ç ä»“åº“çš„.github/workflows/ç›®å½•ä¸‹ã€‚ æ¯”å¦‚å†™ä¸€ä¸ªfirst.yamlæ–‡ä»¶ï¼Œå­˜å‚¨çš„ç›®å½•å°±æ˜¯.github/workflows/first.yaml
+* workflow/ä¸‹çš„æ–‡ä»¶é‡‡ç”¨ YAML æ ¼å¼ï¼Œæ–‡ä»¶åå¯ä»¥ä»»æ„å–ï¼Œä½†æ˜¯åŽç¼€åç»Ÿä¸€ä¸º.ymlæˆ–è€…yamlï¼Œ æ¯”å¦‚foo.ymlã€‚ä¸€ä¸ªåº“å¯ä»¥æœ‰å¤šä¸ª workflow æ–‡ä»¶ã€‚ GitHub åªè¦å‘çŽ°.github/workflowsç›®å½•ä¸‹é‡Œé¢æœ‰.ymlæ–‡ä»¶ï¼Œå°±ä¼šè‡ªåŠ¨è¿è¡Œè¯¥æ–‡ä»¶
 
-====== workflow/ÏÂµÄÎÄ¼þµÄÅäÖÃ×Ö¶Î·Ç³£¶à£¬Ïê¼û¹Ù·½ÎÄµµ¡£ÏÂÃæÊÇÒ»Ð©»ù±¾×Ö¶Î¡£
+====== workflow/ä¸‹çš„æ–‡ä»¶çš„é…ç½®å­—æ®µéžå¸¸å¤šï¼Œè¯¦è§å®˜æ–¹æ–‡æ¡£ã€‚ä¸‹é¢æ˜¯ä¸€äº›åŸºæœ¬å­—æ®µã€‚
 
 *name*
 
-name×Ö¶ÎÊÇ workflow µÄÃû³Æ¡£Èç¹ûÊ¡ÂÔ¸Ã×Ö¶Î£¬Ä¬ÈÏÎªµ±Ç° workflow µÄÎÄ¼þÃû¡£
+nameå­—æ®µæ˜¯ workflow çš„åç§°ã€‚å¦‚æžœçœç•¥è¯¥å­—æ®µï¼Œé»˜è®¤ä¸ºå½“å‰ workflow çš„æ–‡ä»¶åã€‚
 
 [source,yaml]
 ----
@@ -18,40 +18,40 @@ name: GitHub Actions Test
 
 *on*
 
-* on×Ö¶ÎÖ¸¶¨´¥·¢ workflow µÄÌõ¼þ£¬Í¨³£ÊÇÄ³Ð©ÊÂ¼þ¡£
+* onå­—æ®µæŒ‡å®šè§¦å‘ workflow çš„æ¡ä»¶ï¼Œé€šå¸¸æ˜¯æŸäº›äº‹ä»¶ã€‚
 
 [source,yaml]
 ----
-on: push #  pushÊÂ¼þ´¥·¢ workflow
+on: push #  pushäº‹ä»¶è§¦å‘ workflow
 ----
 
-* on×Ö¶ÎÒ²¿ÉÒÔÊÇÊÂ¼þµÄÊý×é¡£
+* onå­—æ®µä¹Ÿå¯ä»¥æ˜¯äº‹ä»¶çš„æ•°ç»„ã€‚
 
 [source,yaml]
 ----
-on: [push, pull_request] #pushÊÂ¼þ»òpull_requestÊÂ¼þ¶¼¿ÉÒÔ´¥·¢ workflow¡£]
+on: [push, pull_request] #pushäº‹ä»¶æˆ–pull_requestäº‹ä»¶éƒ½å¯ä»¥è§¦å‘ workflowã€‚]
 ----
 
-* ÍêÕûµÄÊÂ¼þÁÐ±í£¬Çë²é¿´ https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows[¹Ù·½ÎÄµµ]¡£³ýÁË´úÂë¿âÊÂ¼þ£¬GitHub Actions Ò²Ö§³ÖÍâ²¿ÊÂ¼þ´¥·¢£¬»òÕß¶¨Ê±ÔËÐÐ¡£
+* å®Œæ•´çš„äº‹ä»¶åˆ—è¡¨ï¼Œè¯·æŸ¥çœ‹ https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows[å®˜æ–¹æ–‡æ¡£]ã€‚é™¤äº†ä»£ç åº“äº‹ä»¶ï¼ŒGitHub Actions ä¹Ÿæ”¯æŒå¤–éƒ¨äº‹ä»¶è§¦å‘ï¼Œæˆ–è€…å®šæ—¶è¿è¡Œã€‚
 
 *on.
 .*
 
-** Ö¸¶¨´¥·¢ÊÂ¼þÊ±£¬¿ÉÒÔÏÞ¶¨·ÖÖ§»ò±êÇ©¡£
+** æŒ‡å®šè§¦å‘äº‹ä»¶æ—¶ï¼Œå¯ä»¥é™å®šåˆ†æ”¯æˆ–æ ‡ç­¾ã€‚
 
 [source,yaml]
 ----
 on:
   push:
     branches:
-      - master # ÉÏÃæ´úÂëÖ¸¶¨£¬Ö»ÓÐmaster·ÖÖ§·¢ÉúpushÊÂ¼þÊ±£¬²Å»á´¥·¢ workflow¡£
+      - master # ä¸Šé¢ä»£ç æŒ‡å®šï¼Œåªæœ‰masteråˆ†æ”¯å‘ç”Ÿpushäº‹ä»¶æ—¶ï¼Œæ‰ä¼šè§¦å‘ workflowã€‚
 ----
 
 *jobs..name*
 
-workflow ÎÄ¼þµÄÖ÷ÌåÊÇjobs×Ö¶Î£¬±íÊ¾ÒªÖ´ÐÐµÄÒ»Ïî»ò¶àÏîÈÎÎñ¡£
+workflow æ–‡ä»¶çš„ä¸»ä½“æ˜¯jobså­—æ®µï¼Œè¡¨ç¤ºè¦æ‰§è¡Œçš„ä¸€é¡¹æˆ–å¤šé¡¹ä»»åŠ¡ã€‚
 
-jobs×Ö¶ÎÀïÃæ£¬ÐèÒªÐ´³öÃ¿Ò»ÏîÈÎÎñµÄjob_id£¬¾ßÌåÃû³Æ×Ô¶¨Òå¡£job_idÀïÃæµÄname×Ö¶ÎÊÇÈÎÎñµÄËµÃ÷¡£
+jobså­—æ®µé‡Œé¢ï¼Œéœ€è¦å†™å‡ºæ¯ä¸€é¡¹ä»»åŠ¡çš„job_idï¼Œå…·ä½“åç§°è‡ªå®šä¹‰ã€‚job_idé‡Œé¢çš„nameå­—æ®µæ˜¯ä»»åŠ¡çš„è¯´æ˜Žã€‚
 
 [source,yaml]
 ----
@@ -62,11 +62,11 @@ jobs:
     name: My second job
 ----
 
-ÉÏÃæ´úÂëµÄjobs×Ö¶Î°üº¬Á½ÏîÈÎÎñ£¬job_id·Ö±ðÊÇmy_first_jobºÍmy_second_job¡£
+ä¸Šé¢ä»£ç çš„jobså­—æ®µåŒ…å«ä¸¤é¡¹ä»»åŠ¡ï¼Œjob_idåˆ†åˆ«æ˜¯my_first_jobå’Œmy_second_jobã€‚
 
 *jobs..needs*
 
-needs×Ö¶ÎÖ¸¶¨µ±Ç°ÈÎÎñµÄÒÀÀµ¹ØÏµ£¬¼´ÔËÐÐË³Ðò¡£
+needså­—æ®µæŒ‡å®šå½“å‰ä»»åŠ¡çš„ä¾èµ–å…³ç³»ï¼Œå³è¿è¡Œé¡ºåºã€‚
 
 [source,yaml]
 ----
@@ -78,13 +78,13 @@ jobs:
     needs: [job1, job2]
 ----
 
-ÉÏÃæ´úÂëÖÐ£¬__job1__±ØÐëÏÈÓÚ__job2__Íê³É£¬¶ø__job3__µÈ´ý__job1__ºÍ__job2__µÄÍê³É²ÅÄÜÔËÐÐ¡£Òò´Ë£¬Õâ¸ö workflow µÄÔËÐÐË³ÐòÒÀ´ÎÎª£ºjob1¡¢job2¡¢job3¡£
+ä¸Šé¢ä»£ç ä¸­ï¼Œ__job1__å¿…é¡»å…ˆäºŽ__job2__å®Œæˆï¼Œè€Œ__job3__ç­‰å¾…__job1__å’Œ__job2__çš„å®Œæˆæ‰èƒ½è¿è¡Œã€‚å› æ­¤ï¼Œè¿™ä¸ª workflow çš„è¿è¡Œé¡ºåºä¾æ¬¡ä¸ºï¼šjob1ã€job2ã€job3ã€‚
 
 *jobs..runs-on*
 
-runs-on×Ö¶ÎÖ¸¶¨ÔËÐÐËùÐèÒªµÄÐéÄâ»ú»·¾³¡£ËüÊÇ±ØÌî×Ö¶Î¡£Ä¿Ç°¿ÉÓÃµÄÐéÄâ»úÈçÏÂ¡£
+runs-onå­—æ®µæŒ‡å®šè¿è¡Œæ‰€éœ€è¦çš„è™šæ‹ŸæœºçŽ¯å¢ƒã€‚å®ƒæ˜¯å¿…å¡«å­—æ®µã€‚ç›®å‰å¯ç”¨çš„è™šæ‹Ÿæœºå¦‚ä¸‹ã€‚
 
-ÏÂÃæ´úÂëÖ¸¶¨ÐéÄâ»ú»·¾³Îªubuntu-18.04¡£
+ä¸‹é¢ä»£ç æŒ‡å®šè™šæ‹ŸæœºçŽ¯å¢ƒä¸ºubuntu-18.04ã€‚
 
 [source,yaml]
 ----
@@ -92,15 +92,15 @@ runs-on: ubuntu-18.04
 ----
 
 *jobs..steps*
-steps×Ö¶ÎÖ¸¶¨Ã¿¸ö Job µÄÔËÐÐ²½Öè£¬¿ÉÒÔ°üº¬Ò»¸ö»ò¶à¸ö²½Öè¡£Ã¿¸ö²½Öè¶¼¿ÉÒÔÖ¸¶¨ÒÔÏÂÈý¸ö×Ö¶Î¡£
+stepså­—æ®µæŒ‡å®šæ¯ä¸ª Job çš„è¿è¡Œæ­¥éª¤ï¼Œå¯ä»¥åŒ…å«ä¸€ä¸ªæˆ–å¤šä¸ªæ­¥éª¤ã€‚æ¯ä¸ªæ­¥éª¤éƒ½å¯ä»¥æŒ‡å®šä»¥ä¸‹ä¸‰ä¸ªå­—æ®µã€‚
 
 ----
-jobs.<job_id>.steps.name£º²½ÖèÃû³Æ¡£
-jobs.<job_id>.steps.run£º¸Ã²½ÖèÔËÐÐµÄÃüÁî»òÕß action¡£
-jobs.<job_id>.steps.env£º¸Ã²½ÖèËùÐèµÄ»·¾³±äÁ¿¡£
+jobs.<job_id>.steps.nameï¼šæ­¥éª¤åç§°ã€‚
+jobs.<job_id>.steps.runï¼šè¯¥æ­¥éª¤è¿è¡Œçš„å‘½ä»¤æˆ–è€… actionã€‚
+jobs.<job_id>.steps.envï¼šè¯¥æ­¥éª¤æ‰€éœ€çš„çŽ¯å¢ƒå˜é‡ã€‚
 ----
 
-===== ÏÂÃæÊÇÒ»¸öÍêÕûµÄ workflow ÎÄ¼þµÄ·¶Àý¡£
+===== ä¸‹é¢æ˜¯ä¸€ä¸ªå®Œæ•´çš„ workflow æ–‡ä»¶çš„èŒƒä¾‹ã€‚
 
 [source,yaml]
 ----
@@ -122,7 +122,7 @@ jobs:
         echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
 ----
 
-ÉÏÃæ´úÂëÖÐ£¬steps×Ö¶ÎÖ»°üÀ¨Ò»¸ö²½Öè¡£¸Ã²½ÖèÏÈ×¢ÈëËÄ¸ö»·¾³±äÁ¿£¬È»ºóÖ´ÐÐÒ»Ìõ Bash ÃüÁî£¬µ±´úÂëpushÊ±´¥·¢Õâ¸öworkflow¡£
+ä¸Šé¢ä»£ç ä¸­ï¼Œstepså­—æ®µåªåŒ…æ‹¬ä¸€ä¸ªæ­¥éª¤ã€‚è¯¥æ­¥éª¤å…ˆæ³¨å…¥å››ä¸ªçŽ¯å¢ƒå˜é‡ï¼Œç„¶åŽæ‰§è¡Œä¸€æ¡ Bash å‘½ä»¤ï¼Œå½“ä»£ç pushæ—¶è§¦å‘è¿™ä¸ªworkflowã€‚
 
 
 

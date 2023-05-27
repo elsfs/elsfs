@@ -1,6 +1,9 @@
 package org.elsfs.security.util;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.security.*;
 import java.util.Base64;
 
@@ -11,7 +14,7 @@ import java.util.Base64;
 public class SaveRSA {
 
     /**
-     * ���� KeyPair
+     * KeyPair
      * @param keyPair
      * @param directory
      * @throws NoSuchAlgorithmException
@@ -25,7 +28,7 @@ public class SaveRSA {
         PrivateKey privateKey = keyPair.getPrivate();
         String publicKeyStr = getKeyAsString(publicKey);
         String privateKeyStr = getKeyAsString(privateKey);
-        // ����Կ���浽�ļ���
+        //
         OutputStreamWriter osw = new OutputStreamWriter(
                 new FileOutputStream(directory.getPath() + File.separator + "publicKey.key"));
         osw.write(publicKeyStr, 0, publicKeyStr.length());
@@ -41,20 +44,18 @@ public class SaveRSA {
 
     /**
      * @param key
-     * @param file �ļ���׺ .key
+     * @param file ׺ .k
      * @throws NoSuchAlgorithmException
      * @throws IOException
      */
     public static void save(Key key, File file) throws NoSuchAlgorithmException, IOException {
         String stringKey = getKeyAsString(key);
-        // ����Կ���浽�ļ���
         OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(file));
         osw.write(stringKey, 0, stringKey.length());
         osw.flush();
         osw.close();
     }
 
-    // ��Key����ת��ΪString����
     public static String getKeyAsString(Key key) {
         byte[] keyBytes = key.getEncoded();
         return encodeBASE64(keyBytes);
@@ -64,10 +65,5 @@ public class SaveRSA {
         return Base64.getEncoder().encodeToString(keyBytes);
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
-        File file = new File("F:\\OpenSource\\elsfs\\webapp\\admin\\manage-admin-webapp\\src\\main\\resources");
-        KeyPair keyPair = KeyGeneratorUtils.generateRsaKey();
-        save(keyPair, file);
-    }
 
 }

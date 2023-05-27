@@ -3,7 +3,6 @@ package org.elsfs.security.core.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import org.apache.commons.lang3.StringUtils;
 import org.elsfs.security.core.entity.SecurityRegisteredClient;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -14,7 +13,8 @@ import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2A
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * @author zeng
