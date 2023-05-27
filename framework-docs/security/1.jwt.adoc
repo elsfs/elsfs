@@ -1,22 +1,24 @@
-== 1. Ê²Ã´ÊÇ JSON Web Token£¿
-JSON Web ÁîÅÆ £¨JWT£© ÊÇÒ»ÖÖ¿ª·Å±ê×¼ https://datatracker.ietf.org/doc/html/rfc7519[£¨RFC 7519£©]£¬
-Ëü¶¨ÒåÁËÒ»ÖÖ½ô´ÕÇÒ¶ÀÁ¢µÄ·½Ê½£¬ÓÃÓÚÔÚ¸÷·½Ö®¼äÒÔ JSON ¶ÔÏóµÄÐÎÊ½°²È«µØ´«ÊäÐÅÏ¢¡£´ËÐÅÏ¢¿ÉÒÔÑéÖ¤ºÍÐÅÈÎ£¬
-ÒòÎªËüÊÇ¾­¹ýÊý×ÖÇ©ÃûµÄ¡£JWT ¿ÉÒÔÊ¹ÓÃÃÜÔ¿£¨Ê¹ÓÃ HMAC Ëã·¨£©»òÊ¹ÓÃ RSA »ò ECDSA µÄ¹«Ô¿/Ë½Ô¿¶Ô½øÐÐÇ©Ãû¡£
+== 1. ä»€ä¹ˆæ˜¯ JSON Web Tokenï¼Ÿ
 
-== 2.JWT ½á¹¹
-JWT¹Ì¶¨¸÷ÖÖµÄ×Ö·û´®£¬ÓÉÈý²¿·Ö×é³É£º
+JSON Web ä»¤ç‰Œ ï¼ˆJWTï¼‰ æ˜¯ä¸€ç§å¼€æ”¾æ ‡å‡† https://datatracker.ietf.org/doc/html/rfc7519[ï¼ˆRFC 7519ï¼‰]ï¼Œ å®ƒå®šä¹‰äº†ä¸€ç§ç´§å‡‘ä¸”ç‹¬ç«‹çš„æ–¹å¼ï¼Œç”¨äºŽåœ¨å„æ–¹ä¹‹é—´ä»¥ JSON å¯¹è±¡çš„å½¢å¼å®‰å…¨åœ°ä¼ è¾“ä¿¡æ¯ã€‚æ­¤ä¿¡æ¯å¯ä»¥éªŒè¯å’Œä¿¡ä»»ï¼Œ å› ä¸ºå®ƒæ˜¯ç»è¿‡æ•°å­—ç­¾åçš„ã€‚JWT å¯ä»¥ä½¿ç”¨å¯†é’¥ï¼ˆä½¿ç”¨ HMAC ç®—æ³•ï¼‰æˆ–ä½¿ç”¨ RSA æˆ– ECDSA çš„å…¬é’¥/ç§é’¥å¯¹è¿›è¡Œç­¾åã€‚
+
+== 2.JWT ç»“æž„
+
+JWTå›ºå®šå„ç§çš„å­—ç¬¦ä¸²ï¼Œç”±ä¸‰éƒ¨åˆ†ç»„æˆï¼š
+
 ====
-. Header£¬Í·²¿
-. Payload£¬ÔØºÉ
-. Signature£¬Ç©Ãû
+. Headerï¼Œå¤´éƒ¨
+. Payloadï¼Œè½½è·
+. Signatureï¼Œç­¾å
 ====
 
-°ÑÕâÈý²¿·ÖÊ¹ÓÃµã£¨.£©Á¬½ÓÆðÀ´£¬¾ÍÊÇÒ»¸öJWT×Ö·û´®
+æŠŠè¿™ä¸‰éƒ¨åˆ†ä½¿ç”¨ç‚¹ï¼ˆ.ï¼‰è¿žæŽ¥èµ·æ¥ï¼Œå°±æ˜¯ä¸€ä¸ªJWTå­—ç¬¦ä¸²
 
-=== Header£¬Í·²¿
-headerÒ»°ãµÄÓÉÁ½²¿·Ö×é³É£ºtokenµÄÀàÐÍ£¨¡°JWT¡±£©ºÍËã·¨Ãû³Æ£¨±ÈÈç£ºHMAC SHA256»òÕßRSAµÈµÈ£©¡£
+=== Headerï¼Œå¤´éƒ¨
 
-JWTÀïÑéÖ¤ºÍÇ©ÃûÊ¹ÓÃµÄËã·¨ÁÐ±íÈçÏÂ£º
+headerä¸€èˆ¬çš„ç”±ä¸¤éƒ¨åˆ†ç»„æˆï¼štokençš„ç±»åž‹ï¼ˆâ€œJWTâ€ï¼‰å’Œç®—æ³•åç§°ï¼ˆæ¯”å¦‚ï¼šHMAC SHA256æˆ–è€…RSAç­‰ç­‰ï¼‰ã€‚
+
+JWTé‡ŒéªŒè¯å’Œç­¾åä½¿ç”¨çš„ç®—æ³•åˆ—è¡¨å¦‚ä¸‹ï¼š
 image:image/11.png[]
 
 [source,json]
@@ -27,34 +29,38 @@ image:image/11.png[]
 }
 ----
 
-=== Payload ÔØºÉ
-payloadÖ÷ÒªÓÃÀ´°üº¬ÉùÃ÷£¨claims £©£¬Õâ¸öÉùÃ÷Ò»°ãÊÇ¹ØÓÚÊµÌå(Í¨³£ÊÇÓÃ»§)ºÍÆäËûÊý¾ÝµÄÉùÃ÷¡£
+=== Payload è½½è·
 
-ÉùÃ÷ÓÐÈýÖÖÀàÐÍ:
+payloadä¸»è¦ç”¨æ¥åŒ…å«å£°æ˜Žï¼ˆclaims ï¼‰ï¼Œè¿™ä¸ªå£°æ˜Žä¸€èˆ¬æ˜¯å…³äºŽå®žä½“(é€šå¸¸æ˜¯ç”¨æˆ·)å’Œå…¶ä»–æ•°æ®çš„å£°æ˜Žã€‚
+
+å£°æ˜Žæœ‰ä¸‰ç§ç±»åž‹:
+
 ----
 registered
 public
 private
 ----
 
-¾ßÌåÈçÏÂ£º
+å…·ä½“å¦‚ä¸‹ï¼š
 
-Registered claims : ÕâÀïÓÐÒ»×éÔ¤¶¨ÒåµÄÉùÃ÷£¬ËüÃÇ²»ÊÇÇ¿ÖÆµÄ£¬µ«ÊÇÍÆ¼ö¡£
+Registered claims : è¿™é‡Œæœ‰ä¸€ç»„é¢„å®šä¹‰çš„å£°æ˜Žï¼Œå®ƒä»¬ä¸æ˜¯å¼ºåˆ¶çš„ï¼Œä½†æ˜¯æŽ¨èã€‚
 
 ----
-iss: jwtÇ©·¢Õß
-sub: jwtËùÃæÏòµÄÓÃ»§
-aud: ½ÓÊÕjwtµÄÒ»·½
-exp: jwtµÄ¹ýÆÚÊ±¼ä£¬Õâ¸ö¹ýÆÚÊ±¼ä±ØÐëÒª´óÓÚÇ©·¢Ê±¼ä
-nbf: ¶¨ÒåÔÚÊ²Ã´Ê±¼äÖ®Ç°£¬¸Ãjwt¶¼ÊÇ²»¿ÉÓÃµÄ
-iat: jwtµÄÇ©·¢Ê±¼ä
-jti: jwtµÄÎ¨Ò»Éí·Ý±êÊ¶£¬Ö÷ÒªÓÃÀ´×÷ÎªÒ»´ÎÐÔtoken£¬´Ó¶ø»Ø±ÜÖØ·Å¹¥»÷
+iss: jwtç­¾å‘è€…
+sub: jwtæ‰€é¢å‘çš„ç”¨æˆ·
+aud: æŽ¥æ”¶jwtçš„ä¸€æ–¹
+exp: jwtçš„è¿‡æœŸæ—¶é—´ï¼Œè¿™ä¸ªè¿‡æœŸæ—¶é—´å¿…é¡»è¦å¤§äºŽç­¾å‘æ—¶é—´
+nbf: å®šä¹‰åœ¨ä»€ä¹ˆæ—¶é—´ä¹‹å‰ï¼Œè¯¥jwtéƒ½æ˜¯ä¸å¯ç”¨çš„
+iat: jwtçš„ç­¾å‘æ—¶é—´
+jti: jwtçš„å”¯ä¸€èº«ä»½æ ‡è¯†ï¼Œä¸»è¦ç”¨æ¥ä½œä¸ºä¸€æ¬¡æ€§tokenï¼Œä»Žè€Œå›žé¿é‡æ”¾æ”»å‡»
 ----
-Public claims : ¿ÉÒÔËæÒâ¶¨Òå
+
+Public claims : å¯ä»¥éšæ„å®šä¹‰
 ----
-×Ô¶¨ÒåÊý¾Ý:´æ·ÅÔÚtokenÖÐ´æ·ÅµÄkey-valueÖµ
+è‡ªå®šä¹‰æ•°æ®:å­˜æ”¾åœ¨tokenä¸­å­˜æ”¾çš„key-valueå€¼
 ----
-Private claims : ÓÃÓÚÔÚÍ¬ÒâÊ¹ÓÃËüÃÇµÄ¸÷·½Ö®¼ä¹²ÏíÐÅÏ¢£¬²¢ÇÒ²»ÊÇ×¢²áµÄ»ò¹«¿ªµÄÉùÃ÷
+
+Private claims : ç”¨äºŽåœ¨åŒæ„ä½¿ç”¨å®ƒä»¬çš„å„æ–¹ä¹‹é—´å…±äº«ä¿¡æ¯ï¼Œå¹¶ä¸”ä¸æ˜¯æ³¨å†Œçš„æˆ–å…¬å¼€çš„å£°æ˜Ž
 ----
 {
     "iss": "briup",
@@ -66,46 +72,31 @@ Private claims : ÓÃÓÚÔÚÍ¬ÒâÊ¹ÓÃËüÃÇµÄ¸÷·½Ö®¼ä¹²ÏíÐÅÏ¢£¬²¢ÇÒ²»ÊÇ×¢²áµÄ»ò¹«¿ªµÄÉùÃ
 }
 ----
 
-×¢Òâ£¬²»ÒªÔÚJWTµÄpayload»òheaderÖÐ·ÅÖÃÃô¸ÐÐÅÏ¢£¬³ý·ÇËüÃÇÊÇ¼ÓÃÜµÄ
+æ³¨æ„ï¼Œä¸è¦åœ¨JWTçš„payloadæˆ–headerä¸­æ”¾ç½®æ•æ„Ÿä¿¡æ¯ï¼Œé™¤éžå®ƒä»¬æ˜¯åŠ å¯†çš„
 
-°ÑÍ·²¿ºÍÔØºÉ·Ö±ð½øÐÐBase64±àÂëÖ®ºóµÃµ½Á½¸ö×Ö·û´®£¬È»ºóÔÙ½«ÕâÁ½¸ö±àÂëºóµÄ×Ö·û´®ÓÃÓ¢ÎÄ¾äºÅ.Á¬½ÓÔÚÒ»Æð£¨Í·²¿ÔÚÇ°£©£¬ÐÎ³ÉÐÂµÄ×Ö·û´®£ºaaa.bbb
+æŠŠå¤´éƒ¨å’Œè½½è·åˆ†åˆ«è¿›è¡ŒBase64ç¼–ç ä¹‹åŽå¾—åˆ°ä¸¤ä¸ªå­—ç¬¦ä¸²ï¼Œç„¶åŽå†å°†è¿™ä¸¤ä¸ªç¼–ç åŽçš„å­—ç¬¦ä¸²ç”¨è‹±æ–‡å¥å·.è¿žæŽ¥åœ¨ä¸€èµ·ï¼ˆå¤´éƒ¨åœ¨å‰ï¼‰ï¼Œå½¢æˆæ–°çš„å­—ç¬¦ä¸²ï¼šaaa.bbb
 
+=== Signature ç­¾å
 
-=== Signature Ç©Ãû
-×îºó£¬½«ÉÏÃæÆ´½ÓÍêµÄ×Ö·û´®ÓÃHS256Ëã·¨½øÐÐ¼ÓÃÜ£¬ÔÚ¼ÓÃÜµÄÊ±ºò£¬»¹ÐèÒªÌá¹©Ò»¸öÃÜÔ¿£¨secret£©¡£
-¼ÓÃÜºóµÄÄÚÈÝÒ²ÊÇÒ»¸ö×Ö·û´®£¬Õâ¸ö×Ö·û´®¾ÍÊÇÇ©Ãû¡£
+æœ€åŽï¼Œå°†ä¸Šé¢æ‹¼æŽ¥å®Œçš„å­—ç¬¦ä¸²ç”¨HS256ç®—æ³•è¿›è¡ŒåŠ å¯†ï¼Œåœ¨åŠ å¯†çš„æ—¶å€™ï¼Œè¿˜éœ€è¦æä¾›ä¸€ä¸ªå¯†é’¥ï¼ˆsecretï¼‰ã€‚ åŠ å¯†åŽçš„å†…å®¹ä¹Ÿæ˜¯ä¸€ä¸ªå­—ç¬¦ä¸²ï¼Œè¿™ä¸ªå­—ç¬¦ä¸²å°±æ˜¯ç­¾åã€‚
 
-°ÑÕâ¸öÇ©ÃûÆ´½ÓÔÚ¸Õ²ÅµÄ×Ö·û´®ºóÃæ¾ÍÄÜµÃµ½ÍêÕûµÄJWT×Ö·û´®¡£
-header²¿·ÖºÍpayload²¿·ÖÈç¹û±»´Û¸Ä£¬ÓÉÓÚ´Û¸ÄÕß²»ÖªµÀÃÜÔ¿ÊÇÊ²Ã´£¬Ò²ÎÞ·¨Éú³ÉÐÂµÄsignature²¿·Ö£¬
-·þÎñ¶ËÒ²¾ÍÎÞ·¨Í¨¹ý¡£
+æŠŠè¿™ä¸ªç­¾åæ‹¼æŽ¥åœ¨åˆšæ‰çš„å­—ç¬¦ä¸²åŽé¢å°±èƒ½å¾—åˆ°å®Œæ•´çš„JWTå­—ç¬¦ä¸²ã€‚ headeréƒ¨åˆ†å’Œpayloadéƒ¨åˆ†å¦‚æžœè¢«ç¯¡æ”¹ï¼Œç”±äºŽç¯¡æ”¹è€…ä¸çŸ¥é“å¯†é’¥æ˜¯ä»€ä¹ˆï¼Œä¹Ÿæ— æ³•ç”Ÿæˆæ–°çš„signatureéƒ¨åˆ†ï¼Œ æœåŠ¡ç«¯ä¹Ÿå°±æ— æ³•é€šè¿‡ã€‚
 
 ----
-ÔÚJWTÖÐ£¬ÏûÏ¢ÌåÊÇÍ¸Ã÷µÄ£¬Ê¹ÓÃÇ©Ãû¿ÉÒÔ±£Ö¤ÏûÏ¢²»±»´Û¸Ä¡£
-È·±£ÃÜÔ¿²»»áÐ¹Â¶,·ñÔò»á±»´Û¸Ä
+åœ¨JWTä¸­ï¼Œæ¶ˆæ¯ä½“æ˜¯é€æ˜Žçš„ï¼Œä½¿ç”¨ç­¾åå¯ä»¥ä¿è¯æ¶ˆæ¯ä¸è¢«ç¯¡æ”¹ã€‚
+ç¡®ä¿å¯†é’¥ä¸ä¼šæ³„éœ²,å¦åˆ™ä¼šè¢«ç¯¡æ”¹
 ----
-ÀýÈç£¬Ê¹ÓÃHMACSHA256¼ÓÃÜËã·¨£¬ÅäºÏÃØÔ¿£¬½«Ç°Á©²¿½øÐÐ¼ÓÃÜ£¬Éú³ÉÇ©Ãû
+
+ä¾‹å¦‚ï¼Œä½¿ç”¨HMACSHA256åŠ å¯†ç®—æ³•ï¼Œé…åˆç§˜é’¥ï¼Œå°†å‰ä¿©éƒ¨è¿›è¡ŒåŠ å¯†ï¼Œç”Ÿæˆç­¾å
 ----
 HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret)
 ----
-ÀýÈç£¬½«Header¡¢Payload¡¢SignatureÈý²¿·ÖÊ¹ÓÃµã£¨.£©Á¬½ÓÆðÀ´
+
+ä¾‹å¦‚ï¼Œå°†Headerã€Payloadã€Signatureä¸‰éƒ¨åˆ†ä½¿ç”¨ç‚¹ï¼ˆ.ï¼‰è¿žæŽ¥èµ·æ¥
 ----
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 ----
 
-https://jwt.io/#debugger-io[Ê¹ÓÃ¹ÙÍøÌá¹©µÄ¹¤¾ß£¬¿ÉÒÔ¶Ô¸ÃJWT½øÐÐÑéÖ¤ºÍ½âÎö]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+https://jwt.io/#debugger-io[ä½¿ç”¨å®˜ç½‘æä¾›çš„å·¥å…·ï¼Œå¯ä»¥å¯¹è¯¥JWTè¿›è¡ŒéªŒè¯å’Œè§£æž]
 
 `

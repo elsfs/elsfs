@@ -1,97 +1,97 @@
 == JSON Web Signature(JWS) (SignedJWT)
 
-JSON Web SignatureÊÇÒ»¸öÓÐ×Å¼òµ¥µÄÍ³Ò»±í´ïÐÎÊ½µÄ×Ö·û´®£º ÒÑÇ©ÃûµÄjwt,°üº¬±ê×¼jwt½á¹¹£ºheader¡¢payload¡¢signature
+JSON Web Signatureæ˜¯ä¸€ä¸ªæœ‰ç€ç®€å•çš„ç»Ÿä¸€è¡¨è¾¾å½¢å¼çš„å­—ç¬¦ä¸²ï¼š å·²ç­¾åçš„jwt,åŒ…å«æ ‡å‡†jwtç»“æž„ï¼šheaderã€payloadã€signature
 
-=== Í·²¿£¨Header£©
+=== å¤´éƒ¨ï¼ˆHeaderï¼‰
 
-Í·²¿ÓÃÓÚÃèÊö¹ØÓÚ¸ÃJWTµÄ×î»ù±¾µÄÐÅÏ¢£¬ÀýÈçÆäÀàÐÍÒÔ¼°Ç©ÃûËùÓÃµÄËã·¨µÈ¡£ JSONÄÚÈÝÒª¾­Base64 ±àÂëÉú³É×Ö·û´®³ÉÎªHeader¡£
+å¤´éƒ¨ç”¨äºŽæè¿°å…³äºŽè¯¥JWTçš„æœ€åŸºæœ¬çš„ä¿¡æ¯ï¼Œä¾‹å¦‚å…¶ç±»åž‹ä»¥åŠç­¾åæ‰€ç”¨çš„ç®—æ³•ç­‰ã€‚ JSONå†…å®¹è¦ç»Base64 ç¼–ç ç”Ÿæˆå­—ç¬¦ä¸²æˆä¸ºHeaderã€‚
 
-=== ÔØºÉ£¨PayLoad£©
+=== è½½è·ï¼ˆPayLoadï¼‰
 
-payloadµÄÎå¸ö×Ö¶Î¶¼ÊÇÓÉJWTµÄ±ê×¼Ëù¶¨ÒåµÄ¡£
+payloadçš„äº”ä¸ªå­—æ®µéƒ½æ˜¯ç”±JWTçš„æ ‡å‡†æ‰€å®šä¹‰çš„ã€‚
 
-. iss: ¸ÃJWTµÄÇ©·¢Õß
-. sub: ¸ÃJWTËùÃæÏòµÄÓÃ»§
-. aud: ½ÓÊÕ¸ÃJWTµÄÒ»·½
-. exp(expires): Ê²Ã´Ê±ºò¹ýÆÚ£¬ÕâÀïÊÇÒ»¸öUnixÊ±¼ä´Á
-. iat(issued at): ÔÚÊ²Ã´Ê±ºòÇ©·¢µÄ
+. iss: è¯¥JWTçš„ç­¾å‘è€…
+. sub: è¯¥JWTæ‰€é¢å‘çš„ç”¨æˆ·
+. aud: æŽ¥æ”¶è¯¥JWTçš„ä¸€æ–¹
+. exp(expires): ä»€ä¹ˆæ—¶å€™è¿‡æœŸï¼Œè¿™é‡Œæ˜¯ä¸€ä¸ªUnixæ—¶é—´æˆ³
+. iat(issued at): åœ¨ä»€ä¹ˆæ—¶å€™ç­¾å‘çš„
 
-ºóÃæµÄÐÅÏ¢¿ÉÒÔ°´Ðè²¹³ä¡£
+åŽé¢çš„ä¿¡æ¯å¯ä»¥æŒ‰éœ€è¡¥å……ã€‚
 
-JSONÄÚÈÝÒª¾­Base64 ±àÂëÉú³É×Ö·û´®³ÉÎªPayLoad¡£
+JSONå†…å®¹è¦ç»Base64 ç¼–ç ç”Ÿæˆå­—ç¬¦ä¸²æˆä¸ºPayLoadã€‚
 
-=== Ç©Ãû£¨signature£©
+=== ç­¾åï¼ˆsignatureï¼‰
 
-Õâ¸ö²¿·ÖheaderÓëpayloadÍ¨¹ýheaderÖÐÉùÃ÷µÄ¼ÓÃÜ·½Ê½£¬Ê¹ÓÃÃÜÔ¿secret½øÐÐ¼ÓÃÜ£¬Éú³ÉÇ©Ãû¡£
+è¿™ä¸ªéƒ¨åˆ†headerä¸Žpayloadé€šè¿‡headerä¸­å£°æ˜Žçš„åŠ å¯†æ–¹å¼ï¼Œä½¿ç”¨å¯†é’¥secretè¿›è¡ŒåŠ å¯†ï¼Œç”Ÿæˆç­¾åã€‚
 
-JWSµÄÖ÷ÒªÄ¿µÄÊÇ±£Ö¤ÁËÊý¾ÝÔÚ´«Êä¹ý³ÌÖÐ²»±»ÐÞ¸Ä£¬ÑéÖ¤Êý¾ÝµÄÍêÕûÐÔ¡£µ«ÓÉÓÚ½ö²ÉÓÃBase64¶ÔÏûÏ¢ÄÚÈÝ±àÂë£¬ Òò´Ë²»±£Ö¤Êý¾ÝµÄ²»¿ÉÐ¹Â¶ÐÔ¡£ËùÒÔ²»ÊÊºÏÓÃÓÚ´«ÊäÃô¸ÐÊý¾Ý¡£
+JWSçš„ä¸»è¦ç›®çš„æ˜¯ä¿è¯äº†æ•°æ®åœ¨ä¼ è¾“è¿‡ç¨‹ä¸­ä¸è¢«ä¿®æ”¹ï¼ŒéªŒè¯æ•°æ®çš„å®Œæ•´æ€§ã€‚ä½†ç”±äºŽä»…é‡‡ç”¨Base64å¯¹æ¶ˆæ¯å†…å®¹ç¼–ç ï¼Œ å› æ­¤ä¸ä¿è¯æ•°æ®çš„ä¸å¯æ³„éœ²æ€§ã€‚æ‰€ä»¥ä¸é€‚åˆç”¨äºŽä¼ è¾“æ•æ„Ÿæ•°æ®ã€‚
 
-== ¹æ·¶
+== è§„èŒƒ
 
 ===  JSON Web Signature (JWS)
 
-Ò»ÖÖÊý¾Ý½á¹¹£¬±íÊ¾¾­¹ýÊý×ÖÇ©Ãû»òMAC´¦ÀíµÄÏûÏ¢¡£
+ä¸€ç§æ•°æ®ç»“æž„ï¼Œè¡¨ç¤ºç»è¿‡æ•°å­—ç­¾åæˆ–MACå¤„ç†çš„æ¶ˆæ¯ã€‚
 
 === JOSE Header
 
-°üº¬ÃèÊöÃÜÂëµÄ²ÎÊýµÄ JSON ¶ÔÏó Ê¹ÓÃµÄ²Ù×÷ºÍ²ÎÊý¡£ JOSE£¨JSON ¶ÔÏóÇ©Ãû ºÍ¼ÓÃÜ£©±¨Í·ÓÉÒ»×é±¨Í·²ÎÊý×é³É¡£
+åŒ…å«æè¿°å¯†ç çš„å‚æ•°çš„ JSON å¯¹è±¡ ä½¿ç”¨çš„æ“ä½œå’Œå‚æ•°ã€‚ JOSEï¼ˆJSON å¯¹è±¡ç­¾å å’ŒåŠ å¯†ï¼‰æŠ¥å¤´ç”±ä¸€ç»„æŠ¥å¤´å‚æ•°ç»„æˆã€‚
 
 === JWS Payload
 
-Òª±£»¤µÄ°ËÎ»×Ö½ÚÐòÁÐ¡ª¡ªÒ²¾ÍÊÇÏûÏ¢¡£ÓÐÐ§ÔØºÉ¿ÉÒÔ°üº¬ÈÎÒâÐòÁÐµÄ°ËÎ»×Ö½Ú¡£
+è¦ä¿æŠ¤çš„å…«ä½å­—èŠ‚åºåˆ—â€”â€”ä¹Ÿå°±æ˜¯æ¶ˆæ¯ã€‚æœ‰æ•ˆè½½è·å¯ä»¥åŒ…å«ä»»æ„åºåˆ—çš„å…«ä½å­—èŠ‚ã€‚
 
 ===    JWS Signature
 
-JWS Protected Header ºÍ JWS Payload ÉÏµÄÊý×ÖÇ©Ãû»ò MAC
+JWS Protected Header å’Œ JWS Payload ä¸Šçš„æ•°å­—ç­¾åæˆ– MAC
 
 ===  Header Parameter
 
-×÷Îª JOSE Header ³ÉÔ±µÄÃû³Æ/Öµ¶Ô¡£
+ä½œä¸º JOSE Header æˆå‘˜çš„åç§°/å€¼å¯¹ã€‚
 
 === JWS Protected Header
 
-°üº¬ÍêÕû±êÍ·²ÎÊýµÄ JSON ¶ÔÏó ÊÜ JWS Signature Êý×ÖÇ©Ãû»ò MAC ²Ù×÷±£»¤¡£ ¶ÔÓÚ JWS Compact Serialization£¬Õâ°üÀ¨Õû¸ö JOSE Header¡£ ¶ÔÓÚ JWS JSON ÐòÁÐ»¯£¬ÕâÊÇ JOSE Header¡£
+åŒ…å«å®Œæ•´æ ‡å¤´å‚æ•°çš„ JSON å¯¹è±¡ å— JWS Signature æ•°å­—ç­¾åæˆ– MAC æ“ä½œä¿æŠ¤ã€‚ å¯¹äºŽ JWS Compact Serializationï¼Œè¿™åŒ…æ‹¬æ•´ä¸ª JOSE Headerã€‚ å¯¹äºŽ JWS JSON åºåˆ—åŒ–ï¼Œè¿™æ˜¯ JOSE Headerã€‚
 
 === JWS Unprotected Header
 
-SON ¶ÔÏó£¬°üº¬²»ÊÜÍêÕûÐÔ±£»¤µÄ±êÍ·²ÎÊý¡£ÕâÖ»ÄÜÔÚÊ¹ÓÃ JWS JSON ÐòÁÐ»¯Ê±³öÏÖ
+SON å¯¹è±¡ï¼ŒåŒ…å«ä¸å—å®Œæ•´æ€§ä¿æŠ¤çš„æ ‡å¤´å‚æ•°ã€‚è¿™åªèƒ½åœ¨ä½¿ç”¨ JWS JSON åºåˆ—åŒ–æ—¶å‡ºçŽ°
 
 === Base64url Encoding
 
-Base64 ±àÂë ¹æ·¶ RFC4648
+Base64 ç¼–ç  è§„èŒƒ RFC4648
 
 ===    JWS Signing Input
 
-Êý×ÖÇ©Ãû»ò MAC ¼ÆËãµÄÊäÈë¡£ËüµÄÖµÎª ASCII(BASE64URL(UTF8(JWS Protected Header)) || '.' || BASE64URL(JWS Payload))
+æ•°å­—ç­¾åæˆ– MAC è®¡ç®—çš„è¾“å…¥ã€‚å®ƒçš„å€¼ä¸º ASCII(BASE64URL(UTF8(JWS Protected Header)) || '.' || BASE64URL(JWS Payload))
 
 ===    JWS Compact Serialization
 
-½« JWS ±íÊ¾Îª½ô´ÕµÄ URL °²È«×Ö·û´®
+å°† JWS è¡¨ç¤ºä¸ºç´§å‡‘çš„ URL å®‰å…¨å­—ç¬¦ä¸²
 
 === JWS JSON Serialization
 
-JWS ×÷Îª JSON ¶ÔÏóµÄ±íÊ¾¡£Óë JWS ½ô´ÕÐòÁÐ»¯²»Í¬£¬JWS JSON ÐòÁÐ»¯Ö§³Ö½«¶à¸ö Êý×ÖÇ©ÃûºÍ/»ò MAC Ó¦ÓÃÓÚÍ¬Ò»ÄÚÈÝ¡£ ÕâÖÖ±íÊ¾¼ÈÃ»ÓÐÕë¶Ô½ô´ÕÐÔ½øÐÐÓÅ»¯£¬Ò²Ã»ÓÐÕë¶Ô URL°²È«½øÐÐÓÅ»¯¡£
+JWS ä½œä¸º JSON å¯¹è±¡çš„è¡¨ç¤ºã€‚ä¸Ž JWS ç´§å‡‘åºåˆ—åŒ–ä¸åŒï¼ŒJWS JSON åºåˆ—åŒ–æ”¯æŒå°†å¤šä¸ª æ•°å­—ç­¾åå’Œ/æˆ– MAC åº”ç”¨äºŽåŒä¸€å†…å®¹ã€‚ è¿™ç§è¡¨ç¤ºæ—¢æ²¡æœ‰é’ˆå¯¹ç´§å‡‘æ€§è¿›è¡Œä¼˜åŒ–ï¼Œä¹Ÿæ²¡æœ‰é’ˆå¯¹ URLå®‰å…¨è¿›è¡Œä¼˜åŒ–ã€‚
 
 === Unsecured JWS
 
-²»Ìá¹©ÍêÕûÐÔ±£»¤µÄ JWS¡£²»°²È«µÄ JWS Ê¹ÓÃ ¡°alg¡±=¡°none¡±¡£
+ä¸æä¾›å®Œæ•´æ€§ä¿æŠ¤çš„ JWSã€‚ä¸å®‰å…¨çš„ JWS ä½¿ç”¨ â€œalgâ€=â€œnoneâ€ã€‚
 
 ===    Collision-Resistant Name
 
-¿Õ¼äÖÐµÄÒ»¸öÃû³Æ£¬ËüÊ¹Ãû³ÆÄÜ¹»ÒÔÒ»ÖÖ¼«²»¿ÉÄÜÓëÆäËû Ãû³Æ³åÍ»µÄ·½Ê½½øÐÐ·ÖÅä¡£¿¹³åÍ»ÃüÃû¿Õ¼äµÄÊ¾Àý°üÀ¨£ºÓòÃû¡¢ITU-T X.660 ºÍ X.670 ÍÆ¼öÏµÁÐÖÐ¶¨ÒåµÄ¶ÔÏó±êÊ¶·û (OID) £¬ÒÔ¼°Í¨ÓÃÎ¨Ò»±êÊ¶·û (UUID) [ RFC4122 ]¡£µ±Ê¹ÓÃ¹ÜÀíÎ¯ÍÐµÄ Ãû³Æ¿Õ¼äÊ±£¬Ãû³ÆµÄ¶¨ÒåÕßÐèÒª²ÉÈ¡ºÏÀíµÄÔ¤·À´ëÊ©ÒÔÈ·±£ËûÃÇ¿ØÖÆÃû³Æ¿Õ¼äÖÐÓÃÓÚ¶¨ÒåÃû³ÆµÄ²¿·Ö¡£
+ç©ºé—´ä¸­çš„ä¸€ä¸ªåç§°ï¼Œå®ƒä½¿åç§°èƒ½å¤Ÿä»¥ä¸€ç§æžä¸å¯èƒ½ä¸Žå…¶ä»– åç§°å†²çªçš„æ–¹å¼è¿›è¡Œåˆ†é…ã€‚æŠ—å†²çªå‘½åç©ºé—´çš„ç¤ºä¾‹åŒ…æ‹¬ï¼šåŸŸåã€ITU-T X.660 å’Œ X.670 æŽ¨èç³»åˆ—ä¸­å®šä¹‰çš„å¯¹è±¡æ ‡è¯†ç¬¦ (OID) ï¼Œä»¥åŠé€šç”¨å”¯ä¸€æ ‡è¯†ç¬¦ (UUID) [ RFC4122 ]ã€‚å½“ä½¿ç”¨ç®¡ç†å§”æ‰˜çš„ åç§°ç©ºé—´æ—¶ï¼Œåç§°çš„å®šä¹‰è€…éœ€è¦é‡‡å–åˆç†çš„é¢„é˜²æŽªæ–½ä»¥ç¡®ä¿ä»–ä»¬æŽ§åˆ¶åç§°ç©ºé—´ä¸­ç”¨äºŽå®šä¹‰åç§°çš„éƒ¨åˆ†ã€‚
 
 === StringOrURI
 
-Ò»¸ö JSON ×Ö·û´®Öµ£¬¸½¼ÓÒªÇóÊÇËäÈ» ¿ÉÒÔÊ¹ÓÃÈÎÒâ×Ö·û´®Öµ£¬µ«ÈÎºÎ°üº¬¡°:¡± ×Ö·ûµÄÖµ±ØÐëÊÇÒ»¸ö URI [ RFC3986 ]¡£StringOrURI Öµ ×÷ÎªÇø·Ö´óÐ¡Ð´µÄ×Ö·û´®½øÐÐ±È½Ï£¬Î´Ó¦ÓÃ×ª»»»ò¹æ·¶»¯
+ä¸€ä¸ª JSON å­—ç¬¦ä¸²å€¼ï¼Œé™„åŠ è¦æ±‚æ˜¯è™½ç„¶ å¯ä»¥ä½¿ç”¨ä»»æ„å­—ç¬¦ä¸²å€¼ï¼Œä½†ä»»ä½•åŒ…å«â€œ:â€ å­—ç¬¦çš„å€¼å¿…é¡»æ˜¯ä¸€ä¸ª URI [ RFC3986 ]ã€‚StringOrURI å€¼ ä½œä¸ºåŒºåˆ†å¤§å°å†™çš„å­—ç¬¦ä¸²è¿›è¡Œæ¯”è¾ƒï¼Œæœªåº”ç”¨è½¬æ¢æˆ–è§„èŒƒåŒ–
 
-== JSON Web Ç©Ãû (JWS) ¸ÅÊö
+== JSON Web ç­¾å (JWS) æ¦‚è¿°
 
-JWS Ê¹ÓÃ JSON Êý¾Ý±íÊ¾Êý×ÖÇ©Ãû»ò MACed ÄÚÈÝ½á¹¹ºÍbase64url±àÂë¡£ ÕâÐ© JSON Êý¾Ý½á¹¹¿ÉÒÔ ÔÚÈÎºÎ JSON ÖµÖ®Ç°»òÖ®ºó°üº¬¿Õ¸ñºÍ/»ò»»ÐÐ·û »ò½á¹¹×Ö·û£¬·ûºÏ RFC 7159 µÚ 2 ½Ú
-[RFC7159]¡£ JWS ±íÊ¾ÕâÐ©Âß¼­Öµ£¨Ã¿¸öÖµ¶¼ÊÇÔÚÉÏÃæ¶¨Òå£©£º --- JOSE Header JWS Payload JWS Signature --- ±¾ÎÄµµ¶¨ÒåÁËJWSµÄÁ½¸öÐòÁÐ»¯£ºÒ»¸ö½ô´ÕµÄURL- °²È«ÐòÁÐ»¯³ÆÎªJWS Compact serializationºÍJSON ÐòÁÐ»¯³ÆÎªJWS JSONÐòÁÐ»¯¡£ÔÚÁ½ÕßÖÐ ÐòÁÐ»¯¡¢JWSÊÜ±£»¤µÄ±êÍ·¡¢JWSÓÐÐ§ÔØºÉºÍJWS Ç©ÃûÊÇ»ùÓÚ64url±àÂëµÄ£¬ÒòÎªJSONÈ±·¦Ö±½Ó±íÊ¾ÈÎÒâ°ËÎ»Î»×éÐòÁÐ¡£
+JWS ä½¿ç”¨ JSON æ•°æ®è¡¨ç¤ºæ•°å­—ç­¾åæˆ– MACed å†…å®¹ç»“æž„å’Œbase64urlç¼–ç ã€‚ è¿™äº› JSON æ•°æ®ç»“æž„å¯ä»¥ åœ¨ä»»ä½• JSON å€¼ä¹‹å‰æˆ–ä¹‹åŽåŒ…å«ç©ºæ ¼å’Œ/æˆ–æ¢è¡Œç¬¦ æˆ–ç»“æž„å­—ç¬¦ï¼Œç¬¦åˆ RFC 7159 ç¬¬ 2 èŠ‚
+[RFC7159]ã€‚ JWS è¡¨ç¤ºè¿™äº›é€»è¾‘å€¼ï¼ˆæ¯ä¸ªå€¼éƒ½æ˜¯åœ¨ä¸Šé¢å®šä¹‰ï¼‰ï¼š --- JOSE Header JWS Payload JWS Signature --- æœ¬æ–‡æ¡£å®šä¹‰äº†JWSçš„ä¸¤ä¸ªåºåˆ—åŒ–ï¼šä¸€ä¸ªç´§å‡‘çš„URL- å®‰å…¨åºåˆ—åŒ–ç§°ä¸ºJWS Compact serializationå’ŒJSON åºåˆ—åŒ–ç§°ä¸ºJWS JSONåºåˆ—åŒ–ã€‚åœ¨ä¸¤è€…ä¸­ åºåˆ—åŒ–ã€JWSå—ä¿æŠ¤çš„æ ‡å¤´ã€JWSæœ‰æ•ˆè½½è·å’ŒJWS ç­¾åæ˜¯åŸºäºŽ64urlç¼–ç çš„ï¼Œå› ä¸ºJSONç¼ºä¹ç›´æŽ¥è¡¨ç¤ºä»»æ„å…«ä½ä½ç»„åºåˆ—ã€‚
 
-=== JWS CompactÐòÁÐ»¯¸ÅÊö
+=== JWS Compactåºåˆ—åŒ–æ¦‚è¿°
 
-ÔÚJWS CompactÐòÁÐ»¯ÖÐ£¬²»Ê¹ÓÃJWS Unprotected Header¡£ ÔÚÕâÖÖÇé¿öÏÂ£¬JOSE±êÍ·ºÍJWS±£»¤±êÍ·ÊÇ ÏàÍ¬µÄ ÔÚJWS CompactÐòÁÐ»¯ÖÐ£¬JWS±íÊ¾Îª ´®Áª£º
+åœ¨JWS Compactåºåˆ—åŒ–ä¸­ï¼Œä¸ä½¿ç”¨JWS Unprotected Headerã€‚ åœ¨è¿™ç§æƒ…å†µä¸‹ï¼ŒJOSEæ ‡å¤´å’ŒJWSä¿æŠ¤æ ‡å¤´æ˜¯ ç›¸åŒçš„ åœ¨JWS Compactåºåˆ—åŒ–ä¸­ï¼ŒJWSè¡¨ç¤ºä¸º ä¸²è”ï¼š
 
 ----
 BASE64URL(UTF8(JWS Protected Header)) || '.' ||
@@ -99,11 +99,11 @@ BASE64URL(UTF8(JWS Protected Header)) || '.' ||
       BASE64URL(JWS Signature)
 ----
 
-==== JWS JSON ÐòÁÐ»¯¸ÅÊö
+==== JWS JSON åºåˆ—åŒ–æ¦‚è¿°
 
-WS JSON ÐòÁÐ»¯ÖÐ£¬ ±ØÐë´æÔÚ JWS Protected Header ºÍ JWS Unprotected Header Ö®Ò»»òÁ½ÕßÔÚÕâÖÖÇé¿öÏÂ£¬ JOSE Header µÄ³ÉÔ±ÊÇ JWS Protected Header ³ÉÔ± ºÍ JWS Unprotected Header Öµ¡£
+WS JSON åºåˆ—åŒ–ä¸­ï¼Œ å¿…é¡»å­˜åœ¨ JWS Protected Header å’Œ JWS Unprotected Header ä¹‹ä¸€æˆ–ä¸¤è€…åœ¨è¿™ç§æƒ…å†µä¸‹ï¼Œ JOSE Header çš„æˆå‘˜æ˜¯ JWS Protected Header æˆå‘˜ å’Œ JWS Unprotected Header å€¼ã€‚
 
-ÔÚJWS JSONÐòÁÐ»¯ÖÐ£¬JWS±íÊ¾ÎªJSON¶ÔÏó °üº¬ÕâËÄ¸ö³ÉÔ±ÖÐµÄÒ»Ð©»òÈ«²¿£º
+åœ¨JWS JSONåºåˆ—åŒ–ä¸­ï¼ŒJWSè¡¨ç¤ºä¸ºJSONå¯¹è±¡ åŒ…å«è¿™å››ä¸ªæˆå‘˜ä¸­çš„ä¸€äº›æˆ–å…¨éƒ¨ï¼š
 
 ----
 protected BASE64URL(UTF8(JWS Protected Header))
@@ -112,7 +112,7 @@ payload BASE64URL(JWS Payload)
 signature BASE64URL(JWS Signature)
 ----
 
-=== JWS ÊµÀý
+=== JWS å®žä¾‹
 
 [source,json]
 ----
@@ -121,12 +121,14 @@ signature BASE64URL(JWS Signature)
 "alg":"HS256"
 }
 ----
-Í·²¿
+
+å¤´éƒ¨
 ----
 BASE64URL(UTF8(JWS Protected Header))
 # eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9
 ----
-ÒÔÏÂJSON¶ÔÏóµÄUTF-8±íÊ¾ÐÎÊ½ÓÃ×÷ JWSÓÐÐ§ÔØºÉ¡££¨Çë×¢Òâ£¬ÓÐÐ§ÔØºÉ¿ÉÒÔÊÇÈÎºÎÄÚÈÝ£¬²»ÐèÒªÊÇJSON¶ÔÏóµÄ±íÊ¾¡££©
+
+ä»¥ä¸‹JSONå¯¹è±¡çš„UTF-8è¡¨ç¤ºå½¢å¼ç”¨ä½œ JWSæœ‰æ•ˆè½½è·ã€‚ï¼ˆè¯·æ³¨æ„ï¼Œæœ‰æ•ˆè½½è·å¯ä»¥æ˜¯ä»»ä½•å†…å®¹ï¼Œä¸éœ€è¦æ˜¯JSONå¯¹è±¡çš„è¡¨ç¤ºã€‚ï¼‰
 [source,json]
 ----
  {
@@ -135,44 +137,55 @@ BASE64URL(UTF8(JWS Protected Header))
 "http://example.com/is_root":true
 }
 ----
-ÔØÌå
+
+è½½ä½“
+
 ----
 BASE64URL(JWS Payload) Encoding
 # eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ
 ----
+
  ASCII(BASE64URL(UTF8(JWSProtected Header)) || '.' || BASE64URL(JWS Payload))
-ÓÃ HMAC SHA-256 Ëã·¨¼ÓÃÜ
-µÃµ½µÄ½á¹û½øÐÐ  BASE64URL(JWS Signature)
+ç”¨ HMAC SHA-256 ç®—æ³•åŠ å¯†
+å¾—åˆ°çš„ç»“æžœè¿›è¡Œ  BASE64URL(JWS Signature)
 
 ----
 dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
 ----
 
-½«ÕâÐ©Öµ°´ Header.Payload.SignatureµÄË³ÐòÁ¬½Ó¸÷²¿·ÖÖ®¼äµÄ¾äµã£¨'.'£©×Ö·ûÉú³É´ËÍêÕûµÄJWS
-Ê¹ÓÃJWS CompactÐòÁÐ»¯µÄ±íÊ¾·¨£¨´ø»»ÐÐ·û½öÓÃÓÚÏÔÊ¾Ä¿µÄ£©£º
+å°†è¿™äº›å€¼æŒ‰ Header.Payload.Signatureçš„é¡ºåºè¿žæŽ¥å„éƒ¨åˆ†ä¹‹é—´çš„å¥ç‚¹ï¼ˆ'.'ï¼‰å­—ç¬¦ç”Ÿæˆæ­¤å®Œæ•´çš„JWS ä½¿ç”¨JWS Compactåºåˆ—åŒ–çš„è¡¨ç¤ºæ³•ï¼ˆå¸¦æ¢è¡Œç¬¦ä»…ç”¨äºŽæ˜¾ç¤ºç›®çš„ï¼‰ï¼š
+
 ----
 eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9
 .eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ
 .dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
 ----
 
+== JWSå¤´éƒ¨å‚æ•°è¯´æ˜Ž
 
+=== JWS â€œalgâ€ï¼ˆç®—æ³•ï¼‰
 
-== JWSÍ·²¿²ÎÊýËµÃ÷
-=== JWS ¡°alg¡±£¨Ëã·¨£©
-=== ¡°jku¡±£¨JWK ÉèÖÃ URL£©
-===  ¡°jwk¡±£¨JSON Web ÃÜÔ¿£©
-===  ¡°kid¡±£¨ÃÜÔ¿ ID£©
-=== ¡°x5u¡±£¨X.509 URL£©
-=== ¡°x5c¡±£¨X.509 Ö¤ÊéÁ´£©
-=== ¡°x5t¡±£¨X.509 Ö¤Êé SHA-1 Ö¸ÎÆ£©
-.  ¡°x5t#S256¡±£¨X.509 Ö¤Êé SHA-256 Ö¸ÎÆ£©
-.  ¡°typ¡±£¨ÀàÐÍ£©
-. ¡°cty¡±£¨ÄÚÈÝÀàÐÍ£©
-. ¡°crit¡± £¨Critical£©
+=== â€œjkuâ€ï¼ˆJWK è®¾ç½® URLï¼‰
 
-== Àý×Ó
+===  â€œjwkâ€ï¼ˆJSON Web å¯†é’¥ï¼‰
+
+===  â€œkidâ€ï¼ˆå¯†é’¥ IDï¼‰
+
+=== â€œx5uâ€ï¼ˆX.509 URLï¼‰
+
+=== â€œx5câ€ï¼ˆX.509 è¯ä¹¦é“¾ï¼‰
+
+=== â€œx5tâ€ï¼ˆX.509 è¯ä¹¦ SHA-1 æŒ‡çº¹ï¼‰
+
+. â€œx5t#S256â€ï¼ˆX.509 è¯ä¹¦ SHA-256 æŒ‡çº¹ï¼‰
+. â€œtypâ€ï¼ˆç±»åž‹ï¼‰
+. â€œctyâ€ï¼ˆå†…å®¹ç±»åž‹ï¼‰
+. â€œcritâ€ ï¼ˆCriticalï¼‰
+
+== ä¾‹å­
+
 HMAC
+
 [source,java]
 ----
 import java.security.SecureRandom;
@@ -303,8 +316,7 @@ JWSVerifier verifier = new ECDSAVerifier(ecPublicJWK);
 assertTrue("ES256 signature verified", jwsObject.verify(verifier));
 assertEquals("Elliptic cure", jwsObject.getPayload().toString());
 ----
-Edwards-Curve Digital Signature Algorithm / Ed25519
-ÐèÒªÒÀÀµ
+Edwards-Curve Digital Signature Algorithm / Ed25519 éœ€è¦ä¾èµ–
 [source,xml]
 ----
 <dependency>
@@ -341,8 +353,10 @@ JWSVerifier verifier = new Ed25519Verifier(publicJWK);
 assertTrue("Ed25519 signature verified", jwsObject.verify(verifier));
 assertEquals("We are having a crypto party!", jwsObject.getPayload().toString());
 ----
-=== ¾ßÓÐJSONÐòÁÐ»¯ºÍ¶à¸öÇ©Ãû
-Ê¾ÀýÍ¨ÓÃJSONÐòÁÐ»¯£¬ÆäÖÐÁ½¸öÇ©ÃûÓ¦ÓÃÓÚÓÐÐ§ÔØºÉ£º
+
+=== å…·æœ‰JSONåºåˆ—åŒ–å’Œå¤šä¸ªç­¾å
+
+ç¤ºä¾‹é€šç”¨JSONåºåˆ—åŒ–ï¼Œå…¶ä¸­ä¸¤ä¸ªç­¾ååº”ç”¨äºŽæœ‰æ•ˆè½½è·ï¼š
 
 [source,java]
 ----
@@ -396,7 +410,8 @@ String json = jwsObjectJSON.serializeGeneral();
 RSAKey rsaPublicJWK = rsaJWK.toPublicJWK();
 ECKey ecPublicJWK = ecJWK.toPublicJWK();
 ----
-Êä³öÊ¾Àý£º
+
+è¾“å‡ºç¤ºä¾‹ï¼š
 [source,json]
 ----
 {
@@ -413,7 +428,8 @@ ECKey ecPublicJWK = ecJWK.toPublicJWK();
   ]
 }
 ----
-ÑéÖ¤¾ßÓÐ¶à¸öÇ©ÃûµÄJWS°²È«¶ÔÏó£º
+
+éªŒè¯å…·æœ‰å¤šä¸ªç­¾åçš„JWSå®‰å…¨å¯¹è±¡ï¼š
 [source,java]
 ----
 import com.nimbusds.jose.*;
@@ -447,8 +463,11 @@ if (JWSObjectJSON.State.VERIFIED.equals(jwsObjectJSON.getState())) {
     System.out.println("JWS JSON invalid");
 }
 ----
-=== ¾ßÓÐÎ´±àÂëÓÐÐ§ÔØºÉµÄ JWS £¨RFC 7797£©
-Î´±àÂëµÄ·ÖÀëJWS¸ºÔØµÄJava´úÂëÊ¾Àý£º
+
+=== å…·æœ‰æœªç¼–ç æœ‰æ•ˆè½½è·çš„ JWS ï¼ˆRFC 7797ï¼‰
+
+æœªç¼–ç çš„åˆ†ç¦»JWSè´Ÿè½½çš„Javaä»£ç ç¤ºä¾‹ï¼š
+
 [source,java]
 ----
 import com.nimbusds.jose.*;
@@ -491,7 +510,8 @@ if (parsedJWSObject.verify(new MACVerifier(hmacJWK))) {
     System.out.println("Invalid HMAC");
 }
 ----
-ÎªÁË²»·ÖÀëÎ´±àÂëµÄÓÐÐ§ÔØºÉ£¬¼´½«Æä±£³ÖÔÚ´®ÐÐJWSÄÚ£º
+
+ä¸ºäº†ä¸åˆ†ç¦»æœªç¼–ç çš„æœ‰æ•ˆè½½è·ï¼Œå³å°†å…¶ä¿æŒåœ¨ä¸²è¡ŒJWSå†…ï¼š
 [source,java]
 ----
 boolean isDetached = false;
@@ -502,7 +522,8 @@ String jws = jwsObject.serialize(isDetached);
 // Hello, world!.
 // 5rPBT_XW-x7mjc1ubf4WwW1iV2YJyc4CCFxORIEaAEk
 ----
-Çë×¢Òâ£¬Òª½âÎö´ËJWS£¬±ØÐë½«ÓÐÐ§¸ºÔØÏÔÊ¾Îª·ÖÀëµÄ£¬·ñÔò½âÎö·½·¨½«Å×³öParseException¡£Î´À´£¬ÎÒÃÇ¿ÉÄÜ»áÔö¼Ó¶Ô½âÎöÄÚÁªÎ´±àÂëÓÐÐ§ÔØºÉµÄÖ§³Ö¡£
+
+è¯·æ³¨æ„ï¼Œè¦è§£æžæ­¤JWSï¼Œå¿…é¡»å°†æœ‰æ•ˆè´Ÿè½½æ˜¾ç¤ºä¸ºåˆ†ç¦»çš„ï¼Œå¦åˆ™è§£æžæ–¹æ³•å°†æŠ›å‡ºParseExceptionã€‚æœªæ¥ï¼Œæˆ‘ä»¬å¯èƒ½ä¼šå¢žåŠ å¯¹è§£æžå†…è”æœªç¼–ç æœ‰æ•ˆè½½è·çš„æ”¯æŒã€‚
 [source,java]
 ----
 JWSObject.parse(

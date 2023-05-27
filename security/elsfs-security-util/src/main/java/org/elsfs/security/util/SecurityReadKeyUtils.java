@@ -11,29 +11,23 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
-/**
- * ��ȡR��Կ��˽Կ ������
- */
+
 public final class SecurityReadKeyUtils {
 
-    /* ��ʼ_˽��str */
     public static final String BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----";
 
-    /* ��ʼ_��Կstr */
     public static final String BEGIN_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----";
 
-    /* ����_˽��str */
+
     public static final String END_PRIVATE_KEY = "-----END PRIVATE KEY-----";
 
-    /* ����_��Կstr */
     public static final String END_PUBLIC_KEY = "-----END PUBLIC KEY-----";
 
-    /* pem �ļ���׺ */
     public static final String PEM_FILE_SUFFIX = ".pem";
 
     public static final String CER_FILE_SUFFIX = ".cer";
 
-    /*-----------------��ȡpem�ļ���ʽ RSA PublicKey------------------------------------*/
+    /*-----------------ȡpemʽ RSA PublicKey------------------------------------*/
     private static String filterStrKey(String str) {
         return str.replace(BEGIN_PUBLIC_KEY, "")
             .replace(BEGIN_PRIVATE_KEY, "")
@@ -43,7 +37,7 @@ public final class SecurityReadKeyUtils {
     }
 
     /**
-     * ����ļ��Ƿ�pem�ļ�
+     * pem
      * @param pemFile
      * @throws IOException
      */

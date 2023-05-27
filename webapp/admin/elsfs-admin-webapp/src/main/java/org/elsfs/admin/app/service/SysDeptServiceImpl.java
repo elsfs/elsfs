@@ -2,6 +2,7 @@ package org.elsfs.admin.app.service;
 
 import lombok.RequiredArgsConstructor;
 import org.elsfs.admin.app.command.dept.DeptDeleteCmdExe;
+import org.elsfs.admin.app.command.dept.DeptUpdateByIdOrSaveCmdExe;
 import org.elsfs.admin.app.command.query.DeptByIdQryExe;
 import org.elsfs.admin.app.command.query.DeptListDeptTreesQryExe;
 import org.elsfs.admin.app.command.query.DeptListQryExe;
@@ -9,7 +10,6 @@ import org.elsfs.admin.client.api.SysDeptService;
 import org.elsfs.admin.client.dto.DeptQry;
 import org.elsfs.admin.client.dto.clientobject.dept.DeptCO;
 import org.elsfs.admin.client.dto.clientobject.dept.DeptTreeCO;
-import org.elsfs.admin.infrastructure.dataobject.SysDeptDB;
 import org.elsfs.core.dto.MultiResponse;
 import org.elsfs.core.dto.Response;
 import org.elsfs.core.dto.SingleResponse;
@@ -31,6 +31,8 @@ public class SysDeptServiceImpl implements SysDeptService {
     private final DeptByIdQryExe deptByIdQryExe;
 
     private final DeptListDeptTreesQryExe deptListDeptTreesQryExe;
+
+    private final DeptUpdateByIdOrSaveCmdExe deptUpdateByIdOrSaveCmdExe;
 
     @Override
     public MultiResponse<DeptTreeCO> getDeptList(DeptQry deptQry, Boolean isTree) {
@@ -55,8 +57,8 @@ public class SysDeptServiceImpl implements SysDeptService {
 
 
     @Override
-    public Response updateById(SysDeptDB deptDB) {
-        return null;
+    public Response updateById(DeptCO deptDB) {
+        return deptUpdateByIdOrSaveCmdExe.execute(deptDB);
     }
 
     /**
@@ -65,7 +67,7 @@ public class SysDeptServiceImpl implements SysDeptService {
      */
     @Override
     public Response save(DeptCO deptCO) {
-        return null;
+        return deptUpdateByIdOrSaveCmdExe.execute(deptCO);
     }
 
 }

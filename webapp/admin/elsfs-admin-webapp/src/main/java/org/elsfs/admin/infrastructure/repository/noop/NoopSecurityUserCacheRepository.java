@@ -1,7 +1,6 @@
 package org.elsfs.admin.infrastructure.repository.noop;
 
 import org.elsfs.admin.infrastructure.repository.SecurityUserCacheRepository;
-
 import org.elsfs.security.core.userdetails.SecurityUser;
 
 /**

@@ -70,6 +70,6 @@ publishing {
     }
 }
 
-// ½ûÓÃ²âÊÔ¼Ğ¾ß¹¤¼şµÄ·¢²¼¡£
+// ç¦ç”¨æµ‹è¯•å¤¹å…·å·¥ä»¶çš„å‘å¸ƒã€‚
 //components.java.withVariantsFromConfiguration(configurations.testFixturesApiElements) { skip() }
 //components.java.withVariantsFromConfiguration(configurations.testFixturesRuntimeElements) { skip() }

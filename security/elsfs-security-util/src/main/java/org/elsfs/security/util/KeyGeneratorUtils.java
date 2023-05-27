@@ -11,7 +11,7 @@ import java.security.spec.ECPoint;
 import java.security.spec.EllipticCurve;
 
 /**
- * ���� key ������
+ * key 生成工具
  *
  * @author zeng
  */

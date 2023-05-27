@@ -1,36 +1,50 @@
 
 === JSON Web Token (RFC 7519)
-JSON Web ÁîÅÆ £¨JWT£© ÊÇÒ»ÖÖ¿ª·Å±ê×¼ https://datatracker.ietf.org/doc/html/rfc7519[£¨RFC 7519£©]£¬
+JSON Web ä»¤ç‰Œ ï¼ˆJWTï¼‰ æ˜¯ä¸€ç§å¼€æ”¾æ ‡å‡† https://datatracker.ietf.org/doc/html/rfc7519[ï¼ˆRFC 7519ï¼‰]ï¼Œ
 
 == JSON Web Algorithms (rfc7518)
-JSON Web Algorithms  £¨JWA£© ÊÇÒ»ÖÖ¿ª·Å±ê×¼ https://datatracker.ietf.org/doc/html/rfc7518[£¨rfc7518£©]£¬
 
-¶¨Òå JWS JWE Ç©ÃûËã·¨
+JSON Web Algorithms ï¼ˆJWAï¼‰ æ˜¯ä¸€ç§å¼€æ”¾æ ‡å‡† https://datatracker.ietf.org/doc/html/rfc7518[ï¼ˆrfc7518ï¼‰]ï¼Œ
 
-== JOSE JSON ¶ÔÏóÇ©ÃûºÍ¼ÓÃÜ
+å®šä¹‰ JWS JWE ç­¾åç®—æ³•
+
+== JOSE JSON å¯¹è±¡ç­¾åå’ŒåŠ å¯†
+
 https://datatracker.ietf.org/wg/jose/documents/
 
-==  RFC 7515 - JSON Web Signature £¨JWS£©
-== RFC 7516 - JSON Web ¼ÓÃÜ £¨JWE£©
-== RFC 7517 - JSON Web Key £¨JWK£©
-== RFC 7518 - JSON Web Algorithms £¨JWA£©
-== RFC 7519 - JSON Web Token £¨JWT£©
-== RFC 7165 - JSON ¶ÔÏóÇ©ÃûºÍ¼ÓÃÜµÄÓÃÀıºÍÒªÇó £¨jose£©
-== RFC 7520 - Ê¹ÓÃ JSON ¶ÔÏóÇ©ÃûºÍ ¼ÓÃÜ£¨json£©
-== RFC 7638 - JSON Web ÃÜÔ¿ £¨JWK£© Ö¸ÎÆ
-== RFC 7797 - JSON Web Ç©Ãû £¨JWS£© Î´±àÂëÓĞĞ§¸ºÔØÑ¡Ïî
-== RFC 8037 - CFRG ÍÖÔ²ÇúÏß Diffie-Hellman £¨ECDH£© ºÍ JSON ÖĞµÄÇ©Ãû ¶ÔÏóÇ©ÃûºÍ¼ÓÃÜ £¨JOSE£©
-== RFC 8812 - ÓÃÓÚ Web Éí·İÑéÖ¤ £¨WebAuthn£© µÄ CBOR ¶ÔÏóÇ©ÃûºÍ¼ÓÃÜ £¨COSE£© ºÍ JSON ¶ÔÏóÇ©Ãû
-== RFC 9278 - JSON Web ÃÜÔ¿ £¨JWK£© Ö¸ÎÆ URI
+==  RFC 7515 - JSON Web Signature ï¼ˆJWSï¼‰
 
+== RFC 7516 - JSON Web åŠ å¯† ï¼ˆJWEï¼‰
+
+== RFC 7517 - JSON Web Key ï¼ˆJWKï¼‰
+
+== RFC 7518 - JSON Web Algorithms ï¼ˆJWAï¼‰
+
+== RFC 7519 - JSON Web Token ï¼ˆJWTï¼‰
+
+== RFC 7165 - JSON å¯¹è±¡ç­¾åå’ŒåŠ å¯†çš„ç”¨ä¾‹å’Œè¦æ±‚ ï¼ˆjoseï¼‰
+
+== RFC 7520 - ä½¿ç”¨ JSON å¯¹è±¡ç­¾åå’Œ åŠ å¯†ï¼ˆjsonï¼‰
+
+== RFC 7638 - JSON Web å¯†é’¥ ï¼ˆJWKï¼‰ æŒ‡çº¹
+
+== RFC 7797 - JSON Web ç­¾å ï¼ˆJWSï¼‰ æœªç¼–ç æœ‰æ•ˆè´Ÿè½½é€‰é¡¹
+
+== RFC 8037 - CFRG æ¤­åœ†æ›²çº¿ Diffie-Hellman ï¼ˆECDHï¼‰ å’Œ JSON ä¸­çš„ç­¾å å¯¹è±¡ç­¾åå’ŒåŠ å¯† ï¼ˆJOSEï¼‰
+
+== RFC 8812 - ç”¨äº Web èº«ä»½éªŒè¯ ï¼ˆWebAuthnï¼‰ çš„ CBOR å¯¹è±¡ç­¾åå’ŒåŠ å¯† ï¼ˆCOSEï¼‰ å’Œ JSON å¯¹è±¡ç­¾å
+
+== RFC 9278 - JSON Web å¯†é’¥ ï¼ˆJWKï¼‰ æŒ‡çº¹ URI
 
 == oauth2
-¹æ·¶
+
+è§„èŒƒ
 https://datatracker.ietf.org/wg/oauth/documents/
 
-oauth2.0 ¿ò¼Ü https://datatracker.ietf.org/doc/rfc6749/
-oauth ÁîÅÆÊ¹ÓÃ https://datatracker.ietf.org/doc/rfc6750/
-oauth2.1 ¿ò¼Ü https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/
+oauth2.0 æ¡†æ¶ https://datatracker.ietf.org/doc/rfc6749/
+oauth ä»¤ç‰Œä½¿ç”¨ https://datatracker.ietf.org/doc/rfc6750/
+oauth2.1 æ¡†æ¶ https://datatracker.ietf.org/doc/draft-ietf-oauth-v2-1/
 
 == OpenID Connect
-ÎÄµµ https://openid.net/connect/
+
+æ–‡æ¡£ https://openid.net/connect/

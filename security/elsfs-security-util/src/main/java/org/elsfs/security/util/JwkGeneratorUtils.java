@@ -14,7 +14,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
 /**
- * @author zeng jwk ���ɹ���
+ * @author zeng jwk 生成工具
  */
 public class JwkGeneratorUtils {
 

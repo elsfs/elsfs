@@ -1,8 +1,11 @@
-== SON Web ¼ÓÃÜ £¨JWE£©
-ÓÃÓÚ·¢ËÍ ¾ßÓĞÍêÕûĞÔ±£»¤µÄ»úÃÜÄÚÈİ¡£¹«¹²/Ë½ÓĞ£¨RSA ºÍ EC£© ÒÔ¼°Ö§³Ö¶Ô³Æ AES ºÍ ChaCha ¼ÓÃÜ¡£
+== SON Web åŠ å¯† ï¼ˆJWEï¼‰
 
-== Àı×Ó
-¾ßÓĞ RSA ¼ÓÃÜµÄ JSON Web ÁîÅÆ £¨JWT£©
+ç”¨äºå‘é€ å…·æœ‰å®Œæ•´æ€§ä¿æŠ¤çš„æœºå¯†å†…å®¹ã€‚å…¬å…±/ç§æœ‰ï¼ˆRSA å’Œ ECï¼‰ ä»¥åŠæ”¯æŒå¯¹ç§° AES å’Œ ChaCha åŠ å¯†ã€‚
+
+== ä¾‹å­
+
+å…·æœ‰ RSA åŠ å¯†çš„ JSON Web ä»¤ç‰Œ ï¼ˆJWTï¼‰
+
 [source,java]
 ----
 import java.util.*;
@@ -91,13 +94,13 @@ System.out.println(jwt.getJWTClaimsSet().getNotBeforeTime());
 System.out.println(jwt.getJWTClaimsSet().getIssueTime());
 System.out.println(jwt.getJWTClaimsSet().getJWTID())
 ----
-¾ßÓĞ¹²Ïí¶Ô³ÆÃÜÔ¿µÄÖ±½Ó JSON Web ¼ÓÃÜ £¨JWE£©
-Ê¹ÓÃ¶Ô³Æ 128 Î»ÃÜÔ¿µÄ AES GCM Ö±½Ó¼ÓÃÜÊ¾Àı£º
+
+å…·æœ‰å…±äº«å¯¹ç§°å¯†é’¥çš„ç›´æ¥ JSON Web åŠ å¯† ï¼ˆJWEï¼‰ ä½¿ç”¨å¯¹ç§° 128 ä½å¯†é’¥çš„ AES GCM ç›´æ¥åŠ å¯†ç¤ºä¾‹ï¼š
 [source,java]
 ----
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.*;
-// ÌØ¶¨ JWE ¼ÓÃÜ·½·¨ËùĞèµÄ AES ÃÜÔ¿³¤¶ÈÒ²¿ÉÒÔÊÇ ÒÔ±à³Ì·½Ê½»ñµÃ£º
+// ç‰¹å®š JWE åŠ å¯†æ–¹æ³•æ‰€éœ€çš„ AES å¯†é’¥é•¿åº¦ä¹Ÿå¯ä»¥æ˜¯ ä»¥ç¼–ç¨‹æ–¹å¼è·å¾—ï¼š
 // Get the expected key length for JWE enc "A128CBC-HS256"
 int keyBitLength = EncryptionMethod.A128CBC_HS256.cekBitLength();
 

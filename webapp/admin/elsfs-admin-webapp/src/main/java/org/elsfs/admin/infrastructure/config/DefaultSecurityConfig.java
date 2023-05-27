@@ -2,7 +2,6 @@ package org.elsfs.admin.infrastructure.config;
 
 import lombok.RequiredArgsConstructor;
 import org.elsfs.security.core.properties.PermitAllUrlProperties;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;

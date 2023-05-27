@@ -1,56 +1,56 @@
-= git����
-== git�����ĵ�
+= git命令
+== git中文文档
 https://git-scm.com/book/zh/v2
 
-===== ��֧����
+===== 分支管理
 
 [source,shell]
 ----
-# �鿴��֧
+# 查看分支
 git branch
-# ������֧
-git branch [��֧��]
-# �޸ķ�֧
-git branch -m [ԭ��֧��] [�·�֧��]
-# ɾ����֧
-# git branch -D [��֧��]  # û��ʹ�õķ�֧ -d����ɾ�� ����-D
-git branch -d [��֧��]
-# ��֧�л�
-git checkout [��֧��]
-# ���������л�Ϊ��֧
-git checkout -b [�µķ�֧��]
-# ��֧�ϲ�
-git merge [���ϲ��ķ�֧����]
+# 创建分支
+git branch [分支名]
+# 修改分支
+git branch -m [原分支名] [新分支名]
+# 删除分支
+# git branch -D [分支名]  # 没有使用的分支 -d不能删除 必须-D
+git branch -d [分支名]
+# 分支切换
+git checkout [分支名]
+# 创建并且切换为分支
+git checkout -b [新的分支名]
+# 分支合并
+git merge [被合并的分支名称]
 ----
 
-===== ����Զ�ֿ̲�
+===== 关联远程仓库
 
 [source,shell]
 ----
-# ����Զ�ֿ̲�  һ����� git remote add origin [�ֿ��ַ]
-git remote add [Զ����] [�ֿ��ַ]
-# ���ʹ��� һ����� [git push -u origin mian ] or  [git push ]
-# # -u ָ���� �����ط�֧�ϴ����ϲ���Զ�̷�֧ Ĭ�� git push
-git push -u [Զ�ֿ̲�����] [���͵ķ�֧]
-# �鿴Զ�̿���Ϣ
+# 关联远程仓库  一般情况 git remote add origin [仓库地址]
+git remote add [远程名] [仓库地址]
+# 推送代码 一般情况 [git push -u origin mian ] or  [git push ]
+# # -u 指的是 将本地分支上传并合并到远程分支 默认 git push
+git push -u [远程仓库名称] [推送的分支]
+# 查看远程库信息
 git remote -v
-# �鿴Զ�̿���
+# 查看远程库名
 git remote show
 
-# ���� Զ����
-git remote rename  <ԭ����> <������>
-# �Ƴ� Զ����
-git remote remove <Զ����>
+# 重命 远程名
+git remote rename  <原名称> <新名称>
+# 移除 远程名
+git remote remove <远程名>
 
 ----
 
-===== �ύ��ͻ�ͽ������
+===== 提交冲突和解决方法
 
 ====
-��ͻ����ԭ�� �ύ�ߵİ汾��ϢС��Զ�˿⣬Զ�˿�ܾ��ύ
+冲突产生原因： 提交者的版本信息小于远端库，远端库拒绝提交
 ====
 
-������� �Զ���� ����ͬ��
+解决方法 自动解决 本地同步
 
 [source,shell]
 ----
@@ -58,33 +58,33 @@ git pull
 git push
 ----
 
-������� �ֶ���� �޸ĳ�ͻ�ļ�
+解决方法 手动解决 修改冲突文件
 
 [source,shell]
 ----
-# �鿴״̬
+# 查看状态
 git status
-# �鿴�޸�����
-git diff [·��/�ļ���]
-# ���ͳ�ͻ
+# 查看修改内容
+git diff [路径/文件名]
+# 推送冲突
 git push
-# ͬ�������س�ͻ ��Ҫ�ֶ����
+# 同步到本地冲突 需要手动解决
 git pull
-# �ֶ��޸ĳ�ͻ��
+# 手动修改冲突后
 git add ,
 git commit -m "commit_message"
 git log --oneline
 git push
 ----
 
-===== �ύ����
+===== 提交修正
 
-�ύ����Ч������log�У��ύ��������Ϣ**����**֮ǰ�ύ����Ϣ �ύ��������
+提交修正效果：在log中，提交修正的信息**覆盖**之前提交的信息 提交修正命令
 
  git commit amend
 
 =====
-���⣺�ύ�Ĵ������������©�ύ��һЩ�ļ��������ύ��Ϣд����
+问题：提交的代码有问题或者漏提交了一些文件，或者提交信息写错了
 =====
 
 [source,shell]
@@ -92,96 +92,96 @@ git push
 git commit --amend -m "commit_message"
 ----
 
-===== git ��־���
+===== git 日志相关
 
 [source,lua]
 ----
-������ -- log
-    ������ -- ��־
-        ������ -- ��ʾ
-            ������ -- �������� -- git log -[n]
-            ������ -- ������ʾ -- git log --oneline
-            ������ -- ͼ����ʾ -- git log --graph
-            ������ -- ��ʾ����ժҪ -- git log --stat
-            ������ -- ��ʾ���ĵ�λ�� -- git log --patch ���� git log -p
-        ������ -- ɸѡ
-            ������ -- ���ύ��Ϣ git log --grep="����user"
-            ������-- ������
-                ������ --  git log --after=��2023-05-20�� --before="2023-05-21"
-                ������ -- git log --before="today" �ȼ��� git log��һ��鿴����֮ǰ�� yesterday
-                ������ -- git log --before="30 day ago"
-                ������ -- git log --after="4 week ago"
-                ������ -- git log --after="1 month ago"
-            ������ -- ������
-                ������ -- git log --author=��zeng��
-                ������ -- git log --author=��@qq.com��
-    ������������־
-        ������ -- �鿴������־ git reflog
+└── -- log
+    └── -- 日志
+        └── -- 显示
+            ├── -- 条树限制 -- git log -[n]
+            ├── -- 独行显示 -- git log --oneline
+            ├── -- 图表显示 -- git log --graph
+            ├── -- 显示更改摘要 -- git log --stat
+            ├── -- 显示更改的位置 -- git log --patch 或者 git log -p
+        └── -- 筛选
+            ├── -- 按提交信息 git log --grep="更新user"
+            └──-- 按日期
+                ├── --  git log --after=“2023-05-20” --before="2023-05-21"
+                ├── -- git log --before="today" 等价于 git log，一般查看今天之前用 yesterday
+                ├── -- git log --before="30 day ago"
+                ├── -- git log --after="4 week ago"
+                ├── -- git log --after="1 month ago"
+            └── -- 按作者
+                ├── -- git log --author=“zeng”
+                ├── -- git log --author=“@qq.com”
+    └──引用日志
+        ├── -- 查看引用日志 git reflog
 ----
 
-������־ ����¼��HEAD�ڵ�ͷ�֧������ָ�����ʷ �򵥵�˵��reflog��¼���еĸ��ģ����㵱ǰ����Ŀ��ʱ��ֻҪ�ύ����������������صĻ��� ������ֻ�����ڱ��زֿ⣨����push������Ĭ��ֻ����90�� reflog����Ϊ��Ŀ�����һ���������� �ٴ����� ������־ֻ�����ڱ��أ���ͨ��־�ǰ汾���һ���֣��������Ű汾�ⱻpush
+引用日志 它记录了HEAD节点和分支引用所指向的历史 简单的说，reflog记录所有的更改，是你当前的项目损坏时（只要提交过），它给了你挽回的机会 但是它只保留在本地仓库（不能push），且默认只保留90天 reflog被称为项目的最后一根救命稻草 再次提醒 引用日志只保存在本地，普通日志是版本库的一部分，可以随着版本库被push
 
-===== git ����Զ�̷�֧
+===== git 管理远程分支
 
 [source,shell]
 ----
-# �鿴���زֿ��ӦԶ�ֿ̲� Զ�ֿ̲�remote�������Զ���ģ�Ĭ��origin
+# 查看本地仓库对应远程仓库 远程仓库remote名称是自定义的，默认origin
 git remote -v
-# �г����ط�֧
+# 列出本地分支
 git branch
-# �鿴���ط�֧��Ӧ��Զ�ֿ̲���Ϣ
+# 查看本地分支对应的远程仓库信息
 git branch -a
-# ���ͣ����У���֧��Զ�̿�
-# ע�⣺ Զ�ֿ̲�����������remoteʱָ�������ƣ�Ĭ��origin��Ҫ�������з�֧��ʹ�� all ����
-git push <Զ�ֿ̲�remote����> {��֧����| -all}
-# Ĭ�Ϸ�֧ ��Ҫ����Զ�ֿ̲����ƽ̨
+# 推送（所有）分支到远程库
+# 注意： 远程仓库名称是你在remote时指定的名称，默认origin。要推送所有分支则使用 all 参数
+git push <远程仓库remote名称> {分支名称| -all}
+# 默认分支 需要操作远程仓库管理平台
 
-# ɾ��Զ�̷�֧�ͻ��˷�ʽ ����ɾ��Ĭ�Ϸ�֧
-git push <Զ�ֿ̲�remote����> -d <Զ�̷�֧����>
+# 删除远程分支客户端方式 不能删除默认分支
+git push <远程仓库remote名称> -d <远程分支名称>
 ----
 
-===== git  ��ǩ����
+===== git  标签管理
 
-. ʲô�Ǳ�ǩ
-.. ��ǩ���Ƕ�ĳ��commit���б�ǣ��൱�������
-. ΪʲôҪ���ǩ
-.. ��������һ���׶Σ�Ϊ͹������ύ�Ƚ���Ҫ������Ϊ����ϱ�ǩ�����Ƿ�����ϵ㣨v1.0,v2.0�ȵȣ�
-. ��ǩ������
-.. ���һ����ص��ύ�׶Σ��Ա������ο�����Ƿ�����㣬������Ŀ����
+. 什么是标签
+.. 标签就是对某个commit进行标记，相当于起别名
+. 为什么要打标签
+.. 当开发到一个阶段，为凸现这次提交比较重要，可以为其打上标签。如标记发布结合点（v1.0,v2.0等等）
+. 标签的意义
+.. 标记一个相关的提交阶段，以备将来参考，标记发布结点，用于项目发布
 
 [source,shell]
 ----
-# ������ǩ
-# ���ǩ
-git tag <��ǩ��>
-# Ϊָ���ύ���ǩ
-git tag <��ǩ��> <commit-id>
-# ����ע�ͱ�ǩ
-git tag <��ǩ��> -a -m <ע��> <commit-id|����Ϊ�� ��ǰ�ύ>
+# 创建标签
+# 打标签
+git tag <标签名>
+# 为指定提交打标签
+git tag <标签名> <commit-id>
+# 创建注释标签
+git tag <标签名> -a -m <注释> <commit-id|或者为空 当前提交>
 #------------------------------
-# �鿴��ǩ
-git tag <-l "ƥ�������*">
-# �鿴��ǩ������Ϣ
-git show <��ǩ��>
+# 查看标签
+git tag <-l "匹配的内容*">
+# 查看标签详情信息
+git show <标签名>
 #------------------------------
-# ���ͱ�ǩ --tags �������б��ر�ǩ
-git push <Զ�̿�����> <��ǩ1��  ��ǩ2�� | --tags>
-# ɾ�����ر�ǩ
-git tag -d <��ǩ��>
-# ɾ��Զ�̿��ǩ
-git push <Զ�̿�����> -d <��ǩ��>
+# 推送标签 --tags 推送所有本地标签
+git push <远程库名称> <标签1名  标签2名 | --tags>
+# 删除本地标签
+git tag -d <标签名>
+# 删除远程库标签
+git push <远程库名称> -d <标签名>
 
 ----
 
-===== �ֿ�fork
+===== 仓库fork
 
-. ʲô��fork
-.. fork����git����������github giteeԶ�̿�������Ƿ���˵Ĵ����¡
-.. fork������Լ���github giteeԶ�̿��˺Ŵ���һ���²ֿ⣬��������ԭ���Ĳֿ⣨��upstream
-.. repository�����βֿ⣩�������ݣ����֧��Tag���ύ��ʷ�ȵ�
-.. ����Զ�fork���Ĳֿ� �����ύ������ͨ��PR��Pull Request�����׻�ԭ�ֿ�
-.. ����fork�����²ֿ��ǻ���ԭ�ֿ⣬�������ں��������п��ܻ���ྶͥ�����Ա���Ϊ���ֲ桱
-. fork��ԭ�ֿ��Ӱ��
-.. ���ȡ����ܿ�������Ŀ����onwerԸ�����㿴�ģ�public��
-.. ��Ρ���ԭ�ֿ���onwer��˵��fork���Ĳֿ⣬����ͨ��pull Request�ϲ���ԭ���Ĳֿ⣬������ԭ�ֿ��֪����
+. 什么是fork
+.. fork不是git操作，而是github gitee远程库操作，是服务端的代码克隆
+.. fork后会在自己的github gitee远程库账号创建一个新仓库，它包含了原来的仓库（即upstream
+.. repository，上游仓库）所有内容，如分支，Tag。提交历史等等
+.. 你可以对fork出的仓库 自由提交，并且通过PR（Pull Request）贡献回原仓库
+.. 由于fork出的新仓库是基于原仓库，但二者在后续开发中可能会大相径庭，所以被称为“分叉”
+. fork对原仓库的影响
+.. 首先。你能看到的项目都是onwer愿意让你看的（public）
+.. 其次。对原仓库主onwer来说，fork他的仓库，并且通过pull Request合并到原来的仓库，能提升原仓库的知名度
 
